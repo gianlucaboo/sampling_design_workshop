@@ -1,0 +1,423 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "Introduction to R Programming"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-17-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+## Agenda
+
+-   Introduction to R and RStudio
+-   Data types and data structures
+-   Working with scripts and the console
+-   Importing data
+-   Saving and closing sessions
+
+------------------------------------------------------------------------
+
+## What is R?
+
+-   R is a free, open-source programming language for statistical computing and graphics\
+-   It evolved from the **S language** developed in the 1970s\
+-   Most of R is written in **C** and **Fortran**\
+-   The first stable version was **released in 2000**\
+-   **RStudio** provides a user-friendly interface to R
+
+------------------------------------------------------------------------
+
+## Why R?
+
+-   Powerful tool for **data analysis and visualization**\
+-   Encourages **reproducibility** and **sharing**\
+-   Thousands of user-created **packages** extend its functionality\
+-   Large and active **community** with extensive support
+
+------------------------------------------------------------------------
+
+## Installing R and RStudio
+
+-   Download and install R and RStudio from [posit.co](https://posit.co) [![](img/posit.png)](https://posit.co/download/rstudio-desktop/)
+
+------------------------------------------------------------------------
+
+## RStudio Interface
+
+RStudio has four main panes:\
+- **Source Editor** – write and save code\
+- **Console** – run commands interactively\
+- **Environment/History** – see and manage objects\
+- **Files/Plots/Packages/Help/Viewer** – tools and outputs
+
+![](img/rstudio_interface.png)
+
+------------------------------------------------------------------------
+
+## Script Editor vs Console
+
+::::: columns
+::: {.column width="50%"}
+**Script Editor**\
+- Write, edit, and save code\
+- Organize analysis in reproducible scripts\
+- Prevent accidental execution before editing
+
+**Console**\
+- Executes code immediately\
+- Use for quick checks and interactive testing\
+- Output and errors appear here
+
+ℹ️ Best practice: write in the Script Editor, run via Console.
+:::
+
+::: {.column width="50%"}
+![](img/rstudio_script.png) ![](img/rstudio_scripteditor.png)
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Working Directory
+
+-   Your working directory is the folder where R looks for and saves files.\
+-   Set with: `setwd("path")`\
+-   Check with: `getwd()`\
+-   Good practice: create a dedicated folder for each project.
+
+![](img/rsudio_wd.png)
+
+ℹ️ Try to run the code in your R Console and in the Script Editor.
+
+------------------------------------------------------------------------
+
+## R as a Calculator
+
+-   R can perform arithmetic directly
+
+``` r
+1 + 2 * 8
+a <- log(10)
+b <- 5
+b + b
+```
+
+-   Results in Console are prefixed with `[1]` (index of first element).\
+-   `[2], [3], ...` appear if output spans multiple lines.
+
+ℹ️ Try to run the code in your R Console and in the Script Editor.
+
+------------------------------------------------------------------------
+
+## R Packages
+
+-   Collections of functions, datasets, and documentation.\
+-   Expand R beyond base functions.\
+-   Install from CRAN, GitHub, or other repositories.
+
+**In RStudio**\
+
+::::: columns
+::: {.column width="50%"}
+-   Use the *Packages* tab to install, update, or remove.\
+    ![](img/r_package.png)
+:::
+
+::: {.column width="50%"}
+-   Or install in the Script Editor\
+
+``` r
+install.packages("dplyr")
+```
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Loading Packages
+
+::::: columns
+::: {.column width="50%"}
+-   Load packages into a session via checkbox in the *Packages* pane.\
+    ![](img/r_package.png)
+:::
+
+::: {.column width="50%"}
+-   Or load packages into a session with:
+
+``` r
+library(dplyr)
+```
+:::
+:::::
+
+ℹ️ Best practice: only load what you need.
+
+------------------------------------------------------------------------
+
+## R Objects
+
+-   Everything in R is an **object** (vectors, lists, functions, data frames, etc.).\
+-   Assign values using `<-`.
+
+``` r
+x <- 5
+x + x   # returns 10
+```
+
+**Naming tips**\
+- ✅ Descriptive and concise\
+- ✅ Use underscores `_` or periods `.`\
+- ❌ Avoid very long names\
+- ❌ Avoid existing function names\
+- ❌ No blank spaces
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Data Types
+
+-   **Numeric**: numbers, may include decimals.\
+
+``` r
+w <- c(1.7, 3)
+x <- c(1, 2, 3)   # integers are numeric without decimals
+```
+
+-   **Character**: text strings.\
+
+``` r
+y <- c("male", "female")
+```
+
+-   **Logical**: TRUE/FALSE values.\
+
+``` r
+y <- c(TRUE, FALSE)
+```
+
+-   **Factor**: categorical variables.\
+
+``` r
+gender <- factor(c("boy", "girl", "girl", "boy"))
+```
+
+Check type:
+
+``` r
+class(object)
+typeof(object)
+```
+
+------------------------------------------------------------------------
+
+## Data Structures
+
+-   **Vectors**: one-dimensional, homogeneous elements\
+-   **Matrices**: two-dimensional, homogeneous elements\
+-   **Lists**: flexible, heterogeneous elements\
+-   **Arrays**: multi-dimensional, homogeneous elements\
+-   **Data frames**: tabular, columns may differ in type
+
+------------------------------------------------------------------------
+
+## Vectors
+
+-   The most basic structure in R\
+-   One-dimensional, elements must be the **same type**
+
+``` r
+numbers <- c(1, 2, 3, 4, 5)
+colors <- c("red", "green", "blue")
+logical_values <- c(TRUE, FALSE, TRUE)
+```
+
+Indexing with brackets:
+
+``` r
+numbers[1]      # first element
+colors[2:3]     # second and third elements
+```
+
+Vectorized operations apply to all elements:
+
+``` r
+numbers * 2     # multiplies each element by 2
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Matrices
+
+-   Two-dimensional, homogeneous elements\
+-   Create with `matrix()`
+
+``` r
+rownames <- c("math", "science", "history", "English", "law")
+colnames <- c("male", "female")
+subject_matrix <- matrix(
+  c(10,9,11,13,12,18,17,13,6,5),
+  nrow = 5, ncol = 2, byrow = TRUE,
+  dimnames = list(rownames, colnames)
+)
+```
+
+-   Add row: `rbind()`\
+-   Add column: `cbind()`
+
+ℹ️ Try to add a row to `subject_matrix` for `geography <- c(4,2)` using `rbind` in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Matrices to Data Frames
+
+-   Convert a matrix into a data frame to mix numeric and non-numeric types.
+
+``` r
+matrix_stats <- matrix(
+  c(4015,3980,3756,3333,4000,3000,2000,1000),
+  nrow = 4, ncol = 2, byrow = TRUE,
+  dimnames = list(
+    c("freshmen", "sophomores", "juniors", "seniors"),
+    c("enrollment", "living on campus")
+  )
+)
+
+df_stats <- as.data.frame(matrix_stats)
+avg.grades <- c("A-","B+","B-","A+")
+school_stats <- cbind(df_stats, avg.grades)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Data Frames
+
+-   Tabular structure with columns of different types\
+-   Similar to spreadsheets
+
+``` r
+cats <- data.frame(
+  coat = c("Persian", "black", "tabby"),
+  weight = c(2.1, 5.0, 3.2),
+  likes_string = c(TRUE, FALSE, TRUE)
+)
+
+animal_sleep <- data.frame(
+  ranking = c(4, 1, 2, 3),
+  animal = c("koala", "capybara", "camel", "panda"),
+  country = c("Australia", "Brazil", "Egypt", "China"),
+  avg_sleep_hr = c(20, 3, 6, 12)
+)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Lists
+
+-   Flexible data structure with elements of **different types**\
+-   Can include vectors, data frames, matrices, or other lists
+
+``` r
+my_list <- list(
+  name = "Alice",
+  age = 25,
+  scores = c(90, 85, 92),
+  passed = TRUE
+)
+
+my_list$name
+my_list[[2]]
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Arrays
+
+-   Extend vectors to two or more dimensions\
+-   All elements must be the same type
+
+``` r
+arr <- array(1:12, dim = c(2, 3, 2))
+arr
+arr[1, 2, 1]   # element at row 1, col 2, slice 1
+```
+
+Useful for structured multi-dimensional data. However, this is hardly used in most cases.
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Importing Data
+
+-   Create data manually, but usually import from files
+
+**Common formats**\
+- **Text**: `.txt` (`readLines()` function)\
+- **Tabular data**: `.csv`, `.tsv` (`read.table()` function or `read_csv()` function from the `readr` package)\
+- **Excel**: `.xlsx` (`xlsx` package)\
+- **Google sheets**: (`googlesheets` package)\
+- **Statistics program**: SPSS, SAS (`haven` package)\
+- **Databases**: MySQL (`RMySQL` package)\
+
+Example:
+
+``` r
+csv_data <- read.csv("data/world_data.csv")
+```
+
+➡️ Always use forward slashes `/` in file paths.
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Saving Your Script
+
+-   Save all steps of analysis in `.R` scripts\
+-   Add comments with `#`\
+-   Save with **File → Save** or `Ctrl+S` / `Cmd+S`\
+-   Unsaved scripts show in red with an asterisk `*`
+
+![](img/rstudio_script_save.png)
+
+ℹ️ Try to save your script.
+
+------------------------------------------------------------------------
+
+## Closing an R Session
+
+::::: columns
+::: {.column width="50%"}
+Options:\
+- **File → Quit Session**\
+- `q()` in Console
+:::
+
+::: {.column width="50%"}
+![](img/rstudio_quit.png)
+:::
+:::::
+
+➡️ Do **not** save the workspace image. Always start fresh for reproducibility.
+
+ℹ️ Try to close and reopen your R Session.

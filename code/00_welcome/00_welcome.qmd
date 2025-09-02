@@ -1,0 +1,96 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "Welcome and Introduction"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-17-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+## Welcome!
+
+## Team
+
+::::: columns
+::: {.column width="50%"}
+#### Dr. Sarchil Quader
+
+-   Senior Enterprise Fellow at WorldPop, University of Southampton.
+-   Develop research to improve population mapping and agricultural monitoring in low- and middle-income countries using big data, such as remote sensing.
+
+![](img/sarchil.png){width="250"}
+:::
+
+::: {.column width="50%"}
+#### Dr. Gianluca Boo
+
+-   Senior Research Fellow at WorldPop, University of Southampton.
+-   Develop research to improve population mapping in low- and middle-income countries using statistical modelling, particularly Bayesian hierarchical models.
+
+![](img/gianluca.png){width="250"}
+:::
+:::::
+
+## Workshop
+
+#### Rationale and Objectives
+
+::: incremental
+-   Strengthen **geospatial and sampling** capacity of Pakistan Bureau of Statistics (PBS).
+-   Introduce AI-assisted sampling to **improve efficiency, representativeness, and inclusivity**.
+-   Align **methods with Government priorities** and international standards for comparability.
+-   Enhance **policy relevance of PDHS data** and enable cross-country analysis.
+:::
+
+## Workshop
+
+#### Topics
+
+::: incremental
+-   Foundations of **survey sampling** theory and practice.
+-   **Geospatial data** processing and updating census/sampling frames.
+-   Use of **Earth Observation (EO)** data for spatial stratification.
+-   Application of **AI/ML methods** (clustering, prediction) in sample design.
+-   **Simulation and optimization** of sampling strategies using R.
+-   Development of R Shiny applications to **evaluate and visualize sampling designs**.
+-   Hands-on practice with **survey analysis software** and calibration techniques.
+-   Addressing **cost-effectiveness and nonresponse** adjustments in survey design.
+:::
+
+## Workshop
+
+#### Expected Outcomes
+
+::: incremental
+-   Enhanced PBS ability to **design robust, adaptive, and cost-effective samples**.
+-   Practical **skills in R, GIS, EO data, and AI/ML tools**.
+-   Prototype **interactive tools (Shiny apps) for survey design evaluation**.
+-   Improved readiness to implement the upcoming PDHS with **modern, AI-driven approaches**.
+:::
+
+## Agenda
+
+::: incremental
+-   **Day 1**: Introduction to QGIS
+-   **Day 2**: Automatic update of census EA and national sampling frame
+-   **Day 3**: Introduction to R programming
+-   **Day 4**: Introduction to Sampling Design
+-   **Day 5**: Advanced R programming
+-   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 7**: AI and machine learning for sample selection
+-   **Day 8**: Simulation and optimization of sampling strategies
+-   **Day 9**: R Shiny for sampling design evaluation
+-   **Day 10**: Wrap-up and workshop evaluation
+:::
+
+## Let's get started!

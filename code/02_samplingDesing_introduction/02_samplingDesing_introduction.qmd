@@ -1,0 +1,382 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "Introduction to Sampling Design"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-17-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+## Agenda
+
+-   Sampling frames and notation
+-   Simple Random Sampling (SRS)
+-   Weighted sampling (PPS)
+-   Stratified sampling
+-   Cluster sampling
+-   Design weights and analysis in R
+
+------------------------------------------------------------------------
+
+## What is a Sampling Design?
+
+::::: columns
+::: {.column width="50%"}
+-   A **plan** for selecting a subset (sample) from a population to infer about the whole
+-   Balances **precision**, **cost**, and **operational constraints**
+-   Key outputs:
+    -   Inclusion probabilities ($pi_i$)
+    -   Estimators of totals/means and their variances
+:::
+
+::: {.column width="50%"}
+![Overview of the survey process (Zimmer, Powell, and Velásquez 2025)](img/survey_process.png)
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Sampling Frame and Notation
+
+-   **Sampling frame**: operational list or structure from which units are sampled
+-   Examples: household lists, building footprints, phone numbers, area segments
+-   **Quality dimensions**:
+    -   Coverage (under-/over-coverage)
+
+    -   Up-to-dateness
+
+    -   Accurate identifiers, contact info, location
+
+**Notation**: Population ($N$), sample ($n$), variable ($y_i4\), total \($Y4), mean ($barY$)\
+- Inclusion probabilities (\pi*i) and pairwise (*\pi{ij})\
+- Sampling weight (w_i = 1/\pi\_i)
+
+------------------------------------------------------------------------
+
+## Frame Errors and Bias
+
+-   Under-coverage: units missing from frame → **bias** if missing units differ
+-   Over-coverage/duplication: units listed multiple times → selection distortion
+-   Ineligible units: not part of target population
+-   Remedies: frame improvement, stratification, area sampling, weight adjustment
+
+------------------------------------------------------------------------
+
+## Notation
+
+-   Population of size (N); sample size (n)
+-   Variable of interest: (y_i), total (Y = \sum\_{i=1}\^N y_i), mean (\bar{Y} = Y/N)
+-   Inclusion probability: (\pi\_i = P(i \in s))
+-   Pairwise inclusion: (\pi\_{ij} = P(i,j \in s))
+-   Sampling weight: (w_i = 1/\pi\_i)
+
+------------------------------------------------------------------------
+
+## Simple Random Sampling (SRS) — Concept
+
+-   Each subset of size (n) has equal probability
+-   With or without replacement (SRSWOR vs SRSWR); we focus on **SRSWOR**
+-   Good when frame is homogeneous and accessible
+
+------------------------------------------------------------------------
+
+## SRS — Estimators
+
+-   Sample mean: (\bar{y} = \tfrac{1}{n}\sum\_{i\in s} y_i)
+-   Estimator of population mean: (\hat{\bar{Y}}\_{SRS} = \bar{y})
+-   Estimator of total: (\hat{Y}\_{SRS} = N,\bar{y})
+
+Variance (finite population correction): \[ \operatorname{Var}(\hat{\bar{Y}}*{SRS}) =* \left(1-\frac{n}{N}\right) \frac{S^2}{n},\quad S\^2 = \frac{1}{N-1}\sum{i=1}\^N (y_i-\bar{Y})\^2 \]
+
+Unbiased variance estimator: \[ \widehat{\operatorname{Var}}(\hat{\bar{Y}}*{SRS}) =* \left(1-\frac{n}{N}\right) \frac{s^2}{n},\quad s\^2 = \frac{1}{n-1}\sum{i\in s} (y_i-\bar{y})\^2 \]
+
+------------------------------------------------------------------------
+
+## SRS — Sample Size (for mean)
+
+Target margin of error (E) at confidence level (1-\alpha): \[ n = \frac{z_{\alpha/2}^2\,S^2}{E^2}\cdot \frac{N}{N-1 + \frac{z_{\alpha/2}^2\,S^2}{E^2}} \] Unknown (S\^2)? Use pilot estimate or conservative proxy.
+
+------------------------------------------------------------------------
+
+## SRS — Implementation in R
+
+``` r
+set.seed(123)
+N <- 10000
+pop <- data.frame(id = 1:N,
+                  y  = rlnorm(N, meanlog = 2, sdlog = 0.5))
+N
+
+# Draw SRSWOR sample of size n
+n <- 500
+s_ids <- sample(pop$id, size = n, replace = FALSE)
+samp <- pop[pop$id %in% s_ids, ]
+
+# Estimators
+ybar_hat <- mean(samp$y)
+Y_hat <- N * ybar_hat
+# SRS variance estimator for mean
+s2 <- var(samp$y)
+var_ybar <- (1 - n/N) * s2 / n
+se_ybar <- sqrt(var_ybar)
+list(ybar_hat = ybar_hat, Y_hat = Y_hat, se_ybar = se_ybar)
+```
+
+------------------------------------------------------------------------
+
+## Weighted Sampling / PPS — Concept
+
+-   **Probability-Proportional-to-Size (PPS)**: (\pi\_i \propto x_i) where (x_i) is a size measure
+-   Useful when variability correlates with size (e.g., population of PSU)
+-   Often sampled **with replacement** at PPS, then subsample elements within PSUs
+
+------------------------------------------------------------------------
+
+## PPS — Inclusion and Horvitz–Thompson (HT) Estimator
+
+-   If drawing (n) WR with selection probs (p_i = x_i/\sum x): (\pi\_i = 1 - (1-p_i)\^n)
+-   **HT estimator of total**: \[ \hat{Y}*{HT} =* \sum{i\in s} \frac{y_i}{\pi_i} \]
+-   Approximate variance (needs (\pi\_{ij})) — use replication (BRR/JK) or linearization in practice
+
+------------------------------------------------------------------------
+
+## PPS — Implementation in R
+
+``` r
+set.seed(42)
+N <- 2000
+pop <- data.frame(id = 1:N,
+                  size = runif(N, 10, 100),
+                  y = rpois(N, lambda = 0.3 * runif(N, 10, 100)))
+
+n <- 200
+p <- pop$size / sum(pop$size)
+s_ids <- sample(pop$id, size = n, replace = TRUE, prob = p)
+# Unique sampled units for HT with WR approx (use duplicates with counts if needed)
+uniq <- unique(s_ids)
+pi_i <- 1 - (1 - p[uniq])^n
+w_i <- 1/pi_i
+Y_hat_HT <- sum(pop$y[uniq] * w_i)
+Y_hat_HT
+```
+
+------------------------------------------------------------------------
+
+## Stratified Sampling — Concept
+
+-   Partition population into **strata** (h=1,\dots,H) (internally homogeneous, externally different)
+-   Draw SRS within each stratum
+-   Benefits: increased precision, domain estimates, operational efficiency
+
+------------------------------------------------------------------------
+
+## Stratified — Allocation Rules
+
+-   **Proportional**: (n_h = n,N_h/N)
+-   **Neyman (optimal)** for mean: (n_h = n,N_h S_h / \sum\_{k} N_k S_k)
+-   **Cost-constrained** (if cost differs): (n_h \propto N_h S_h / \sqrt{c_h})
+
+------------------------------------------------------------------------
+
+## Stratified — Estimators
+
+Stratum means: (\bar{y}\_h), sizes (N_h), sample sizes (n_h)
+
+-   Population mean estimator: \[ \hat{\bar{Y}}*{STR} =* \sum{h=1}\^H W_h, \bar{y}\_h,\quad W_h = N_h/N \]
+-   Total estimator: (\hat{Y}\_{STR} = \sum\_h N_h,\bar{y}\_h)
+
+Variance: \[ \operatorname{Var}(\hat{\bar{Y}}*{STR}) =* \sum{h=1}\^H W_h\^2\left(1-\frac{n_h}{N_h}\right)\frac{S_h^2}{n_h} \]
+
+------------------------------------------------------------------------
+
+## Stratified — Implementation in R
+
+``` r
+set.seed(7)
+H <- 3
+N_h <- c(4000, 3000, 3000)
+stratum <- rep(1:H, times = N_h)
+pop <- data.frame(id = 1:sum(N_h),
+                  h = stratum,
+                  y = c(rnorm(N_h[1], 50, 10),
+                        rnorm(N_h[2], 60, 15),
+                        rnorm(N_h[3], 55, 12)))
+N <- nrow(pop)
+W_h <- N_h / N
+n <- 600
+# Proportional allocation
+n_h <- round(n * W_h)
+
+samp_list <- lapply(1:H, function(h){
+  ids <- which(pop$h == h)
+  pick <- sample(ids, size = n_h[h], replace = FALSE)
+  pop[pick, ]
+})
+samp <- do.call(rbind, samp_list)
+
+# Estimator
+ybar_h <- tapply(samp$y, samp$h, mean)
+Ybar_hat <- sum(W_h * ybar_h)
+Ybar_hat
+```
+
+------------------------------------------------------------------------
+
+## Cluster Sampling — Concept
+
+-   Population grouped into **clusters** (PSUs): villages, blocks, schools
+-   Often sample clusters first (stage 1), then units within clusters (stage 2)
+-   Advantages: lower travel cost; Disadvantage: higher intra-cluster correlation ((\rho)) → larger variance
+
+------------------------------------------------------------------------
+
+## One-Stage Cluster (Equal Sizes) — Estimators
+
+-   Select (n_c) clusters out of (N_c) by SRS; observe **all** elements in selected clusters
+-   Let (M) = elements per cluster, cluster totals (t_j) \[ \hat{Y} = \frac{N_c}{n_c} \sum\_{j\in s} t_j,\qquad \operatorname{Var}(\hat{Y}) = N_c\^2\left(1-\frac{n_c}{N_c}\right) \frac{S_t^2}{n_c} \] where (S_t\^2) is variance of cluster totals.
+
+Design effect (approx.): (\text{DEFF} \approx 1 + (\bar{m}-1)\rho)
+
+------------------------------------------------------------------------
+
+## Cluster Sampling — Implementation in R
+
+``` r
+set.seed(11)
+J <- 100                      # number of clusters
+mbar <- 20                    # avg cluster size
+rho <- 0.15                   # intra-cluster correlation
+
+# Simulate cluster sizes and outcomes with ICC
+M_j <- rpois(J, mbar-1) + 1
+mu <- 50; sigma2 <- 100; tau2 <- rho * sigma2; sigma2_within <- (1-rho) * sigma2
+cluster_effect <- rnorm(J, 0, sqrt(tau2))
+
+data <- do.call(rbind, lapply(1:J, function(j){
+  m <- M_j[j]
+  y <- mu + cluster_effect[j] + rnorm(m, 0, sqrt(sigma2_within))
+  data.frame(cluster=j, y=y)
+}))
+
+# Sample clusters then take all elements (one-stage)
+n_c <- 20
+sel_clust <- sample(1:J, n_c)
+samp <- subset(data, cluster %in% sel_clust)
+
+# Estimator of mean using cluster totals/weights
+t_j <- aggregate(y ~ cluster, samp, sum)
+M_sel <- aggregate(y ~ cluster, samp, length); names(M_sel)[2] <- "m"
+Y_hat <- (J / n_c) * sum(t_j$y)
+N_hat <- (J / n_c) * sum(M_sel$m)
+Ybar_hat <- Y_hat / N_hat
+Ybar_hat
+```
+
+------------------------------------------------------------------------
+
+## Design Weights and Weighted Estimation
+
+-   **Design weight**: (w_i = 1/\pi\_i)
+-   Weighted totals/means: \[ \hat{Y}*{HT} =* \sum{i\in s} w_i y_i,\qquad \hat{\bar{Y}} = \frac{\sum w_i y_i}{\sum w_i} \]
+-   Adjustments (brief): nonresponse, post-stratification, calibration
+
+------------------------------------------------------------------------
+
+## Analysis with the `survey` Package
+
+``` r
+# install.packages("survey")
+library(survey)
+
+# Example: stratified design
+# Suppose samp has columns: y, h (stratum), w (weight)
+# (If not, w = N_h/n_h within stratum)
+
+# Compute weights from design if needed
+# w <- with(samp, ave(rep(1, nrow(samp)), h, FUN = function(k) N_h[as.integer(names(table(h)))]/table(h)))
+
+svy <- svydesign(ids = ~1, strata = ~h, weights = ~w, data = samp, fpc = ~NULL)
+svymean(~y, svy)
+confint(svymean(~y, svy))
+```
+
+------------------------------------------------------------------------
+
+## Variance Estimation in Complex Designs
+
+-   **Taylor linearization** (default in `survey`): analytic approximation
+-   **Replication methods**: jackknife (JK), balanced repeated replication (BRR), bootstrap
+-   Always reflect **strata**, **clusters**, and **weights** in the design object
+
+------------------------------------------------------------------------
+
+## Choosing a Design — Practical Tips
+
+-   Use **stratification** to control variability and ensure subgroup precision
+-   Use **clustering** to cut costs/logistics; plan for DEFF \> 1
+-   Consider **PPS** when PSU sizes vary widely
+-   Pilot study for variance and ICC
+-   Always retain design variables (stratum, cluster, weights) in the dataset
+
+------------------------------------------------------------------------
+
+## Worked Mini‑Example (End-to-End)
+
+``` r
+set.seed(99)
+# Create 3 strata with different means
+N_h <- c(4000, 3000, 3000); H <- length(N_h)
+stratum <- rep(1:H, times=N_h)
+pop <- data.frame(h=stratum,
+                  y=c(rnorm(N_h[1],50,10), rnorm(N_h[2],60,15), rnorm(N_h[3],55,12)))
+N <- nrow(pop); W_h <- N_h/N
+n <- 600; n_h <- round(n*W_h)
+
+# Sample within strata
+samp <- do.call(rbind, lapply(1:H, function(h){
+  ids <- which(pop$h==h)
+  pick <- sample(ids, n_h[h]); pop[pick,]
+}))
+
+# Weights and survey design
+w <- rep(NA_real_, nrow(samp))
+for(h in 1:H){
+  idx <- which(samp$h==h)
+  w[idx] <- N_h[h]/n_h[h]
+}
+
+library(survey)
+svy <- svydesign(ids=~1, strata=~h, weights=~w, data=samp)
+svymean(~y, svy)             # weighted mean with SE
+svyquantile(~y, svy, c(0.5)) # weighted median
+```
+
+------------------------------------------------------------------------
+
+## Key References (starter list)
+
+-   Särndal, Swensson, and Wretman (1992) *Model Assisted Survey Sampling*
+-   Lohr (2019) *Sampling: Design and Analysis*
+-   Lumley (2010) *Complex Surveys: A Guide to Analysis Using R*
+-   R packages: `survey`, `srvyr`, `sampling`
+
+------------------------------------------------------------------------
+
+## Takeaways
+
+-   Match design to objectives and constraints
+-   Use weights and design info in analysis
+-   Prefer stratification for precision; use clustering for logistics with DEFF in mind
+-   Validate with pilot data and sensitivity checks
+
+------------------------------------------------------------------------
