@@ -443,3 +443,6 @@ Wickham, H., & Grolemund, G. (2017). R for Data Science: Import, Tidy, Transform
 Venables, W. N., Smith, D. M., & the R Core Team. (2023). An Introduction to R. CRAN. https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf
 
 James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An Introduction to Statistical Learning with Applications in R (2nd edition). Springer.
+
+## Exercise
+Please download an R script from 
