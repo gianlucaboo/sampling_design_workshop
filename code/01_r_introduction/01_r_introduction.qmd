@@ -48,7 +48,7 @@ toc-title: "Content"
 
 ## Installing R and RStudio
 
--   Download and install R and RStudio from [posit.co](https://posit.co) [![](img/posit.png)](https://posit.co/download/rstudio-desktop/)
+-   Download and install **R and RStudio** from [posit.co](https://posit.co) [![](img/posit.png)](https://posit.co/download/rstudio-desktop/)
 
 ------------------------------------------------------------------------
 
@@ -262,7 +262,7 @@ numbers * 2     # multiplies each element by 2
 
 ## Matrices
 
--   Two-dimensional, homogeneous elements\
+-   Two-dimensional, **homogeneous elements**\
 -   Create with `matrix()`
 
 ``` r
@@ -284,7 +284,7 @@ subject_matrix <- matrix(
 
 ## Matrices to Data Frames
 
--   Convert a matrix into a data frame to mix numeric and non-numeric types.
+-   Convert a matrix into a data frame to **mix numeric and non-numeric types**.
 
 ``` r
 matrix_stats <- matrix(
@@ -421,3 +421,25 @@ Options:\
 ➡️ Do **not** save the workspace image. Always start fresh for reproducibility.
 
 ℹ️ Try to close and reopen your R Session.
+
+## Take home
+
+-   R is a **versatile tool for data analysis and visualization** — free, open-source, and supported by a vast community with thousands of packages.
+-   RStudio **enhances productivity** — organize, edit, and execute code efficiently using the Script Editor, Console, and built-in panes.
+-   Understand **R objects, data types, and structures** — Vectors, matrices, lists, data frames, and arrays form the building blocks of R programming.
+-   **Reproducibility** matters — save scripts, comment your code, and avoid saving workspace images to ensure analyses can be repeated.
+-   Packages **expand functionality** — install, load, and use packages to extend R’s capabilities for importing, manipulating, and visualizing data.
+
+## References
+
+R Core Team. (2025). R: A Language and Environment for Statistical Computing. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
+
+The official reference for R itself, including installation, base functions, and documentation.
+
+RStudio Team. (2025). RStudio: Integrated Development Environment for R. https://posit.co
+
+Wickham, H., & Grolemund, G. (2017). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media. https://r4ds.had.co.nz
+
+Venables, W. N., Smith, D. M., & the R Core Team. (2023). An Introduction to R. CRAN. https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf
+
+James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An Introduction to Statistical Learning with Applications in R (2nd edition). Springer.
