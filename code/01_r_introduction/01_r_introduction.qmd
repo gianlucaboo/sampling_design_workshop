@@ -445,4 +445,5 @@ Venables, W. N., Smith, D. M., & the R Core Team. (2023). An Introduction to R. 
 James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An Introduction to Statistical Learning with Applications in R (2nd edition). Springer.
 
 ## Exercise
-Please download an R script from 
+
+Please download the R script with exercises from [GitHub](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/code/01_r_introduction/01_r_introduction_exercise.R) and try to complete it.
