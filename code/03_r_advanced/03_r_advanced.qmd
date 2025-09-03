@@ -130,7 +130,7 @@ mtcars |>
 -   Works primarily with **data frames/tibbles**
 
 | Function | Purpose | Example |
-|-------------------|--------------------------|----------------------------|
+|----|----|----|
 | `filter()` | Subset rows based on conditions | `filter(mtcars, mpg > 20)` |
 | `arrange()` | Sort rows | `arrange(mtcars, desc(mpg))` |
 | `select()` | Pick columns | `select(mtcars, mpg, cyl)` |
@@ -373,7 +373,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
 -   Make datasets **long and tidy** so that each variable is a column, each observation a row, and each value a cell
 
 | Function | Purpose | Example |
-|----------------|--------------------------|------------------------------|
+|----|----|----|
 | `pivot_longer()` | Converts wide data to long (columns → rows) | `pivot_longer(df, cols = c(a, b), names_to="var", values_to="val")` |
 | `pivot_wider()` | Converts long data to wide (rows → columns) | `pivot_wider(df, names_from=var, values_from=val)` |
 | `separate()` | Splits one column into multiple columns | `separate(df, col, into=c("x","y"), sep="-")` |
@@ -538,4 +538,4 @@ Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). *R for Data Science*
 
 ## Exercise
 
-Please download the R script with exercises from [GitHub](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/code/01_r_introduction/01_r_introduction_exercise.R) and try to complete it.
+Please download the R script with exercises from [GitHub](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/code/03_r_advanced/03_r_advanced_exercise.R) and try to complete it.

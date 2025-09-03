@@ -1,0 +1,136 @@
+/*-- scss:defaults --*/
+$body-bg: #fff;
+$link-color: #004C92;
+
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap');
+
+.reveal .slide blockquote {
+  border-left: 3px solid;
+  padding-left: 0.5em;
+}
+
+.reveal {
+  font-family: 'Red Hat Display' !important;
+  color: #444444;
+}
+
+// headings config
+.reveal .title {
+  //font-family: 'Red Hat Display' !important;
+  font-family: inherit !important;
+  font-weight: 800 !important;
+  font-size: 1.6em !important;
+  color: #004C92;
+  text-align: left; 
+  margin-left: 0;
+  margin-bottom: 0.4em;
+}
+
+.reveal .quarto-title-author-name {
+  font-weight: 600 !important;
+  font-size: 0.8em !important;
+  color: #444444;
+  text-align: left; 
+  margin-left: 0;
+}
+
+.reveal .quarto-title-affiliation {
+  font-weight: 300 !important;
+  font-size: 0.6em !important;
+  color: #444444;
+  text-align: left; 
+  margin-left: 0;
+}
+
+p.date {
+  text-align: left; 
+}
+
+.reveal h2 {
+  //font-family: 'Red Hat Display' !important;
+  font-family: inherit !important;
+  font-weight: 800 !important;
+  font-size: 1.8em !important;
+  color: #004C92 !important;
+  text-align: left; 
+  margin-left: 0;
+  margin-bottom: 0.4em !important;
+
+}
+
+.reveal h4 {
+  //font-family: 'Red Hat Display' !important;
+  font-family: inherit !important;
+  font-weight: 600 !important;
+  font-size: 0.8em !important;
+  color: #444444 !important;
+  margin-bottom: 0.2em !important;
+}
+
+.reveal a {
+  color: #444444 !important;
+}
+
+.reveal p {
+  font-weight: 300 ;
+  font-size: 0.6em;
+  color: #444444 !important;
+}
+
+.reveal li {
+  font-weight: 300 ;
+  font-size: 0.6em;
+  color: #444444;
+  margin-top: 0px !important;
+}
+
+.reveal .slide figure>figcaption,
+.reveal .slide img.stretch+p.caption, 
+.reveal .slide img.r-stretch+p.caption,
+.caption {
+  font-weight: 300 !important;
+  font-size: 14px !important;
+  color: #444444 !important;
+
+}
+
+.MathJax span {
+ // font-family: 'Noto Sans Math' !important;
+  font-weight: 300 !important;
+  font-size: 1em !important;
+}
+
+.reveal table th, .reveal table td {
+  //font-family: 'Red Hat Display' !important;
+  font-family: inherit !important;
+  font-size:0.7em;
+}
+.reveal table th{
+font-weight: 700;  
+}
+
+.reveal table td{
+  font-weight: 300;
+}
+
+.reveal .slide-number{
+  font-family: inherit !important;
+  font-size: 14px !important;
+  color: #444444 !important;
+}
+
+.width-image {
+  max-width: 20vw !important; 
+  margin-right: 3vw !important;
+  
+}
+
+// blocks config
+.reveal .quarto-title-block .quarto-title-authors {
+    justify-content: left !important;
+}
+
+.reveal .quarto-title-block .quarto-title-authors .quarto-title-author{
+  padding: 0 !important;
+}
