@@ -1,0 +1,541 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "Advanced R Programming"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-17-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+## Previously covered
+
+-   Introduction to R and RStudio
+-   Data types and data structures
+-   Working with scripts and the console
+-   Importing data
+-   Saving and closing sessions
+
+------------------------------------------------------------------------
+
+## Agenda
+
+-   The `tydyverse`
+-   Pipes (`|>` and `%>%`)
+-   Data manipulation with `dplyr`
+-   Data visualization with `ggplot2`
+-   Practice exercises
+
+------------------------------------------------------------------------
+
+## The `tidyverse`
+
+::::: columns
+::: {.column width="70%"}
+-   A collection of R packages for **data science**
+-   Common design philosophy and consistent syntax
+
+Core packages:
+
+-   **`dplyr`**: data manipulation
+-   **`ggplot2`**: data visualization
+-   **`tidyr`**: data cleaning
+-   **`readr`**: data import
+-   **`stringr`**, **`forcats`**, **`purrr`**, etc.
+:::
+
+::: {.column width="30%"}
+![](img/tidyverse.png){width="474"}
+:::
+:::::
+
+Install once:
+
+``` r
+install.packages("tidyverse")
+```
+
+Load into session:
+
+``` r
+library(tidyverse)
+```
+
+------------------------------------------------------------------------
+
+## Pipes
+
+::::: columns
+::: {.column width="50%"}
+-   Pipes make code **read left-to-right**
+-   **Combine functions** in a readable manner
+-   Avoids deeply **nested functions**
+-   Ctrl+Shift+M (Windows) or Cmd+Shift+M (Mac)
+:::
+
+::: {.column width="50%"}
+Two different **types of pipes** exists:
+
+-   Base R pipe: `|>`
+-   Magrittr pipe: `%>%`
+:::
+:::::
+
+**Example**: selecting the top 2 cars from mtcars with mpg over 20, sorted from highest to lowest mpg.
+
+::::: columns
+::: {.column width="50%"}
+Without pipes:
+
+```{r}
+#| echo: true
+#| eval: false
+library(tidyverse)
+head(arrange(filter(mtcars, mpg > 20), desc(mpg)), 2)
+```
+:::
+
+::: {.column width="50%"}
+With pipes:
+
+```{r}
+#| echo: true
+#| eval: false
+library(tidyverse)
+mtcars |>
+  filter(mpg > 20) |>
+  arrange(desc(mpg)) |>
+  head(2)
+```
+:::
+:::::
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Data Manipulation with `dplyr`
+
+-   Part of the **tidyverse**
+-   Makes data manipulation **easy and readable**
+-   Works primarily with **data frames/tibbles**
+
+| Function | Purpose | Example |
+|-------------------|--------------------------|----------------------------|
+| `filter()` | Subset rows based on conditions | `filter(mtcars, mpg > 20)` |
+| `arrange()` | Sort rows | `arrange(mtcars, desc(mpg))` |
+| `select()` | Pick columns | `select(mtcars, mpg, cyl)` |
+| `mutate()` | Create or modify columns | `mutate(mtcars, kpl = mpg * 0.425)` |
+| `summarise()` | Summarize data | `summarise(mtcars, avg_mpg = mean(mpg))` |
+| `group_by()` | Group data for aggregation | `group_by(mtcars, cyl)` |
+
+------------------------------------------------------------------------
+
+### `dplyr::filter()`
+
+-   **Purpose:** subset rows based on conditions
+-   **Syntax:** `filter(data, condition)`
+-   **Example:** filter cars above 20 mpg
+
+```{r}
+#| echo: true
+library(tidyverse)
+mtcars |> 
+filter(mpg > 20)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `dplyr::arrange()`
+
+-   **Purpose**: sort rows by column values
+-   **Syntax**: `arrange(data, column1, desc(column2))`
+-   **Example**: sort cars from highest to lowest mpg
+
+```{r}
+#| echo: true
+library(tidyverse)
+mtcars |> 
+arrange(desc(mpg))
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `dplyr::select()`
+
+-   **Purpose**: choose specific columns
+-   **Syntax**: `select(data, col1, col2, ...)`
+-   **Example**: returns only mpg, cyl, and hp columns
+
+```{r}
+#| echo: true
+library(tidyverse)
+mtcars |>
+select(mpg, cyl, hp)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `dplyr::mutate()`
+
+-   **Purpose**: add or modify columns
+-   **Syntax**: `mutate(data, new_col = expression)`
+-   **Example**: add a new column converting mpg to km/l
+
+```{r}
+#| echo: true
+library(tidyverse)
+mtcars |> 
+mutate(kpl = mpg * 0.425)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `summarise()` and `group_by()`
+
+-   **Purpose**: aggregate data
+-   **Syntax**: `data %>% group_by(group_col) %>% summarise(summary_col = mean(value))`
+-   **Example**: show average mpg for each cylinder group
+
+```{r}
+#| echo: true
+library(tidyverse)
+mtcars |> 
+  group_by(cyl) |> 
+  summarise(avg_mpg = mean(mpg))
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Data visualization with `ggplot2`
+
+-   Part of the **tidyverse**
+-   Used for **data visualization**
+-   Follows the **Grammar of Graphics**: layers of data, aesthetics, and geometries
+-   The `ggplot` function has three main components: **data**, aestics (**aes**), and geometries (**geoms**).
+
+Scatter plot example:
+
+```{r}
+#| echo: true
+#| eval: false
+library(ggplot2)
+ggplot(mtcars, aes(x = hp, y = mpg)) +
+  geom_point()
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `aes()`
+
+-   `aes()` stands for **aesthetics**
+-   Maps data **columns** to **visual properties** like: x, y positions, color, fill, size, shape, and alpha
+-   **Example**: map `wt` to x-axis, `mpg` to y-axis, and `cyl` to color
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(x = wt, y = mpg, color = cyl))
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `geom_point()`
+
+-   **Purpose:** scatter plots
+-   **Plots points** at x and y positions
+-   **Example**: visualize the relationship between weight and mpg
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point()
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `geom_line()`
+
+-   **Purpose**: line plots
+-   Connects data points with a **line**, often used for time series
+-   **Example**: show how unemployment changes over time
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_line()
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `geom_bar()`
+
+-   **Purpose**: bar charts
+-   Visualizes **counts or summaries** of categorical data
+-   **Example**: counts the number of cars for each cylinder group
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(x = factor(cyl))) +
+  geom_bar()
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `geom_histogram()`
+
+-   **Purpose**: histogram for continuous data
+-   Groups data into bins to show **distribution**
+-   **Example**: show the distribution of mpg values
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(x = mpg)) +
+  geom_histogram(binwidth = 5)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `geom_boxplot()`
+
+-   **Purpose**: boxplots for distribution and outliers
+-   Summarizes **median, quartiles, and extremes**
+-   **Example**: compare mpg across cylinder groups
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
+  geom_boxplot()
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `geom_smooth()`
+
+-   **Purpose**: add trend lines / regression lines
+-   Can show **linear models** or **smoothed trends**
+-   **Example**: add a linear regression line to the scatter plots
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Data cleaning with `tidyr`
+
+-   Part of the **tidyverse**
+-   Focused on **reshaping and tidying data**
+-   Make datasets **long and tidy** so that each variable is a column, each observation a row, and each value a cell
+
+| Function | Purpose | Example |
+|----------------|--------------------------|------------------------------|
+| `pivot_longer()` | Converts wide data to long (columns → rows) | `pivot_longer(df, cols = c(a, b), names_to="var", values_to="val")` |
+| `pivot_wider()` | Converts long data to wide (rows → columns) | `pivot_wider(df, names_from=var, values_from=val)` |
+| `separate()` | Splits one column into multiple columns | `separate(df, col, into=c("x","y"), sep="-")` |
+| `unite()` | Combines multiple columns into one | `unite(df, "date", year, month, sep="-")` |
+| `drop_na()` | Removes rows with missing values | `drop_na(df)` |
+| `fill()` | Fills missing values with previous/next values | `fill(df, year, .direction="down")` |
+| `replace_na()` | Replaces missing values with a specified value | `replace_na(df, list(x=0, y="unknown"))` |
+| `nest()` | Creates nested (list-column) data frames | `nest(df, data = c(x, y))` |
+| `unnest()` | Expands nested data frames back to flat format | `unnest(df, data)` |
+
+------------------------------------------------------------------------
+
+### `tidyr::pivot_longer()`
+
+-   **Purpose**: convert wide data to long data
+-   **Example**: turn multiple stock columns into key–value pairs
+
+```{r}
+#| echo: true
+library(tidyverse)
+stocks <- data.frame(
+  year = 2015:2016,
+  stockA = c(10, 20),
+  stockB = c(15, 25)
+)
+
+stocks |> 
+pivot_longer(cols = c(stockA, stockB), names_to = "stock", values_to = "price")
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `tidyr::pivot_wider()`
+
+-   **Purpose**: convert long data to wide data
+-   **Example**: spread stock names into separate columns
+
+```{r}
+#| echo: true
+library(tidyverse)
+long_data <- data.frame(
+  year = c(2015, 2015, 2016, 2016),
+  stock = c("A", "B", "A", "B"),
+  price = c(10, 15, 20, 25)
+)
+
+long_data |> 
+pivot_wider(names_from = stock, values_from = price)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `tidyr::separate()`
+
+-   **Purpose**: split one column into multiple
+-   **Example**: split "2020-01" into year and month columns
+
+```{r}
+#| echo: true
+library(tidyverse)
+df <- data.frame(date = c("2020-01", "2020-02"))
+
+df |> 
+separate(date, into = c("year", "month"), sep = "-")
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `tidyr::unite()`
+
+-   **Purpose**: combine multiple columns into one
+-   **Example**: combine year and month into a single "date" column
+
+```{r}
+#| echo: true
+library(tidyverse)
+df <- data.frame(year = c(2020, 2020), month = c("01", "02"))
+
+df |> 
+unite("date", year, month, sep = "-")
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `tidyr::drop_na()`
+
+-   **Purpose**: remove rows with missing values
+-   **Example**: remove rows where any column is `NA`
+
+```{r}
+#| echo: true
+library(tidyverse)
+df <- data.frame(a = c(1, NA, 3), b = c("x", "y", NA))
+
+df |> drop_na()
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+### `tidyr::fill()`
+
+-   **Purpose**: fill missing values using previous or next values
+-   **Example**: fill missing years with the last known value
+
+```{r}
+#| echo: true
+library(tidyverse)
+df <- data.frame(
+  year = c(2020, NA, NA, 2021, NA),
+  value = 1:5
+)
+
+df |> 
+fill(year, .direction = "down")
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## And many more
+
+-   This is only a **snapshot of the all the possibilities** offered by the `tidyverse` package collection
+-   There are excellent **on-line resources** to support you with learning how to use different packages
+-   **Cheat sheets** are an excellent way to have a snapshot of the main functionalities of a package
+
+------------------------------------------------------------------------
+
+## Take home
+
+-   The `tidyverse` provides a unified, consistent toolkit for modern data science in R
+-   Pipes (`|>` / `%>%`) make your code easier to read and write
+-   `dplyr` simplifies data manipulation with intuitive verbs
+-   `ggplot2` enables powerful and flexible data visualization
+-   `tidyr` helps keep your data clean and tidy for analysis
+
+------------------------------------------------------------------------
+
+## Resources
+
+Tidyverse Website – <https://www.tidyverse.org>
+
+RStudio Cheat Sheets – <https://posit.co/resources/cheatsheets/>
+
+Data Visualization with ggplot2 – <https://ggplot2.tidyverse.org>
+
+Posit Community Forum – <https://community.rstudio.com>
+
+Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). *R for Data Science* (2nd ed.). O’Reilly Media. Retrieved from [https://r4ds.hadley.nz](https://r4ds.hadley.nz?utm_source=chatgpt.com)
+
+------------------------------------------------------------------------
+
+## Exercise
+
+Please download the R script with exercises from [GitHub](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/code/01_r_introduction/01_r_introduction_exercise.R) and try to complete it.

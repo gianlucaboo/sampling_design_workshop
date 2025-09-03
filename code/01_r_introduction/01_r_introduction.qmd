@@ -24,6 +24,7 @@ toc-title: "Content"
 -   Working with scripts and the console
 -   Importing data
 -   Saving and closing sessions
+-   Practical exercises
 
 ------------------------------------------------------------------------
 
@@ -430,7 +431,7 @@ Options:\
 -   **Reproducibility** matters — save scripts, comment your code, and avoid saving workspace images to ensure analyses can be repeated.
 -   Packages **expand functionality** — install, load, and use packages to extend R’s capabilities for importing, manipulating, and visualizing data.
 
-## References
+## Resources
 
 R Core Team. (2025). R: A Language and Environment for Statistical Computing. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
 
