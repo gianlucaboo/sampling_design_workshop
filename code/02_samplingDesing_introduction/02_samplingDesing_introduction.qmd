@@ -52,13 +52,11 @@ toc-title: "Content"
 -   Examples: household lists, building footprints, phone numbers, area segments
 -   **Quality dimensions**:
     -   Coverage (under-/over-coverage)
-
     -   Up-to-dateness
-
     -   Accurate identifiers, contact info, location
 
 **Notation**: Population ($N$), sample ($n$), variable ($y_i4\), total \($Y4), mean ($barY$)\
-- Inclusion probabilities (\pi*i) and pairwise (*\pi{ij})\
+- Inclusion probabilities (\pi*i) and pairwise (\*\pi{ij})\
 - Sampling weight (w_i = 1/\pi\_i)
 
 ------------------------------------------------------------------------
@@ -132,6 +130,8 @@ se_ybar <- sqrt(var_ybar)
 list(ybar_hat = ybar_hat, Y_hat = Y_hat, se_ybar = se_ybar)
 ```
 
+ℹ️ Try to run the code in your Script Editor.
+
 ------------------------------------------------------------------------
 
 ## Weighted Sampling / PPS — Concept
@@ -169,6 +169,8 @@ w_i <- 1/pi_i
 Y_hat_HT <- sum(pop$y[uniq] * w_i)
 Y_hat_HT
 ```
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
@@ -230,6 +232,8 @@ Ybar_hat <- sum(W_h * ybar_h)
 Ybar_hat
 ```
 
+ℹ️ Try to run the code in your Script Editor.
+
 ------------------------------------------------------------------------
 
 ## Cluster Sampling — Concept
@@ -281,6 +285,7 @@ N_hat <- (J / n_c) * sum(M_sel$m)
 Ybar_hat <- Y_hat / N_hat
 Ybar_hat
 ```
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
@@ -310,69 +315,31 @@ svymean(~y, svy)
 confint(svymean(~y, svy))
 ```
 
+ℹ️ Try to run the code in your Script Editor.
+
 ------------------------------------------------------------------------
 
 ## Variance Estimation in Complex Designs
 
 -   **Taylor linearization** (default in `survey`): analytic approximation
 -   **Replication methods**: jackknife (JK), balanced repeated replication (BRR), bootstrap
--   Always reflect **strata**, **clusters**, and **weights** in the design object
+
+ℹ️ Always reflect **strata**, **clusters**, and **weights** in the design object
 
 ------------------------------------------------------------------------
 
-## Choosing a Design — Practical Tips
+## Choosing a Design
 
 -   Use **stratification** to control variability and ensure subgroup precision
 -   Use **clustering** to cut costs/logistics; plan for DEFF \> 1
 -   Consider **PPS** when PSU sizes vary widely
 -   Pilot study for variance and ICC
--   Always retain design variables (stratum, cluster, weights) in the dataset
+
+ℹ️ Always retain design variables (stratum, cluster, weights) in the dataset
 
 ------------------------------------------------------------------------
 
-## Worked Mini‑Example (End-to-End)
-
-``` r
-set.seed(99)
-# Create 3 strata with different means
-N_h <- c(4000, 3000, 3000); H <- length(N_h)
-stratum <- rep(1:H, times=N_h)
-pop <- data.frame(h=stratum,
-                  y=c(rnorm(N_h[1],50,10), rnorm(N_h[2],60,15), rnorm(N_h[3],55,12)))
-N <- nrow(pop); W_h <- N_h/N
-n <- 600; n_h <- round(n*W_h)
-
-# Sample within strata
-samp <- do.call(rbind, lapply(1:H, function(h){
-  ids <- which(pop$h==h)
-  pick <- sample(ids, n_h[h]); pop[pick,]
-}))
-
-# Weights and survey design
-w <- rep(NA_real_, nrow(samp))
-for(h in 1:H){
-  idx <- which(samp$h==h)
-  w[idx] <- N_h[h]/n_h[h]
-}
-
-library(survey)
-svy <- svydesign(ids=~1, strata=~h, weights=~w, data=samp)
-svymean(~y, svy)             # weighted mean with SE
-svyquantile(~y, svy, c(0.5)) # weighted median
-```
-
-------------------------------------------------------------------------
-
-## Key References (starter list)
-
--   Särndal, Swensson, and Wretman (1992) *Model Assisted Survey Sampling*
--   Lohr (2019) *Sampling: Design and Analysis*
--   Lumley (2010) *Complex Surveys: A Guide to Analysis Using R*
--   R packages: `survey`, `srvyr`, `sampling`
-
-------------------------------------------------------------------------
-
-## Takeaways
+## Take home
 
 -   Match design to objectives and constraints
 -   Use weights and design info in analysis
@@ -380,3 +347,10 @@ svyquantile(~y, svy, c(0.5)) # weighted median
 -   Validate with pilot data and sensitivity checks
 
 ------------------------------------------------------------------------
+## Resources
+
+-   Särndal, Swensson, and Wretman (1992) *Model Assisted Survey Sampling*
+-   Lohr (2019) *Sampling: Design and Analysis*
+-   Lumley (2010) *Complex Surveys: A Guide to Analysis Using R*
+-   R packages: `survey`, `srvyr`, `sampling`
+

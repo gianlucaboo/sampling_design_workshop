@@ -248,9 +248,9 @@ Introduction to Sampling Design
 <li>Examples: household lists, building footprints, phone numbers, area segments</li>
 <li><strong>Quality dimensions</strong>:
 <ul>
-<li><p>Coverage (under-/over-coverage)</p></li>
-<li><p>Up-to-dateness</p></li>
-<li><p>Accurate identifiers, contact info, location</p></li>
+<li>Coverage (under-/over-coverage)</li>
+<li>Up-to-dateness</li>
+<li>Accurate identifiers, contact info, location</li>
 </ul></li>
 </ul>
 <p><strong>Notation</strong>: Population (<span class="math inline">\(N\)</span>), sample (<span class="math inline">\(n\)</span>), variable (<span class="math inline">\(y_i4\), total \(\)</span>Y4), mean (<span class="math inline">\(barY\)</span>)<br>
@@ -319,6 +319,7 @@ Introduction to Sampling Design
 <span id="cb1-17"><a href=""></a>var_ybar <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> n<span class="sc">/</span>N) <span class="sc">*</span> s2 <span class="sc">/</span> n</span>
 <span id="cb1-18"><a href=""></a>se_ybar <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_ybar)</span>
 <span id="cb1-19"><a href=""></a><span class="fu">list</span>(<span class="at">ybar_hat =</span> ybar_hat, <span class="at">Y_hat =</span> Y_hat, <span class="at">se_ybar =</span> se_ybar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="weighted-sampling-pps-concept" class="slide level2">
 <h2>Weighted Sampling / PPS — Concept</h2>
@@ -353,6 +354,7 @@ Introduction to Sampling Design
 <span id="cb2-13"><a href=""></a>w_i <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>pi_i</span>
 <span id="cb2-14"><a href=""></a>Y_hat_HT <span class="ot">&lt;-</span> <span class="fu">sum</span>(pop<span class="sc">$</span>y[uniq] <span class="sc">*</span> w_i)</span>
 <span id="cb2-15"><a href=""></a>Y_hat_HT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="stratified-sampling-concept" class="slide level2">
 <h2>Stratified Sampling — Concept</h2>
@@ -407,6 +409,7 @@ Introduction to Sampling Design
 <span id="cb3-24"><a href=""></a>ybar_h <span class="ot">&lt;-</span> <span class="fu">tapply</span>(samp<span class="sc">$</span>y, samp<span class="sc">$</span>h, mean)</span>
 <span id="cb3-25"><a href=""></a>Ybar_hat <span class="ot">&lt;-</span> <span class="fu">sum</span>(W_h <span class="sc">*</span> ybar_h)</span>
 <span id="cb3-26"><a href=""></a>Ybar_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="cluster-sampling-concept" class="slide level2">
 <h2>Cluster Sampling — Concept</h2>
@@ -454,6 +457,7 @@ Introduction to Sampling Design
 <span id="cb4-26"><a href=""></a>N_hat <span class="ot">&lt;-</span> (J <span class="sc">/</span> n_c) <span class="sc">*</span> <span class="fu">sum</span>(M_sel<span class="sc">$</span>m)</span>
 <span id="cb4-27"><a href=""></a>Ybar_hat <span class="ot">&lt;-</span> Y_hat <span class="sc">/</span> N_hat</span>
 <span id="cb4-28"><a href=""></a>Ybar_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="design-weights-and-weighted-estimation" class="slide level2">
 <h2>Design Weights and Weighted Estimation</h2>
@@ -478,65 +482,28 @@ Introduction to Sampling Design
 <span id="cb5-11"><a href=""></a>svy <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids =</span> <span class="sc">~</span><span class="dv">1</span>, <span class="at">strata =</span> <span class="sc">~</span>h, <span class="at">weights =</span> <span class="sc">~</span>w, <span class="at">data =</span> samp, <span class="at">fpc =</span> <span class="sc">~</span><span class="cn">NULL</span>)</span>
 <span id="cb5-12"><a href=""></a><span class="fu">svymean</span>(<span class="sc">~</span>y, svy)</span>
 <span id="cb5-13"><a href=""></a><span class="fu">confint</span>(<span class="fu">svymean</span>(<span class="sc">~</span>y, svy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="variance-estimation-in-complex-designs" class="slide level2">
 <h2>Variance Estimation in Complex Designs</h2>
 <ul>
 <li><strong>Taylor linearization</strong> (default in <code>survey</code>): analytic approximation</li>
 <li><strong>Replication methods</strong>: jackknife (JK), balanced repeated replication (BRR), bootstrap</li>
-<li>Always reflect <strong>strata</strong>, <strong>clusters</strong>, and <strong>weights</strong> in the design object</li>
 </ul>
+<p>ℹ️ Always reflect <strong>strata</strong>, <strong>clusters</strong>, and <strong>weights</strong> in the design object</p>
 </section>
-<section id="choosing-a-design-practical-tips" class="slide level2">
-<h2>Choosing a Design — Practical Tips</h2>
+<section id="choosing-a-design" class="slide level2">
+<h2>Choosing a Design</h2>
 <ul>
 <li>Use <strong>stratification</strong> to control variability and ensure subgroup precision</li>
 <li>Use <strong>clustering</strong> to cut costs/logistics; plan for DEFF &gt; 1</li>
 <li>Consider <strong>PPS</strong> when PSU sizes vary widely</li>
 <li>Pilot study for variance and ICC</li>
-<li>Always retain design variables (stratum, cluster, weights) in the dataset</li>
 </ul>
+<p>ℹ️ Always retain design variables (stratum, cluster, weights) in the dataset</p>
 </section>
-<section id="worked-miniexample-end-to-end" class="slide level2">
-<h2>Worked Mini‑Example (End-to-End)</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb6-2"><a href=""></a><span class="co"># Create 3 strata with different means</span></span>
-<span id="cb6-3"><a href=""></a>N_h <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4000</span>, <span class="dv">3000</span>, <span class="dv">3000</span>); H <span class="ot">&lt;-</span> <span class="fu">length</span>(N_h)</span>
-<span id="cb6-4"><a href=""></a>stratum <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>H, <span class="at">times=</span>N_h)</span>
-<span id="cb6-5"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">h=</span>stratum,</span>
-<span id="cb6-6"><a href=""></a>                  <span class="at">y=</span><span class="fu">c</span>(<span class="fu">rnorm</span>(N_h[<span class="dv">1</span>],<span class="dv">50</span>,<span class="dv">10</span>), <span class="fu">rnorm</span>(N_h[<span class="dv">2</span>],<span class="dv">60</span>,<span class="dv">15</span>), <span class="fu">rnorm</span>(N_h[<span class="dv">3</span>],<span class="dv">55</span>,<span class="dv">12</span>)))</span>
-<span id="cb6-7"><a href=""></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(pop); W_h <span class="ot">&lt;-</span> N_h<span class="sc">/</span>N</span>
-<span id="cb6-8"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">600</span>; n_h <span class="ot">&lt;-</span> <span class="fu">round</span>(n<span class="sc">*</span>W_h)</span>
-<span id="cb6-9"><a href=""></a></span>
-<span id="cb6-10"><a href=""></a><span class="co"># Sample within strata</span></span>
-<span id="cb6-11"><a href=""></a>samp <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>H, <span class="cf">function</span>(h){</span>
-<span id="cb6-12"><a href=""></a>  ids <span class="ot">&lt;-</span> <span class="fu">which</span>(pop<span class="sc">$</span>h<span class="sc">==</span>h)</span>
-<span id="cb6-13"><a href=""></a>  pick <span class="ot">&lt;-</span> <span class="fu">sample</span>(ids, n_h[h]); pop[pick,]</span>
-<span id="cb6-14"><a href=""></a>}))</span>
-<span id="cb6-15"><a href=""></a></span>
-<span id="cb6-16"><a href=""></a><span class="co"># Weights and survey design</span></span>
-<span id="cb6-17"><a href=""></a>w <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA_real_</span>, <span class="fu">nrow</span>(samp))</span>
-<span id="cb6-18"><a href=""></a><span class="cf">for</span>(h <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>H){</span>
-<span id="cb6-19"><a href=""></a>  idx <span class="ot">&lt;-</span> <span class="fu">which</span>(samp<span class="sc">$</span>h<span class="sc">==</span>h)</span>
-<span id="cb6-20"><a href=""></a>  w[idx] <span class="ot">&lt;-</span> N_h[h]<span class="sc">/</span>n_h[h]</span>
-<span id="cb6-21"><a href=""></a>}</span>
-<span id="cb6-22"><a href=""></a></span>
-<span id="cb6-23"><a href=""></a><span class="fu">library</span>(survey)</span>
-<span id="cb6-24"><a href=""></a>svy <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span><span class="dv">1</span>, <span class="at">strata=</span><span class="sc">~</span>h, <span class="at">weights=</span><span class="sc">~</span>w, <span class="at">data=</span>samp)</span>
-<span id="cb6-25"><a href=""></a><span class="fu">svymean</span>(<span class="sc">~</span>y, svy)             <span class="co"># weighted mean with SE</span></span>
-<span id="cb6-26"><a href=""></a><span class="fu">svyquantile</span>(<span class="sc">~</span>y, svy, <span class="fu">c</span>(<span class="fl">0.5</span>)) <span class="co"># weighted median</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="key-references-starter-list" class="slide level2">
-<h2>Key References (starter list)</h2>
-<ul>
-<li>Särndal, Swensson, and Wretman (1992) <em>Model Assisted Survey Sampling</em></li>
-<li>Lohr (2019) <em>Sampling: Design and Analysis</em></li>
-<li>Lumley (2010) <em>Complex Surveys: A Guide to Analysis Using R</em></li>
-<li>R packages: <code>survey</code>, <code>srvyr</code>, <code>sampling</code></li>
-</ul>
-</section>
-<section id="takeaways" class="slide level2">
-<h2>Takeaways</h2>
+<section id="take-home" class="slide level2">
+<h2>Take home</h2>
 <ul>
 <li>Match design to objectives and constraints</li>
 <li>Use weights and design info in analysis</li>
@@ -544,8 +511,14 @@ Introduction to Sampling Design
 <li>Validate with pilot data and sensitivity checks</li>
 </ul>
 </section>
-<section class="slide level2">
-
+<section id="resources" class="slide level2">
+<h2>Resources</h2>
+<ul>
+<li>Särndal, Swensson, and Wretman (1992) <em>Model Assisted Survey Sampling</em></li>
+<li>Lohr (2019) <em>Sampling: Design and Analysis</em></li>
+<li>Lumley (2010) <em>Complex Surveys: A Guide to Analysis Using R</em></li>
+<li>R packages: <code>survey</code>, <code>srvyr</code>, <code>sampling</code></li>
+</ul>
 
 </section>
     </div>
