@@ -1,6 +1,6 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "Eart Observation data for sampling"
+author: "Earth Observation data for sampling"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-17-2025"
 title-slide-attributes:
@@ -19,196 +19,254 @@ toc-title: "Content"
 
 ## Previously covered
 
-- Introduction to R and RStudio  
-- Data types and data structures  
-- Importing data  
-- Data manipulation and visualization (`tidyverse`)  
-- Saving and closing sessions  
+-   Introduction to R and RStudio\
+-   Data types and data structures\
+-   Importing data\
+-   Data manipulation and visualization (`tidyverse`)\
+-   Saving and closing sessions
 
 ------------------------------------------------------------------------
 
 ## Agenda
 
-- Spatial data in R  
-- Vector data: points, lines, polygons  
-- Raster data: grids  
-- Packages: `sf` and `terra`  
-- Reading and visualising spatial data  
-- Simple spatial operations  
-- Summarising raster data within polygons  
-- Visualisation examples  
+-   Spatial data in R\
+-   Vector data: points, lines, polygons\
+-   Raster data: grids\
+-   Packages: `sf` and `terra`\
+-   Reading and visualising spatial data\
+-   Simple spatial operations\
+-   Summarising raster data within polygons\
+-   Visualisation examples
 
 ------------------------------------------------------------------------
 
 ## Spatial data in R
 
-- Two main types:  
-  - **Vector**: points, lines, polygons  
-  - **Raster**: regular grids with values  
-- R packages:  
-  - **`sf`**: modern vector handling  
-  - **`terra`**: raster analysis  
-- Both integrate well with `ggplot2` for visualisation  
+-   Two main types:
+    -   **Vector**: points, lines, polygons
+    -   **Raster**: regular grids with values\
+-   R packages:
+    -   **`sf`**: modern vector handling
+    -   **`terra`**: raster analysis\
+-   Both integrate well with `ggplot2` for visualisation
 
 ------------------------------------------------------------------------
 
-## Vector data types
+## Vector data
 
-::::: columns
-::: {.column width="60%"}
-- **Points**: single locations (e.g., cities, schools)  
-- **Lines**: sequences of points (e.g., roads, rivers)  
-- **Polygons**: areas (e.g., administrative boundaries)  
-:::
-::: {.column width="40%"}
-![](img/vector_types.png){width="350"}
-:::
-:::::
+-   **Points**: single locations (e.g., cities, schools)
+-   **Lines**: sequences of points (e.g., roads, rivers)
+-   **Polygons**: areas (e.g., administrative boundaries)\
+
+![](img/data_vector.png){width="350"}
 
 ------------------------------------------------------------------------
 
 ## Raster data
 
-::::: columns
-::: {.column width="60%"}
-- Gridded data with values (e.g., elevation, population density)  
-- Resolution determined by **cell size**  
-:::
-::: {.column width="40%"}
-![](img/raster_example.png){width="350"}
-:::
-:::::
+-   **Gridded data** with values\
+-   Resolution determined by **cell size**\
+
+![](img/data_raster.jpg){width="350"}
 
 ------------------------------------------------------------------------
 
 ## Reading vector data with `sf`
 
-```r
+-   **Simple Features Standard**: implements the Simple Features standard for spatial vector data, allowing consistent and interoperable representation of geometries like points, lines, and polygons.
+-   **Data Frame Integration**: stores spatial data in a regular R data frame (or tibble), with a special geometry column, making it easy to manipulate using familiar R tools like dplyr. Efficient
+-   **Spatial Operations**: provides a wide range of spatial functions (e.g. intersections, buffers, joins) and interfaces with libraries like GEOS, GDAL, and PROJ for robust, fast, and accurate spatial processing.
+
+```{r}
+#| echo: true
 library(sf)
+admin_boundaries <- 
+  "data/pak_adm_wfp_20220909_shp/pak_admbnda_adm1_wfp_20220909.shp" |> 
+  st_read(quiet = T)
 
-# Read shapefile or GeoPackage
-villages <- st_read("data/villages.gpkg")
-
-# Inspect
-villages
-plot(villages["population"])
+admin_boundaries |> 
+  st_geometry() |> 
+  plot()
 ```
 
-## Reading raster data with terra
+ℹ️ Try to run the code in your Script Editor.
 
-```r
+------------------------------------------------------------------------
 
+## Vector data attributes in `sf`
+
+-   **Simple feature collection**: an `sf` object is a data frame-like structure where each row represents a spatial feature (e.g. a region), and includes attribute fields alongside a geometry column.
+-   **Geometry and dimensions**: each feature has a specific geometry type (e.g. MULTIPOLYGON), with defined spatial dimensions (e.g. XY), used to represent shapes on a map.
+-   **Spatial metadata**: the object includes spatial metadata such as a coordinate reference system (CRS), e.g. WGS 84, which defines how the geometries relate to real-world locations.
+
+```{r}
+#| echo: true
+library(sf); library(tidyverse)
+admin_boundaries |> 
+  select(ADM1_EN) |> 
+  head(n=1)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Reading raster data with `terra`
+
+-   **Modern Raster and Vector Support**: `terra` provides tools for reading, writing, analyzing, and manipulating raster and vector spatial data, designed as a faster and more efficient successor to the older raster package.
+-   **High Performance and Scalability**: built for performance, `terra` can handle large spatial datasets efficiently, supports parallel processing, and integrates well with geospatial libraries like GDAL, PROJ, and GEOS.
+-   **Intuitive Syntax and Consistency**: offers a consistent and user-friendly syntax for spatial operations (e.g., cropping, masking, aggregation, reprojection), making it easy to work with complex geospatial workflows in R.
+
+```{r}
+#| echo: true
 library(terra)
-
-# Read raster (GeoTIFF)
-elev <- rast("data/elevation.tif")
-
-# Inspect
-elev
-plot(elev)
+elevation <- 
+  "data/pak_elevation_merit103_10km_v1.tif" |> 
+  rast()
+elevation |> 
+plot()
 ```
 
-## Coordinate Reference Systems (CRS)
-``` r
-st_crs(villages)
-crs(elev)
+ℹ️ Try to run the code in your Script Editor.
 
-# Align CRS
-villages <- st_transform(villages, crs(elev))
+------------------------------------------------------------------------
+
+## Raster data attributes in `terra`
+
+-   **Spatial Structure**: raster data is represented as a `SpatRaster` object with defined dimensions (rows, columns, layers), resolution (cell size), and extent (bounding coordinates of the spatial area).
+-   **Coordinate Reference System (CRS)**: each raster includes a `CRS` (e.g., WGS 84, EPSG code) that defines how the raster aligns with real-world geographic space.
+-   **Metadata and Values**: rasters store metadata such as source file, layer names, and value ranges (e.g., min and max), which are critical for interpretation and analysis of the data.
+
+```{r}
+#| echo: true
+library(terra)
+elevation
 ```
 
-## Basic spatial operations with sf
-``` r
-# Select villages inside a polygon
-villages_in_area <- villages[polygon, ]
+ℹ️ Try to run the code in your Script Editor.
 
-# Buffer 5km around villages
-villages_buffer <- st_buffer(villages, dist = 5000)
+------------------------------------------------------------------------
+
+## `sf::st_crs()` vs `terra::crs()`
+
+-   **SCRS Representation:** in `sf`, `st_crs()` retrieves the CRS of a vector object (e.g., admin_boundaries), while in `terra`, `crs()` is used for raster objects (e.g., elevation) to access or set their CRS.
+-   **SCRS Compatibility**: spatial operations between vector and raster data require both to have the same CRS. If they differ, transformation is needed to align them.
+-   **SCRS Transformation**: Use `st_transform()` (from `sf`) to reproject vector data to match the CRS of another dataset (e.g., `st_transform(crs(elevation))` ensures admin_boundaries matches the raster CRS).
+
+```{r}
+#| echo: true
+#| eval: false
+
+st_crs(admin_boundaries)
+crs(elevation)
+
+admin_boundaries <- 
+  admin_boundaries |> 
+  st_transform(crs(elevation))
 ```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
 
 ## Summarising raster values within polygons
-``` r
-# Average elevation per polygon
-elev_mean <- terra::extract(elev, villages, fun = mean, na.rm = TRUE)
-villages$mean_elev <- elev_mean[,2]
 
-plot(villages["mean_elev"])
+```{r}
+#| echo: true
+#| eval: true
+
+admin_elevation_mean <- 
+  elevation |> 
+  terra::extract(admin_boundaries, fun = mean, na.rm = TRUE)
+admin_boundaries<- 
+  admin_boundaries |> 
+  mutate(elevation_mean=admin_elevation_mean[,2])
+admin_boundaries |> 
+  st_drop_geometry() |> dplyr::select(ADM1_EN, elevation_mean)
 ```
 
-## Vector map example
-``` r
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Vector map in `ggplot2`
+
+```{r}
+#| echo: true
+#| eval: true
 library(ggplot2)
-library(sf)
-
-# Example vector dataset: nc polygons
-nc <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
-
-# Line: connect first 3 centroids
-line_coords <- st_coordinates(st_centroid(nc[1:3, ]))
-example_line <- st_sfc(st_linestring(line_coords)) |> st_sf()
-
-# Plot
 ggplot() +
-  geom_sf(data = nc, fill = "lightblue", color = "black", alpha = 0.3) +
-  geom_sf(data = nc[1,], fill = "orange", color = "red", alpha = 0.5) +
-  geom_sf(data = example_line, color = "darkgreen", size = 1.5) +
-  geom_sf(data = st_centroid(nc[1:5, ]), color = "purple", size = 3) +
-  ggtitle("Vector data: Points, Line, Polygon")
+  geom_sf(data = admin_boundaries, aes(fill=elevation_mean),  color = "black", alpha = 0.3) +
+  scale_fill_viridis_c()+
+  geom_sf_text(data = admin_boundaries, aes(label = ADM1_EN), size = 3, color = "black") +
+  theme_void()+
+  labs(title="Mean Elevation", fill= "Elevation (m)")
 ```
 
-## Raster map example with ggplot2
-``` r 
-library(terra)
+ℹ️ Try to run the code in your Script Editor.
+
+## Raster map in `ggplot2`
+
+```{r}
+#| echo: true
+#| eval: true
 library(ggplot2)
-
-# Load example raster
-elev <- rast(system.file("ex/elev.tif", package="terra"))
-
-# Convert to data frame
-elev_df <- as.data.frame(elev, xy = TRUE)
-colnames(elev_df) <- c("x", "y", "elevation")
-
-# Plot
-ggplot(elev_df) +
+elevation_df <- as.data.frame(elevation, xy = TRUE)
+colnames(elevation_df) <- c("x", "y", "elevation")
+ggplot(elevation_df) +
   geom_raster(aes(x = x, y = y, fill = elevation)) +
   scale_fill_viridis_c() +
   coord_equal() +
-  labs(title = "Raster Elevation Map", fill = "Elevation")
+  theme_void()+
+  labs(title = "Elevation", fill = "Elevation (m)")
 ```
 
-------------------------------------------------------------------------
-
-## Google Earth Engine (GEE) - Introduction
-
-- **Cloud-based platform** for planetary-scale environmental data analysis  
-- **No need to download massive datasets locally**  
-- Access to a variety of pre-processed datasets including:  
-  - **Satellite imagery:** Landsat, Sentinel-2, MODIS  
-  - **Climate data:** ERA5, CHIRPS precipitation  
-  - **Land cover and vegetation:** Copernicus, GlobCover, NDVI indices  
-  - **Topography:** SRTM, ASTER DEM  
-  - **Socioeconomic:** Population density, night-time lights  
-- Works with **JavaScript** in the browser or **Python / R APIs**
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## Google Earth Engine - Accessing the Code Editor
+## Google Earth Engine (GEE)
 
-- Open **[GEE Code Editor](https://code.earthengine.google.com/)**  
-- **Step-by-step:**  
-  1. Sign in with a Google account  
-  2. Click **New Script**  
-  3. Use the **search bar** to find datasets  
-  4. Load the dataset with `ee.ImageCollection` or `ee.Image`  
-  5. Use **filters** (e.g., date, location, bands)  
-  6. Display results with `Map.addLayer()`  
-  7. Export data with `Export.image.toDrive()` or `Export.table.toDrive()`
+-   [**Cloud-based platform**](https://earthengine.google.com) for planetary-scale environmental data analysis\
+-   **No need to download massive datasets locally**\
+-   Access to a variety of **pre-processed datasets** including:
+    -   **Satellite imagery:** Landsat, Sentinel-2, MODIS\
+    -   **Climate data:** ERA5, CHIRPS precipitation\
+    -   **Land cover and vegetation:** Copernicus, GlobCover, NDVI indices\
+    -   **Topography:** SRTM, ASTER DEM\
+    -   **Socioeconomic:** Population density, night-time lights\
+
+::: embed
+<iframe src="https://earthengine.google.com" width="100%" height="350">
+
+</iframe>
+:::
 
 ------------------------------------------------------------------------
 
-## Google Earth Engine - Example Script
+## GEE Code Editor
 
-```javascript
+-   Open [**GEE Code Editor**](https://code.earthengine.google.com/)\
+-   **Step-by-step:**
+    1.  Sign in with a Google account\
+    2.  Click **New Script**\
+    3.  Use the **search bar** to find datasets\
+    4.  Load the dataset with `ee.ImageCollection` or `ee.Image`\
+    5.  Use **filters** (e.g., date, location, bands)\
+    6.  Display results with `Map.addLayer()`\
+    7.  Export data with `Export.image.toDrive()` or `Export.table.toDrive()`
+
+::: embed
+<iframe src="https://code.earthengine.google.com" width="100%" height="350">
+
+</iframe>
+:::
+
+------------------------------------------------------------------------
+
+## GEE Example Script
+
+``` javascript
 // Example: extract mean NDVI for a region in 2020
 var roi = ee.Geometry.Rectangle([34.5, -1.5, 35.5, -0.5]);
 var collection = ee.ImageCollection('MODIS/006/MOD13Q1')
@@ -229,67 +287,69 @@ Export.image.toDrive({
 });
 ```
 
+ℹ️ Try to run the code in the GEE Script Editor.
+
+------------------------------------------------------------------------
+
 ## Downloading data from GEE
 
-Use Export.image.toDrive() to save a GeoTIFF
+Use `Export.image.toDrive()` to save a GeoTIFF
 
 Options:
 
-Scale: spatial resolution (meters per pixel)
+-   **Scale**: spatial resolution (meters per pixel)
 
-Region: area of interest (polygon)
+-   **Region**: area of interest (polygon)
 
-CRS: coordinate reference system
+-   **CRS**: coordinate reference system
 
-Format: GeoTIFF for rasters, CSV/GeoJSON for tables
+-   **Format**: GeoTIFF for rasters, CSV/GeoJSON for tables
 
 After export, download the file from Google Drive
 
-## Reading GEE 
-``` r 
-library(terra)
-library(sf)
+ℹ️ Try to download the file from Google Drive.
 
-# Load polygon boundaries
-polygons <- st_read("data/villages.gpkg")
+------------------------------------------------------------------------
 
-# Load GEE-exported raster (GeoTIFF)
+## Reading GEE data
+
+```{r}
+#| echo: true
+#| eval: false
+library(terra); library(sf); library(ggplot2)
+
+admin_boundaries <- st_read("data/pak_adm_wfp_20220909_shp/pak_admbnda_adm1_wfp_20220909.shp")
+
 ndvi_raster <- rast("data/mean_ndvi_2020.tif")
 
-# Align CRS
-polygons <- st_transform(polygons, crs(ndvi_raster))
+admin_boundaries <- 
+  admin_boundaries |> 
+  st_transform(crs(ndvi_raster))
 
-# Extract mean NDVI per polygon
 ndvi_mean <- terra::extract(ndvi_raster, polygons, fun = mean, na.rm = TRUE)
-polygons$mean_ndvi <- ndvi_mean[,2]
+admin_boundaries$mean_ndvi <- ndvi_mean[,2]
 
-# Plot results
-library(ggplot2)
 ggplot(polygons) +
   geom_sf(aes(fill = mean_ndvi)) +
   scale_fill_viridis_c() +
   ggtitle("Mean NDVI per Polygon from GEE")
-
 ```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
 
 ## Take home
 
--  Spatial data: vector (sf) vs raster (terra)
-
--  Always check CRS before analysis
-
--  Use sf for points, lines, polygons
-
--  Use terra for raster analysis
-
--  Combine rasters and vectors for summaries and plots
+-   Spatial data: vector (sf) vs raster (terra)
+-   Always check CRS before analysis
+-   Use sf for points, lines, polygons
+-   Use terra for raster analysis
+-   Combine rasters and vectors for summaries and plots
 
 ## Resources
 
--  sf docs: https://r-spatial.github.io/sf/
-
--  terra docs: https://rspatial.org/terra/
-
--  Geocomputation with R: https://geocompr.robinlovelace.net/
-
--  RStudio Spatial Cheat Sheets: https://posit.co/resources/cheatsheets/
+-   `sf` documentation: https://r-spatial.github.io/sf/
+-   `terra` documentation: https://rspatial.org/terra/
+-   Geocomputation with R: https://geocompr.robinlovelace.net/
+-   RStudio Spatial Cheat Sheets: https://posit.co/resources/cheatsheets/

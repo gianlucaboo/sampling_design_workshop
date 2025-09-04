@@ -9,7 +9,7 @@
 <link href="04_eo_sampling_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.6.42">
 
-  <meta name="author" content="Eart Observation data for sampling">
+  <meta name="author" content="Earth Observation data for sampling">
   <meta name="dcterms.date" content="2025-09-17">
   <title>Workshop on Advanced Sampling Methodologies</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="04_eo_sampling_files/libs/revealjs/dist/theme/quarto-21278d62b890e0d2198d3b9301299743.css">
+  <link rel="stylesheet" href="04_eo_sampling_files/libs/revealjs/dist/theme/quarto-b6ce750884dd2c6ca028c03c753a92cc.css">
   <link href="04_eo_sampling_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="04_eo_sampling_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="04_eo_sampling_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -198,7 +198,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Eart Observation data for sampling 
+Earth Observation data for sampling 
 </div>
         <p class="quarto-title-affiliation">
             Dr.&nbsp;Gianluca Boo, WorldPop, University of Southampton
@@ -247,145 +247,204 @@ Eart Observation data for sampling
 <ul>
 <li>Two main types:
 <ul>
-<li><strong>Vector</strong>: points, lines, polygons<br>
-</li>
+<li><strong>Vector</strong>: points, lines, polygons</li>
 <li><strong>Raster</strong>: regular grids with values<br>
 </li>
 </ul></li>
 <li>R packages:
 <ul>
-<li><strong><code>sf</code></strong>: modern vector handling<br>
-</li>
+<li><strong><code>sf</code></strong>: modern vector handling</li>
 <li><strong><code>terra</code></strong>: raster analysis<br>
 </li>
 </ul></li>
 <li>Both integrate well with <code>ggplot2</code> for visualisation</li>
 </ul>
 </section>
-<section id="vector-data-types" class="slide level2">
-<h2>Vector data types</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
+<section id="vector-data" class="slide level2">
+<h2>Vector data</h2>
 <ul>
-<li><strong>Points</strong>: single locations (e.g., cities, schools)<br>
-</li>
-<li><strong>Lines</strong>: sequences of points (e.g., roads, rivers)<br>
-</li>
+<li><strong>Points</strong>: single locations (e.g., cities, schools)</li>
+<li><strong>Lines</strong>: sequences of points (e.g., roads, rivers)</li>
 <li><strong>Polygons</strong>: areas (e.g., administrative boundaries)<br>
 </li>
 </ul>
-</div><div class="column" style="width:40%;">
-<p><img data-src="img/vector_types.png" width="350"></p>
-</div></div>
-</section>
+
+<img data-src="img/data_vector.png" width="350" class="r-stretch"></section>
 <section id="raster-data" class="slide level2">
 <h2>Raster data</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
 <ul>
-<li>Gridded data with values (e.g., elevation, population density)<br>
+<li><strong>Gridded data</strong> with values<br>
 </li>
 <li>Resolution determined by <strong>cell size</strong><br>
 </li>
 </ul>
-</div><div class="column" style="width:40%;">
-<p><img data-src="img/raster_example.png" width="350"></p>
-</div></div>
-</section>
+
+<img data-src="img/data_raster.jpg" width="350" class="r-stretch"></section>
 <section id="reading-vector-data-with-sf" class="slide level2">
 <h2>Reading vector data with <code>sf</code></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-2"><a href=""></a></span>
-<span id="cb1-3"><a href=""></a><span class="co"># Read shapefile or GeoPackage</span></span>
-<span id="cb1-4"><a href=""></a>villages <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/villages.gpkg"</span>)</span>
+<ul>
+<li><strong>Simple Features Standard</strong>: implements the Simple Features standard for spatial vector data, allowing consistent and interoperable representation of geometries like points, lines, and polygons.</li>
+<li><strong>Data Frame Integration</strong>: stores spatial data in a regular R data frame (or tibble), with a special geometry column, making it easy to manipulate using familiar R tools like dplyr. Efficient</li>
+<li><strong>Spatial Operations</strong>: provides a wide range of spatial functions (e.g.&nbsp;intersections, buffers, joins) and interfaces with libraries like GEOS, GDAL, and PROJ for robust, fast, and accurate spatial processing.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href=""></a>admin_boundaries <span class="ot">&lt;-</span> </span>
+<span id="cb1-3"><a href=""></a>  <span class="st">"data/pak_adm_wfp_20220909_shp/pak_admbnda_adm1_wfp_20220909.shp"</span> <span class="sc">|&gt;</span> </span>
+<span id="cb1-4"><a href=""></a>  <span class="fu">st_read</span>(<span class="at">quiet =</span> T)</span>
 <span id="cb1-5"><a href=""></a></span>
-<span id="cb1-6"><a href=""></a><span class="co"># Inspect</span></span>
-<span id="cb1-7"><a href=""></a>villages</span>
-<span id="cb1-8"><a href=""></a><span class="fu">plot</span>(villages[<span class="st">"population"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href=""></a>admin_boundaries <span class="sc">|&gt;</span> </span>
+<span id="cb1-7"><a href=""></a>  <span class="fu">st_geometry</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-8"><a href=""></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="04_eo_sampling_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"><p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="vector-data-attributes-in-sf" class="slide level2">
+<h2>Vector data attributes in <code>sf</code></h2>
+<ul>
+<li><strong>Simple feature collection</strong>: an <code>sf</code> object is a data frame-like structure where each row represents a spatial feature (e.g.&nbsp;a region), and includes attribute fields alongside a geometry column.</li>
+<li><strong>Geometry and dimensions</strong>: each feature has a specific geometry type (e.g.&nbsp;MULTIPOLYGON), with defined spatial dimensions (e.g.&nbsp;XY), used to represent shapes on a map.</li>
+<li><strong>Spatial metadata</strong>: the object includes spatial metadata such as a coordinate reference system (CRS), e.g.&nbsp;WGS 84, which defines how the geometries relate to real-world locations.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(sf); <span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href=""></a>admin_boundaries <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href=""></a>  <span class="fu">select</span>(ADM1_EN) <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href=""></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 1 feature and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 73.39804 ymin: 32.76917 xmax: 74.86488 ymax: 35.13466
+Geodetic CRS:  WGS 84
+       ADM1_EN                       geometry
+1 Azad Kashmir MULTIPOLYGON (((74.46635 35...</code></pre>
+</div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="reading-raster-data-with-terra" class="slide level2">
-<h2>Reading raster data with terra</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a></span>
-<span id="cb2-2"><a href=""></a><span class="fu">library</span>(terra)</span>
-<span id="cb2-3"><a href=""></a></span>
-<span id="cb2-4"><a href=""></a><span class="co"># Read raster (GeoTIFF)</span></span>
-<span id="cb2-5"><a href=""></a>elev <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/elevation.tif"</span>)</span>
-<span id="cb2-6"><a href=""></a></span>
-<span id="cb2-7"><a href=""></a><span class="co"># Inspect</span></span>
-<span id="cb2-8"><a href=""></a>elev</span>
-<span id="cb2-9"><a href=""></a><span class="fu">plot</span>(elev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h2>Reading raster data with <code>terra</code></h2>
+<ul>
+<li><strong>Modern Raster and Vector Support</strong>: <code>terra</code> provides tools for reading, writing, analyzing, and manipulating raster and vector spatial data, designed as a faster and more efficient successor to the older raster package.</li>
+<li><strong>High Performance and Scalability</strong>: built for performance, <code>terra</code> can handle large spatial datasets efficiently, supports parallel processing, and integrates well with geospatial libraries like GDAL, PROJ, and GEOS.</li>
+<li><strong>Intuitive Syntax and Consistency</strong>: offers a consistent and user-friendly syntax for spatial operations (e.g., cropping, masking, aggregation, reprojection), making it easy to work with complex geospatial workflows in R.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">library</span>(terra)</span>
+<span id="cb4-2"><a href=""></a>elevation <span class="ot">&lt;-</span> </span>
+<span id="cb4-3"><a href=""></a>  <span class="st">"data/pak_elevation_merit103_10km_v1.tif"</span> <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href=""></a>  <span class="fu">rast</span>()</span>
+<span id="cb4-5"><a href=""></a>elevation <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href=""></a><span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="04_eo_sampling_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"><p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="coordinate-reference-systems-crs" class="slide level2">
-<h2>Coordinate Reference Systems (CRS)</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">st_crs</span>(villages)</span>
-<span id="cb3-2"><a href=""></a><span class="fu">crs</span>(elev)</span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a><span class="co"># Align CRS</span></span>
-<span id="cb3-5"><a href=""></a>villages <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(villages, <span class="fu">crs</span>(elev))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="raster-data-attributes-in-terra" class="slide level2">
+<h2>Raster data attributes in <code>terra</code></h2>
+<ul>
+<li><strong>Spatial Structure</strong>: raster data is represented as a <code>SpatRaster</code> object with defined dimensions (rows, columns, layers), resolution (cell size), and extent (bounding coordinates of the spatial area).</li>
+<li><strong>Coordinate Reference System (CRS)</strong>: each raster includes a <code>CRS</code> (e.g., WGS 84, EPSG code) that defines how the raster aligns with real-world geographic space.</li>
+<li><strong>Metadata and Values</strong>: rasters store metadata such as source file, layer names, and value ranges (e.g., min and max), which are critical for interpretation and analysis of the data.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">library</span>(terra)</span>
+<span id="cb5-2"><a href=""></a>elevation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>class       : SpatRaster 
+dimensions  : 162, 204, 1  (nrow, ncol, nlyr)
+resolution  : 0.08333333, 0.08333333  (x, y)
+extent      : 60.8725, 77.8725, 23.59167, 37.09167  (xmin, xmax, ymin, ymax)
+coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+source      : pak_elevation_merit103_10km_v1.tif 
+name        : elevation_merit103_100m_v1 
+min value   :                   2.328116 
+max value   :                6050.907715 </code></pre>
+</div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="basic-spatial-operations-with-sf" class="slide level2">
-<h2>Basic spatial operations with sf</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Select villages inside a polygon</span></span>
-<span id="cb4-2"><a href=""></a>villages_in_area <span class="ot">&lt;-</span> villages[polygon, ]</span>
-<span id="cb4-3"><a href=""></a></span>
-<span id="cb4-4"><a href=""></a><span class="co"># Buffer 5km around villages</span></span>
-<span id="cb4-5"><a href=""></a>villages_buffer <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(villages, <span class="at">dist =</span> <span class="dv">5000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="sfst_crs-vs-terracrs" class="slide level2">
+<h2><code>sf::st_crs()</code> vs <code>terra::crs()</code></h2>
+<ul>
+<li><strong>SCRS Representation:</strong> in <code>sf</code>, <code>st_crs()</code> retrieves the CRS of a vector object (e.g., admin_boundaries), while in <code>terra</code>, <code>crs()</code> is used for raster objects (e.g., elevation) to access or set their CRS.</li>
+<li><strong>SCRS Compatibility</strong>: spatial operations between vector and raster data require both to have the same CRS. If they differ, transformation is needed to align them.</li>
+<li><strong>SCRS Transformation</strong>: Use <code>st_transform()</code> (from <code>sf</code>) to reproject vector data to match the CRS of another dataset (e.g., <code>st_transform(crs(elevation))</code> ensures admin_boundaries matches the raster CRS).</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">st_crs</span>(admin_boundaries)</span>
+<span id="cb7-2"><a href=""></a><span class="fu">crs</span>(elevation)</span>
+<span id="cb7-3"><a href=""></a></span>
+<span id="cb7-4"><a href=""></a>admin_boundaries <span class="ot">&lt;-</span> </span>
+<span id="cb7-5"><a href=""></a>  admin_boundaries <span class="sc">|&gt;</span> </span>
+<span id="cb7-6"><a href=""></a>  <span class="fu">st_transform</span>(<span class="fu">crs</span>(elevation))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="summarising-raster-values-within-polygons" class="slide level2">
 <h2>Summarising raster values within polygons</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># Average elevation per polygon</span></span>
-<span id="cb5-2"><a href=""></a>elev_mean <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(elev, villages, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-3"><a href=""></a>villages<span class="sc">$</span>mean_elev <span class="ot">&lt;-</span> elev_mean[,<span class="dv">2</span>]</span>
-<span id="cb5-4"><a href=""></a></span>
-<span id="cb5-5"><a href=""></a><span class="fu">plot</span>(villages[<span class="st">"mean_elev"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>admin_elevation_mean <span class="ot">&lt;-</span> </span>
+<span id="cb8-2"><a href=""></a>  elevation <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href=""></a>  terra<span class="sc">::</span><span class="fu">extract</span>(admin_boundaries, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-4"><a href=""></a>admin_boundaries<span class="ot">&lt;-</span> </span>
+<span id="cb8-5"><a href=""></a>  admin_boundaries <span class="sc">|&gt;</span> </span>
+<span id="cb8-6"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">elevation_mean=</span>admin_elevation_mean[,<span class="dv">2</span>])</span>
+<span id="cb8-7"><a href=""></a>admin_boundaries <span class="sc">|&gt;</span> </span>
+<span id="cb8-8"><a href=""></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(ADM1_EN, elevation_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             ADM1_EN elevation_mean
+1       Azad Kashmir     1866.30845
+2        Balochistan      983.67310
+3   Gilgit Baltistan     4151.73991
+4          Islamabad      620.50027
+5 Khyber Pakhtunkhwa     1727.04567
+6             Punjab      226.31326
+7              Sindh       78.63546</code></pre>
+</div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="vector-map-example" class="slide level2">
-<h2>Vector map example</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb6-2"><a href=""></a><span class="fu">library</span>(sf)</span>
-<span id="cb6-3"><a href=""></a></span>
-<span id="cb6-4"><a href=""></a><span class="co"># Example vector dataset: nc polygons</span></span>
-<span id="cb6-5"><a href=""></a>nc <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">system.file</span>(<span class="st">"shape/nc.shp"</span>, <span class="at">package=</span><span class="st">"sf"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-6"><a href=""></a></span>
-<span id="cb6-7"><a href=""></a><span class="co"># Line: connect first 3 centroids</span></span>
-<span id="cb6-8"><a href=""></a>line_coords <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(<span class="fu">st_centroid</span>(nc[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ]))</span>
-<span id="cb6-9"><a href=""></a>example_line <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(<span class="fu">st_linestring</span>(line_coords)) <span class="sc">|&gt;</span> <span class="fu">st_sf</span>()</span>
-<span id="cb6-10"><a href=""></a></span>
-<span id="cb6-11"><a href=""></a><span class="co"># Plot</span></span>
-<span id="cb6-12"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb6-13"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> nc, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb6-14"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> nc[<span class="dv">1</span>,], <span class="at">fill =</span> <span class="st">"orange"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb6-15"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> example_line, <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb6-16"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_centroid</span>(nc[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]), <span class="at">color =</span> <span class="st">"purple"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb6-17"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"Vector data: Points, Line, Polygon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="vector-map-in-ggplot2" class="slide level2">
+<h2>Vector map in <code>ggplot2</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-2"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> admin_boundaries, <span class="fu">aes</span>(<span class="at">fill=</span>elevation_mean),  <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href=""></a>  <span class="fu">scale_fill_viridis_c</span>()<span class="sc">+</span></span>
+<span id="cb10-5"><a href=""></a>  <span class="fu">geom_sf_text</span>(<span class="at">data =</span> admin_boundaries, <span class="fu">aes</span>(<span class="at">label =</span> ADM1_EN), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href=""></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb10-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Mean Elevation"</span>, <span class="at">fill=</span> <span class="st">"Elevation (m)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="04_eo_sampling_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"><p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="raster-map-example-with-ggplot2" class="slide level2">
-<h2>Raster map example with ggplot2</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">library</span>(terra)</span>
-<span id="cb7-2"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a><span class="co"># Load example raster</span></span>
-<span id="cb7-5"><a href=""></a>elev <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">system.file</span>(<span class="st">"ex/elev.tif"</span>, <span class="at">package=</span><span class="st">"terra"</span>))</span>
-<span id="cb7-6"><a href=""></a></span>
-<span id="cb7-7"><a href=""></a><span class="co"># Convert to data frame</span></span>
-<span id="cb7-8"><a href=""></a>elev_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(elev, <span class="at">xy =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-9"><a href=""></a><span class="fu">colnames</span>(elev_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"elevation"</span>)</span>
-<span id="cb7-10"><a href=""></a></span>
-<span id="cb7-11"><a href=""></a><span class="co"># Plot</span></span>
-<span id="cb7-12"><a href=""></a><span class="fu">ggplot</span>(elev_df) <span class="sc">+</span></span>
-<span id="cb7-13"><a href=""></a>  <span class="fu">geom_raster</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> elevation)) <span class="sc">+</span></span>
-<span id="cb7-14"><a href=""></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
-<span id="cb7-15"><a href=""></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb7-16"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Raster Elevation Map"</span>, <span class="at">fill =</span> <span class="st">"Elevation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="raster-map-in-ggplot2" class="slide level2">
+<h2>Raster map in <code>ggplot2</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb11-2"><a href=""></a>elevation_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(elevation, <span class="at">xy =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-3"><a href=""></a><span class="fu">colnames</span>(elevation_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"elevation"</span>)</span>
+<span id="cb11-4"><a href=""></a><span class="fu">ggplot</span>(elevation_df) <span class="sc">+</span></span>
+<span id="cb11-5"><a href=""></a>  <span class="fu">geom_raster</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> elevation)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href=""></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb11-7"><a href=""></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb11-8"><a href=""></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb11-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Elevation"</span>, <span class="at">fill =</span> <span class="st">"Elevation (m)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="04_eo_sampling_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="google-earth-engine-gee---introduction" class="slide level2">
-<h2>Google Earth Engine (GEE) - Introduction</h2>
+<section id="google-earth-engine-gee" class="slide level2">
+<h2>Google Earth Engine (GEE)</h2>
 <ul>
-<li><strong>Cloud-based platform</strong> for planetary-scale environmental data analysis<br>
+<li><a href="https://earthengine.google.com"><strong>Cloud-based platform</strong></a> for planetary-scale environmental data analysis<br>
 </li>
 <li><strong>No need to download massive datasets locally</strong><br>
 </li>
-<li>Access to a variety of pre-processed datasets including:
+<li>Access to a variety of <strong>pre-processed datasets</strong> including:
 <ul>
 <li><strong>Satellite imagery:</strong> Landsat, Sentinel-2, MODIS<br>
 </li>
@@ -398,13 +457,16 @@ Eart Observation data for sampling
 <li><strong>Socioeconomic:</strong> Population density, night-time lights<br>
 </li>
 </ul></li>
-<li>Works with <strong>JavaScript</strong> in the browser or <strong>Python / R APIs</strong></li>
 </ul>
+<div class="embed">
+<iframe src="https://earthengine.google.com" width="100%" height="350">
+</iframe>
+</div>
 </section>
-<section id="google-earth-engine---accessing-the-code-editor" class="slide level2">
-<h2>Google Earth Engine - Accessing the Code Editor</h2>
+<section id="gee-code-editor" class="slide level2">
+<h2>GEE Code Editor</h2>
 <ul>
-<li>Open <strong><a href="https://code.earthengine.google.com/">GEE Code Editor</a></strong><br>
+<li>Open <a href="https://code.earthengine.google.com/"><strong>GEE Code Editor</strong></a><br>
 </li>
 <li><strong>Step-by-step:</strong>
 <ol type="1">
@@ -423,80 +485,86 @@ Eart Observation data for sampling
 <li>Export data with <code>Export.image.toDrive()</code> or <code>Export.table.toDrive()</code></li>
 </ol></li>
 </ul>
+<div class="embed">
+<iframe src="https://code.earthengine.google.com" width="100%" height="350">
+</iframe>
+</div>
 </section>
-<section id="google-earth-engine---example-script" class="slide level2">
-<h2>Google Earth Engine - Example Script</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb8-1"><a href=""></a><span class="co">// Example: extract mean NDVI for a region in 2020</span></span>
-<span id="cb8-2"><a href=""></a><span class="kw">var</span> roi <span class="op">=</span> ee<span class="op">.</span><span class="at">Geometry</span><span class="op">.</span><span class="fu">Rectangle</span>([<span class="fl">34.5</span><span class="op">,</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">,</span> <span class="fl">35.5</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.5</span>])<span class="op">;</span></span>
-<span id="cb8-3"><a href=""></a><span class="kw">var</span> collection <span class="op">=</span> ee<span class="op">.</span><span class="fu">ImageCollection</span>(<span class="st">'MODIS/006/MOD13Q1'</span>)</span>
-<span id="cb8-4"><a href=""></a>                  <span class="op">.</span><span class="fu">filterBounds</span>(roi)</span>
-<span id="cb8-5"><a href=""></a>                  <span class="op">.</span><span class="fu">filterDate</span>(<span class="st">'2020-01-01'</span><span class="op">,</span> <span class="st">'2020-12-31'</span>)</span>
-<span id="cb8-6"><a href=""></a>                  <span class="op">.</span><span class="fu">select</span>(<span class="st">'NDVI'</span>)<span class="op">;</span></span>
-<span id="cb8-7"><a href=""></a></span>
-<span id="cb8-8"><a href=""></a><span class="kw">var</span> mean_ndvi <span class="op">=</span> collection<span class="op">.</span><span class="fu">mean</span>()<span class="op">;</span></span>
-<span id="cb8-9"><a href=""></a><span class="bu">Map</span><span class="op">.</span><span class="fu">centerObject</span>(roi)<span class="op">;</span></span>
-<span id="cb8-10"><a href=""></a><span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(mean_ndvi<span class="op">,</span> {<span class="dt">min</span><span class="op">:</span><span class="dv">0</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span><span class="dv">9000</span><span class="op">,</span> <span class="dt">palette</span><span class="op">:</span> [<span class="st">'white'</span><span class="op">,</span><span class="st">'green'</span>]}<span class="op">,</span> <span class="st">'Mean NDVI'</span>)<span class="op">;</span></span>
-<span id="cb8-11"><a href=""></a></span>
-<span id="cb8-12"><a href=""></a><span class="co">// Export to Google Drive</span></span>
-<span id="cb8-13"><a href=""></a>Export<span class="op">.</span><span class="at">image</span><span class="op">.</span><span class="fu">toDrive</span>({</span>
-<span id="cb8-14"><a href=""></a>  <span class="dt">image</span><span class="op">:</span> mean_ndvi<span class="op">,</span></span>
-<span id="cb8-15"><a href=""></a>  <span class="dt">description</span><span class="op">:</span> <span class="st">'mean_ndvi_2020'</span><span class="op">,</span></span>
-<span id="cb8-16"><a href=""></a>  <span class="dt">scale</span><span class="op">:</span> <span class="dv">250</span><span class="op">,</span></span>
-<span id="cb8-17"><a href=""></a>  <span class="dt">region</span><span class="op">:</span> roi</span>
-<span id="cb8-18"><a href=""></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="gee-example-script" class="slide level2">
+<h2>GEE Example Script</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"><a href=""></a><span class="co">// Example: extract mean NDVI for a region in 2020</span></span>
+<span id="cb12-2"><a href=""></a><span class="kw">var</span> roi <span class="op">=</span> ee<span class="op">.</span><span class="at">Geometry</span><span class="op">.</span><span class="fu">Rectangle</span>([<span class="fl">34.5</span><span class="op">,</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">,</span> <span class="fl">35.5</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.5</span>])<span class="op">;</span></span>
+<span id="cb12-3"><a href=""></a><span class="kw">var</span> collection <span class="op">=</span> ee<span class="op">.</span><span class="fu">ImageCollection</span>(<span class="st">'MODIS/006/MOD13Q1'</span>)</span>
+<span id="cb12-4"><a href=""></a>                  <span class="op">.</span><span class="fu">filterBounds</span>(roi)</span>
+<span id="cb12-5"><a href=""></a>                  <span class="op">.</span><span class="fu">filterDate</span>(<span class="st">'2020-01-01'</span><span class="op">,</span> <span class="st">'2020-12-31'</span>)</span>
+<span id="cb12-6"><a href=""></a>                  <span class="op">.</span><span class="fu">select</span>(<span class="st">'NDVI'</span>)<span class="op">;</span></span>
+<span id="cb12-7"><a href=""></a></span>
+<span id="cb12-8"><a href=""></a><span class="kw">var</span> mean_ndvi <span class="op">=</span> collection<span class="op">.</span><span class="fu">mean</span>()<span class="op">;</span></span>
+<span id="cb12-9"><a href=""></a><span class="bu">Map</span><span class="op">.</span><span class="fu">centerObject</span>(roi)<span class="op">;</span></span>
+<span id="cb12-10"><a href=""></a><span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(mean_ndvi<span class="op">,</span> {<span class="dt">min</span><span class="op">:</span><span class="dv">0</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span><span class="dv">9000</span><span class="op">,</span> <span class="dt">palette</span><span class="op">:</span> [<span class="st">'white'</span><span class="op">,</span><span class="st">'green'</span>]}<span class="op">,</span> <span class="st">'Mean NDVI'</span>)<span class="op">;</span></span>
+<span id="cb12-11"><a href=""></a></span>
+<span id="cb12-12"><a href=""></a><span class="co">// Export to Google Drive</span></span>
+<span id="cb12-13"><a href=""></a>Export<span class="op">.</span><span class="at">image</span><span class="op">.</span><span class="fu">toDrive</span>({</span>
+<span id="cb12-14"><a href=""></a>  <span class="dt">image</span><span class="op">:</span> mean_ndvi<span class="op">,</span></span>
+<span id="cb12-15"><a href=""></a>  <span class="dt">description</span><span class="op">:</span> <span class="st">'mean_ndvi_2020'</span><span class="op">,</span></span>
+<span id="cb12-16"><a href=""></a>  <span class="dt">scale</span><span class="op">:</span> <span class="dv">250</span><span class="op">,</span></span>
+<span id="cb12-17"><a href=""></a>  <span class="dt">region</span><span class="op">:</span> roi</span>
+<span id="cb12-18"><a href=""></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in the GEE Script Editor.</p>
 </section>
 <section id="downloading-data-from-gee" class="slide level2">
 <h2>Downloading data from GEE</h2>
-<p>Use Export.image.toDrive() to save a GeoTIFF</p>
+<p>Use <code>Export.image.toDrive()</code> to save a GeoTIFF</p>
 <p>Options:</p>
-<p>Scale: spatial resolution (meters per pixel)</p>
-<p>Region: area of interest (polygon)</p>
-<p>CRS: coordinate reference system</p>
-<p>Format: GeoTIFF for rasters, CSV/GeoJSON for tables</p>
+<ul>
+<li><p><strong>Scale</strong>: spatial resolution (meters per pixel)</p></li>
+<li><p><strong>Region</strong>: area of interest (polygon)</p></li>
+<li><p><strong>CRS</strong>: coordinate reference system</p></li>
+<li><p><strong>Format</strong>: GeoTIFF for rasters, CSV/GeoJSON for tables</p></li>
+</ul>
 <p>After export, download the file from Google Drive</p>
+<p>ℹ️ Try to download the file from Google Drive.</p>
 </section>
-<section id="reading-gee" class="slide level2">
-<h2>Reading GEE</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">library</span>(terra)</span>
-<span id="cb9-2"><a href=""></a><span class="fu">library</span>(sf)</span>
-<span id="cb9-3"><a href=""></a></span>
-<span id="cb9-4"><a href=""></a><span class="co"># Load polygon boundaries</span></span>
-<span id="cb9-5"><a href=""></a>polygons <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/villages.gpkg"</span>)</span>
-<span id="cb9-6"><a href=""></a></span>
-<span id="cb9-7"><a href=""></a><span class="co"># Load GEE-exported raster (GeoTIFF)</span></span>
-<span id="cb9-8"><a href=""></a>ndvi_raster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/mean_ndvi_2020.tif"</span>)</span>
-<span id="cb9-9"><a href=""></a></span>
-<span id="cb9-10"><a href=""></a><span class="co"># Align CRS</span></span>
-<span id="cb9-11"><a href=""></a>polygons <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(polygons, <span class="fu">crs</span>(ndvi_raster))</span>
-<span id="cb9-12"><a href=""></a></span>
-<span id="cb9-13"><a href=""></a><span class="co"># Extract mean NDVI per polygon</span></span>
-<span id="cb9-14"><a href=""></a>ndvi_mean <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(ndvi_raster, polygons, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-15"><a href=""></a>polygons<span class="sc">$</span>mean_ndvi <span class="ot">&lt;-</span> ndvi_mean[,<span class="dv">2</span>]</span>
-<span id="cb9-16"><a href=""></a></span>
-<span id="cb9-17"><a href=""></a><span class="co"># Plot results</span></span>
-<span id="cb9-18"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-19"><a href=""></a><span class="fu">ggplot</span>(polygons) <span class="sc">+</span></span>
-<span id="cb9-20"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> mean_ndvi)) <span class="sc">+</span></span>
-<span id="cb9-21"><a href=""></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
-<span id="cb9-22"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"Mean NDVI per Polygon from GEE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="reading-gee-data" class="slide level2">
+<h2>Reading GEE data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">library</span>(terra); <span class="fu">library</span>(sf); <span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-2"><a href=""></a></span>
+<span id="cb13-3"><a href=""></a>admin_boundaries <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/pak_adm_wfp_20220909_shp/pak_admbnda_adm1_wfp_20220909.shp"</span>)</span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a>ndvi_raster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/mean_ndvi_2020.tif"</span>)</span>
+<span id="cb13-6"><a href=""></a></span>
+<span id="cb13-7"><a href=""></a>admin_boundaries <span class="ot">&lt;-</span> </span>
+<span id="cb13-8"><a href=""></a>  admin_boundaries <span class="sc">|&gt;</span> </span>
+<span id="cb13-9"><a href=""></a>  <span class="fu">st_transform</span>(<span class="fu">crs</span>(ndvi_raster))</span>
+<span id="cb13-10"><a href=""></a></span>
+<span id="cb13-11"><a href=""></a>ndvi_mean <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(ndvi_raster, polygons, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-12"><a href=""></a>admin_boundaries<span class="sc">$</span>mean_ndvi <span class="ot">&lt;-</span> ndvi_mean[,<span class="dv">2</span>]</span>
+<span id="cb13-13"><a href=""></a></span>
+<span id="cb13-14"><a href=""></a><span class="fu">ggplot</span>(polygons) <span class="sc">+</span></span>
+<span id="cb13-15"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> mean_ndvi)) <span class="sc">+</span></span>
+<span id="cb13-16"><a href=""></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb13-17"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"Mean NDVI per Polygon from GEE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="take-home" class="slide level2">
 <h2>Take home</h2>
 <ul>
-<li><p>Spatial data: vector (sf) vs raster (terra)</p></li>
-<li><p>Always check CRS before analysis</p></li>
-<li><p>Use sf for points, lines, polygons</p></li>
-<li><p>Use terra for raster analysis</p></li>
-<li><p>Combine rasters and vectors for summaries and plots</p></li>
+<li>Spatial data: vector (sf) vs raster (terra)</li>
+<li>Always check CRS before analysis</li>
+<li>Use sf for points, lines, polygons</li>
+<li>Use terra for raster analysis</li>
+<li>Combine rasters and vectors for summaries and plots</li>
 </ul>
 </section>
 <section id="resources" class="slide level2">
 <h2>Resources</h2>
 <ul>
-<li><p>sf docs: https://r-spatial.github.io/sf/</p></li>
-<li><p>terra docs: https://rspatial.org/terra/</p></li>
-<li><p>Geocomputation with R: https://geocompr.robinlovelace.net/</p></li>
-<li><p>RStudio Spatial Cheat Sheets: https://posit.co/resources/cheatsheets/</p></li>
+<li><code>sf</code> documentation: https://r-spatial.github.io/sf/</li>
+<li><code>terra</code> documentation: https://rspatial.org/terra/</li>
+<li>Geocomputation with R: https://geocompr.robinlovelace.net/</li>
+<li>RStudio Spatial Cheat Sheets: https://posit.co/resources/cheatsheets/</li>
 </ul>
 
 </section>
@@ -715,6 +783,44 @@ Eart Observation data for sampling
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
