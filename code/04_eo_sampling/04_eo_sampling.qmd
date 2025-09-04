@@ -350,15 +350,15 @@ ggplot(polygons) +
 
 ## Resources
 
-- [Geocomputation with R](https://geocompr.robinlovelace.net/) — comprehensive online book
-- [`sf` package reference](https://r-spatial.github.io/sf/)
-- [`terra` package documentation](https://rspatial.org/terra/)
-- [GEE Developer Guide](https://developers.google.com/earth-engine)
-- [Spatial Data Science in R (RStudio Education)](https://education.rstudio.com/blog/2021/06/spatial-data-in-r/)
-- [R Spatial Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf)
+-   [Geocomputation with R](https://geocompr.robinlovelace.net/) — comprehensive online book
+-   [`sf` package reference](https://r-spatial.github.io/sf/)
+-   [`terra` package documentation](https://rspatial.org/terra/)
+-   [GEE Developer Guide](https://developers.google.com/earth-engine)
+-   [Spatial Data Science in R (RStudio Education)](https://education.rstudio.com/blog/2021/06/spatial-data-in-r/)
+-   [R Spatial Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf)
 
 ------------------------------------------------------------------------
 
 ## Exercise
 
-Please download the R script with exercises from GitHub and try to complete it.
+Please download the R script with exercises from [GitHub](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/code/04_eo_sampling/04_eo_sampling_exercise.R) and try to complete it.
