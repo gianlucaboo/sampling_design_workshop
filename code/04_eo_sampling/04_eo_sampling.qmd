@@ -30,13 +30,11 @@ toc-title: "Content"
 ## Agenda
 
 -   Spatial data in R\
--   Vector data: points, lines, polygons\
--   Raster data: grids\
+-   Vector and raster data\
 -   Packages: `sf` and `terra`\
 -   Reading and visualising spatial data\
--   Simple spatial operations\
--   Summarising raster data within polygons\
--   Visualisation examples
+-   Spatial analysis and visualisation\
+-   Remote sensing with Google Hearth Engine
 
 ------------------------------------------------------------------------
 
@@ -346,10 +344,21 @@ ggplot(polygons) +
 -   Use sf for points, lines, polygons
 -   Use terra for raster analysis
 -   Combine rasters and vectors for summaries and plots
+-   Use GEE to access earth observation data
+
+------------------------------------------------------------------------
 
 ## Resources
 
--   `sf` documentation: https://r-spatial.github.io/sf/
--   `terra` documentation: https://rspatial.org/terra/
--   Geocomputation with R: https://geocompr.robinlovelace.net/
--   RStudio Spatial Cheat Sheets: https://posit.co/resources/cheatsheets/
+- [Geocomputation with R](https://geocompr.robinlovelace.net/) — comprehensive online book
+- [`sf` package reference](https://r-spatial.github.io/sf/)
+- [`terra` package documentation](https://rspatial.org/terra/)
+- [GEE Developer Guide](https://developers.google.com/earth-engine)
+- [Spatial Data Science in R (RStudio Education)](https://education.rstudio.com/blog/2021/06/spatial-data-in-r/)
+- [R Spatial Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf)
+
+------------------------------------------------------------------------
+
+## Exercise
+
+Please download the R script with exercises from GitHub and try to complete it.
