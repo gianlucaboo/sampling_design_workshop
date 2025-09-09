@@ -93,4 +93,15 @@ toc-title: "Content"
 -   **Day 10**: Wrap-up and workshop evaluation
 :::
 
+
+## Course materials
+
+All the course materials are available on https://github.com/gianlucaboo/sampling_design_workshop/
+
+::: embed
+<iframe src="https://www.test.com/" width="100%" height="350">
+
+</iframe>
+:::
+
 ## Let's get started!
