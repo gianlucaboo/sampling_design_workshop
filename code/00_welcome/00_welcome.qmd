@@ -14,7 +14,6 @@ format:
     theme: [default, wp_style.scss]
 editor: visual
 toc: false
-toc-title: "Content"
 ---
 
 ## Welcome!
@@ -43,7 +42,7 @@ toc-title: "Content"
 
 ## Workshop
 
-#### Rationale and Objectives
+#### Objectives
 
 ::: incremental
 -   Strengthen **geospatial and sampling** capacity of Pakistan Bureau of Statistics (PBS).
@@ -93,15 +92,10 @@ toc-title: "Content"
 -   **Day 10**: Wrap-up and workshop evaluation
 :::
 
-
 ## Course materials
 
-All the course materials are available on https://github.com/gianlucaboo/sampling_design_workshop/
+All the course materials are available on a dedicated [GitHub repository](https://github.com/gianlucaboo/sampling_design_workshop/).
 
-::: embed
-<iframe src="https://www.test.com/" width="100%" height="350">
-
-</iframe>
-:::
+![](img/github.png){width="100%"}
 
 ## Let's get started!

@@ -17,16 +17,6 @@ toc: false
 toc-title: "Content"
 ---
 
-## Previously covered
-
--   Introduction to R and RStudio\
--   Data types and data structures\
--   Importing data\
--   Data manipulation and visualization (`tidyverse`)\
--   Saving and closing sessions
-
-------------------------------------------------------------------------
-
 ## Agenda
 
 -   Spatial data in R\
@@ -244,15 +234,17 @@ ggplot(elevation_df) +
 
 ## GEE Code Editor
 
--   Open [**GEE Code Editor**](https://code.earthengine.google.com/)\
--   **Step-by-step:**
-    1.  Sign in with a Google account\
-    2.  Click **New Script**\
-    3.  Use the **search bar** to find datasets\
-    4.  Load the dataset with `ee.ImageCollection` or `ee.Image`\
-    5.  Use **filters** (e.g., date, location, bands)\
-    6.  Display results with `Map.addLayer()`\
-    7.  Export data with `Export.image.toDrive()` or `Export.table.toDrive()`
+Open [**GEE Code Editor**](https://code.earthengine.google.com/) and follow the following **step-by-step**:
+
+```         
+1.  Sign in with a Google account (example: samplingworkshop\@gmail.com)\
+2.  Click New Script
+3.  Use the **search bar to find datasets
+4.  Load the dataset with ee.ImageCollection or ee.Image
+5.  Use filters (e.g., date, location, bands)
+6.  Display results with Map.addLayer()
+7.  Export data with Export.image.toDrive() or Export.table.toDrive()
+```
 
 ::: embed
 <iframe src="https://code.earthengine.google.com" width="100%" height="350">
@@ -350,12 +342,17 @@ ggplot(polygons) +
 
 ## Resources
 
--   [Geocomputation with R](https://geocompr.robinlovelace.net/) — comprehensive online book
--   [`sf` package reference](https://r-spatial.github.io/sf/)
--   [`terra` package documentation](https://rspatial.org/terra/)
--   [GEE Developer Guide](https://developers.google.com/earth-engine)
--   [Spatial Data Science in R (RStudio Education)](https://education.rstudio.com/blog/2021/06/spatial-data-in-r/)
--   [R Spatial Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf)
+Pebesma, E. (2018). \*Simple Features for R: Standardized Support for Spatial Vector Data\*. The R Journal, 10(1), 439–446. https://journal.r-project.org/archive/2018/RJ-2018-009/index.html
+
+Hijmans, R. J. (2023). \*terra: Spatial Data Analysis\*. R package version 1.7-36. https://cran.r-project.org/package=terra
+
+R Core Team. (2025). \*R: A Language and Environment for Statistical Computing\*. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
+
+Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., & Moore, R. (2017). \*Google Earth Engine: Planetary-scale geospatial analysis for everyone\*. Remote Sensing of Environment, 202, 18–27. https://developers.google.com/earth-engine
+
+Grolemund, G., & Wickham, H. (2017). \*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data\*. O’Reilly Media. https://r4ds.had.co.nz
+
+-   
 
 ------------------------------------------------------------------------
 
