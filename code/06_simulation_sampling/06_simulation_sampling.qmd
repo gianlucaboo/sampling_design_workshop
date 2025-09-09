@@ -1,0 +1,268 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "Simulation and optimization of sampling"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-17-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+------------------------------------------------------------------------
+
+## Agenda 
+
+-   Sampling theory: design vs. model-based\
+-   Simulation framework\
+-   Optimization criteria\
+-   Hands-on R exercises\
+-   Results visualization\
+-   Discussion & wrap-up
+
+------------------------------------------------------------------------
+
+## 3. Why Sampling Matters
+
+-   Limited resources → cannot measure entire population\
+-   Need efficient, unbiased, precise estimates\
+-   Choice of design strongly affects inference
+
+------------------------------------------------------------------------
+
+## 4. Common Sampling Strategies
+
+-   Simple Random Sampling (SRS)\
+-   Stratified Sampling\
+-   Cluster Sampling\
+-   Model/ML-informed Sampling
+
+------------------------------------------------------------------------
+
+## 5. Theory: Two Paradigms
+
+-   **Design-based inference**\
+-   **Model-based inference**
+
+------------------------------------------------------------------------
+
+## 6. Design-based Inference
+
+-   Probability sampling\
+-   Randomization ensures unbiasedness\
+-   Variance estimated from design
+
+------------------------------------------------------------------------
+
+## 7. Model-based Inference
+
+-   Assumes a stochastic model for population\
+-   Efficiency from model assumptions\
+-   Sensitive to misspecification
+
+------------------------------------------------------------------------
+
+## 8. Monte Carlo Simulation
+
+-   Framework for repeated sampling\
+-   Generate many replications\
+-   Assess bias, variance, MSE
+
+------------------------------------------------------------------------
+
+## 9. Simulation-based Evaluation
+
+-   Flexible and transparent\
+-   Compare competing designs\
+-   Helps optimize under constraints
+
+------------------------------------------------------------------------
+
+## 10. Optimization Goals
+
+-   **Minimize bias**\
+-   **Minimize variance**\
+-   **Control cost / feasibility**\
+-   **Maximize precision**
+
+------------------------------------------------------------------------
+
+## 11. Bias vs. Variance Tradeoff
+
+-   Small sample → high variance\
+-   Complex model → possible bias\
+-   Simulation helps balance
+
+------------------------------------------------------------------------
+
+## 12. Workflow
+
+1.  Generate synthetic population\
+2.  Define sampling schemes\
+3.  Draw repeated samples\
+4.  Estimate parameter\
+5.  Compute metrics
+
+------------------------------------------------------------------------
+
+## 13. Metrics
+
+-   **Bias**\
+-   **Variance**\
+-   **Mean Squared Error (MSE)**\
+-   **Design Effect (DEFF)**
+
+------------------------------------------------------------------------
+
+## 14. Practical Session
+
+We will use **R** to:\
+- Simulate a population\
+- Apply multiple sampling schemes\
+- Evaluate metrics
+
+------------------------------------------------------------------------
+
+## 15. R Setup
+
+```{r}
+set.seed(123)
+N <- 10000
+population <- data.frame(
+  id = 1:N,
+  x = rnorm(N, mean=50, sd=10),
+  strata = sample(1:4, N, replace=TRUE),
+  cluster = sample(1:200, N, replace=TRUE)
+)
+true_mean <- mean(population$x)
+true_mean
+```
+
+------------------------------------------------------------------------
+
+## 16. Sampling Scheme: SRS
+
+```{r}
+sample_srs <- function(pop, n=200) {
+  idx <- sample(pop$id, n)
+  pop[idx,]
+}
+```
+
+------------------------------------------------------------------------
+
+## 17. Sampling Scheme: Stratified
+
+```{r}
+sample_stratified <- function(pop, n=200) {
+  split <- split(pop, pop$strata)
+  sizes <- rep(n/length(split), length(split))
+  do.call(rbind, Map(function(df, size) df[sample(nrow(df), size),], split, sizes))
+}
+```
+
+------------------------------------------------------------------------
+
+## 18. Sampling Scheme: Cluster
+
+```{r}
+sample_cluster <- function(pop, n_clusters=10) {
+  clusters <- sample(unique(pop$cluster), n_clusters)
+  subset(pop, cluster %in% clusters)
+}
+```
+
+------------------------------------------------------------------------
+
+## 19. Sampling Scheme: ML-informed
+
+```{r}
+## Assume probability proportional to x
+sample_ml <- function(pop, n=200) {
+  probs <- pop$x / sum(pop$x)
+  idx <- sample(pop$id, n, prob=probs)
+  pop[idx,]
+}
+```
+
+------------------------------------------------------------------------
+
+## 20. Simulation Function
+
+```{r}
+simulate_design <- function(sampler, B=500, pop=population) {
+  estimates <- replicate(B, {
+    samp <- sampler(pop)
+    mean(samp$x)
+  })
+  data.frame(
+    mean_est = mean(estimates),
+    bias = mean(estimates) - true_mean,
+    var = var(estimates),
+    mse = mean((estimates - true_mean)^2)
+  )
+}
+```
+
+------------------------------------------------------------------------
+
+## 21. Run Simulations
+
+```{r}
+results <- rbind(
+  cbind(design="SRS", simulate_design(sample_srs)),
+  cbind(design="Stratified", simulate_design(sample_stratified)),
+  cbind(design="Cluster", simulate_design(sample_cluster)),
+  cbind(design="ML-informed", simulate_design(sample_ml))
+)
+results
+```
+
+------------------------------------------------------------------------
+
+## 22. Design Effect
+
+```{r}
+results$deff <- results$var / results$var[results$design=="SRS"]
+results
+```
+
+------------------------------------------------------------------------
+
+## 23. Visualization
+
+```{r}
+library(ggplot2)
+ggplot(results, aes(x=design, y=mse, fill=design)) +
+  geom_col() +
+  theme_minimal() +
+  labs(title="MSE by Sampling Design")
+```
+
+------------------------------------------------------------------------
+
+## 24. Discussion
+
+-   Trade-offs between designs\
+-   Stratification often reduces variance\
+-   Clustering may inflate variance\
+-   ML-informed designs depend on model accuracy
+
+------------------------------------------------------------------------
+
+## 25. Wrap-up
+
+-   Simulation is powerful for evaluation\
+-   Optimization balances bias, variance, cost\
+-   R provides flexible tools\
+-   Next: Apply to real-world datasets
+
+------------------------------------------------------------------------
