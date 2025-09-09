@@ -4,7 +4,7 @@ This repository contains slides and exercises for a sampling design workshop.
 
 -   **Day 1**: Introduction to QGIS
 -   **Day 2**: Automatic update of census EA and national sampling frame
--   **Day 3**: Introduction to R programming
+-   **Day 3**: [Introduction to R programming](https://github.com/gianlucaboo/sampling_design_workshop/tree/main/01_r_introduction)
 -   **Day 4**: Introduction to Sampling Design
 -   **Day 5**: Advanced R programming
 -   **Day 6**: Earth observation (EO) for sampling design
