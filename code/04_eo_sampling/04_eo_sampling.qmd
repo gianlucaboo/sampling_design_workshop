@@ -52,8 +52,8 @@ toc-title: "Content"
 
 ## Vector data
 
--   **Points**: single locations (e.g., cities, schools)
--   **Lines**: sequences of points (e.g., roads, rivers)
+-   **Points**: single locations (e.g., cities, schools)\
+-   **Lines**: sequences of points (e.g., roads, rivers)\
 -   **Polygons**: areas (e.g., administrative boundaries)\
 
 ![](img/data_vector.png){width="350"}

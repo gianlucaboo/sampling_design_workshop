@@ -285,6 +285,7 @@ N_hat <- (J / n_c) * sum(M_sel$m)
 Ybar_hat <- Y_hat / N_hat
 Ybar_hat
 ```
+
 ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
@@ -347,10 +348,10 @@ confint(svymean(~y, svy))
 -   Validate with pilot data and sensitivity checks
 
 ------------------------------------------------------------------------
+
 ## Resources
 
 -   Särndal, Swensson, and Wretman (1992) *Model Assisted Survey Sampling*
 -   Lohr (2019) *Sampling: Design and Analysis*
 -   Lumley (2010) *Complex Surveys: A Guide to Analysis Using R*
 -   R packages: `survey`, `srvyr`, `sampling`
-

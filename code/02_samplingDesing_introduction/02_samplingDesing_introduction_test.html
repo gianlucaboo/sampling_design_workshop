@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="02_samplingDesing_introduction_test_files/libs/clipboard/clipboard.min.js"></script>
+<script src="02_samplingDesing_introduction_test_files/libs/quarto-html/tabby.min.js"></script>
+<script src="02_samplingDesing_introduction_test_files/libs/quarto-html/popper.min.js"></script>
+<script src="02_samplingDesing_introduction_test_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="02_samplingDesing_introduction_test_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="02_samplingDesing_introduction_test_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="02_samplingDesing_introduction_test_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.42">
+
+  <meta name="author" content="Introduction to Sampling Design">
+  <meta name="dcterms.date" content="2025-09-17">
+  <title>Workshop on Advanced Sampling Methodologies</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="02_samplingDesing_introduction_test_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="02_samplingDesing_introduction_test_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="02_samplingDesing_introduction_test_files/libs/revealjs/dist/theme/quarto-21278d62b890e0d2198d3b9301299743.css">
+  <link href="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="wp.png" data-background-position="90% 10%" data-background-size="3.2em" class="quarto-title-block center">
+  <h1 class="title">Workshop on Advanced Sampling Methodologies</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Introduction to Sampling Design 
+</div>
+        <p class="quarto-title-affiliation">
+            Dr.&nbsp;Gianluca Boo, WorldPop, University of Southampton
+          </p>
+    </div>
+</div>
+
+  <p class="date">2025-09-17</p>
+</section>
+<section id="sampling" class="slide level2">
+<h2>Sampling</h2>
+<div class="columns">
+<div class="column" style="width:80%;">
+<ul>
+<li><strong>Definition</strong>: sampling is the process of selecting a subset (called a <strong>sample</strong>) from a larger <strong>population</strong> to estimate characteristics of that population.</li>
+<li><strong>Purpose</strong>: enables inference when measuring the entire population is costly or impractical. This offers the followwing advantages:
+<ul>
+<li><strong>Cost-effective</strong>: sampling requires fewer resources than a full census.</li>
+<li><strong>Feasibility</strong>: some populations cannot be fully measured.</li>
+<li><strong>Timely insights</strong>: faster data collection for timely decision-making.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:20%;">
+
+</div></div>
+
+<img data-src="img/sampling_introduction.png" width="429" class="r-stretch quarto-figure-left"><p class="caption">Key concepts of sampling (source: National Library of Medicine).</p></section>
+<section id="key-concepts" class="slide level2">
+<h2>Key concepts</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p><strong>Population</strong></p>
+<ul>
+<li>The <strong>entire set of elements</strong> (people, objects, events) you want to study.<br>
+</li>
+<li>Provides the <strong>scope</strong> of inference for your study.<br>
+</li>
+<li><strong>Example</strong>: all university students in a country.</li>
+</ul>
+<p><strong>Sampling frame</strong></p>
+<ul>
+<li>The <strong>list or mechanism</strong> used to identify and access members of the population.<br>
+</li>
+<li>Ideally a sampling frame <strong>should be</strong>:
+<ul>
+<li><strong>Complete</strong>: covers all members of population.</li>
+<li><strong>Accurate</strong>: no duplicates, no outdated entries.</li>
+<li><strong>Accessible</strong>: researcher can reach listed units.<br>
+</li>
+</ul></li>
+<li><strong>Example</strong>: an official student enrollment database.</li>
+</ul>
+</div><div class="column" style="width:30%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="img/sampling.png" width="354"></p>
+<figcaption>Population, sampling frame, and sample (source: Ktistakis et al.&nbsp;2021).</figcaption>
+</figure>
+</div>
+</div></div>
+<p>ℹ️ If the sampling frame does not fully represent the population, <strong>sampling bias</strong> may occur.</p>
+</section>
+<section id="key-concepts-1" class="slide level2">
+<h2>Key concepts</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p><strong>Sample</strong></p>
+<ul>
+<li>A <strong>subset of the population</strong> selected for analysis.</li>
+<li>Used to make <strong>inferences</strong> about the population.</li>
+<li><strong>Example</strong>: 1,000 students chosen from the national student population.</li>
+</ul>
+<p><strong>Sampling</strong></p>
+<ul>
+<li>The <strong>process or method</strong> of selecting units from the population to form a sample.</li>
+<li>The <strong>goal</strong> is achieving a representative and unbiased sample.</li>
+<li><strong>Example</strong>: students are selected randomly.</li>
+</ul>
+</div><div class="column" style="width:30%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="img/sampling.png" width="354"></p>
+<figcaption>Population, sampling frame, and sample (source: Ktistakis et al.&nbsp;2021).</figcaption>
+</figure>
+</div>
+</div></div>
+<p>ℹ️ <strong>Sampling design</strong> formalizes the plan for selecting a representative sample.</p>
+</section>
+<section id="sampling-design" class="slide level2">
+<h2>Sampling design</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>A <strong>sampling design</strong> defines how samples are chosen and the probability each unit has of being selected.</li>
+<li><strong>Sampling design</strong> includes aspects like:
+<ul>
+<li><strong>Probability versus non-probability sampling</strong></li>
+<li><strong>Sampling technique</strong></li>
+<li><strong>Sample size</strong></li>
+<li><strong>Allocation strategies</strong></li>
+<li><strong>Bias and representativeness</strong></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/sampling%20methods.png" width="354"></p>
+<figcaption>Sampling methods: probabilistic versus non-probabilistic.</figcaption>
+</figure>
+</div>
+</div></div>
+<p>ℹ️ In this workshop we will cover <strong>probability sampling</strong> only.</p>
+</section>
+<section id="simple-random-sampling" class="slide level2">
+<h2>Simple random sampling</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>Every possible subset of size <em>n</em> from a population <em>N</em> has an <strong>equal probability of being selected</strong>.</li>
+<li><strong>Used when</strong> complete list of the population is available.</li>
+</ul>
+<p><strong>Inference</strong></p>
+<ul>
+<li><strong>Population mean</strong> <span class="math display">\[
+\mu = \frac{1}{N} \sum_{i=1}^{n} x_i
+\]</span></li>
+<li><strong>Population variance</strong> <span class="math display">\[
+\sigma^2 = \frac{1}{N} \sum_{i=1}^{n} (x_i - \mu)^2
+\]</span></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="img/sampling_simple_samping.png" width="354"></p>
+<figcaption><strong>Simple random sampling</strong> (source: Wikipedia)</figcaption>
+</figure>
+</div>
+<p><span class="math inline">\(x\)</span>: sampled values</p>
+<p><span class="math inline">\(\mu\)</span>: population mean</p>
+<p><span class="math inline">\(\sigma^2\)</span>: population variance</p>
+<p><span class="math inline">\(n\)</span>: sample size</p>
+<p><span class="math inline">\(N\)</span>: population size</p>
+</div></div>
+</section>
+<section id="simple-random-sampling-1" class="slide level2">
+<h2>Simple random sampling</h2>
+<h3 id="implementation-in-r">Implementation in R</h3>
+<div class="sourceCode" id="cb1" style="height:450px;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)                     <span class="co"># Load tidyverse for data manipulation</span></span>
+<span id="cb1-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)                          <span class="co"># Set seed for reproducibility</span></span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a>N <span class="ot">&lt;-</span> <span class="dv">10000</span>                             <span class="co"># Define population size</span></span>
+<span id="cb1-5"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span>N,            <span class="co"># Create population dataframe with IDs</span></span>
+<span id="cb1-6"><a href=""></a>                  <span class="at">y  =</span> <span class="fu">rlnorm</span>(N,       <span class="co"># Generate log-normal random values</span></span>
+<span id="cb1-7"><a href=""></a>                  <span class="at">meanlog =</span> <span class="dv">2</span>,</span>
+<span id="cb1-8"><a href=""></a>                  <span class="at">sdlog =</span> <span class="fl">0.5</span>))</span>
+<span id="cb1-9"><a href=""></a></span>
+<span id="cb1-10"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">500</span>                               <span class="co"># Define sample size</span></span>
+<span id="cb1-11"><a href=""></a>s_ids <span class="ot">&lt;-</span> <span class="fu">sample</span>(pop<span class="sc">$</span>id, <span class="at">size =</span> n,      <span class="co"># Randomly select n IDs without replacement</span></span>
+<span id="cb1-12"><a href=""></a>                <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-13"><a href=""></a>samp <span class="ot">&lt;-</span> pop <span class="sc">|&gt;</span> <span class="fu">filter</span>(pop<span class="sc">$</span>id <span class="sc">%in%</span> s_ids) <span class="co"># Extract sampled observations</span></span>
+<span id="cb1-14"><a href=""></a></span>
+<span id="cb1-15"><a href=""></a>ybar_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(samp<span class="sc">$</span>y)               <span class="co"># Sample mean of y</span></span>
+<span id="cb1-16"><a href=""></a>Y_hat <span class="ot">&lt;-</span> N <span class="sc">*</span> ybar_hat                  <span class="co"># Estimate of population total (N * sample mean)</span></span>
+<span id="cb1-17"><a href=""></a></span>
+<span id="cb1-18"><a href=""></a>s2 <span class="ot">&lt;-</span> <span class="fu">var</span>(samp<span class="sc">$</span>y)                      <span class="co"># Sample variance of y</span></span>
+<span id="cb1-19"><a href=""></a>var_ybar <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> n<span class="sc">/</span>N) <span class="sc">*</span> s2 <span class="sc">/</span> n         <span class="co"># Variance of sample mean with finite pop. correction</span></span>
+<span id="cb1-20"><a href=""></a>se_ybar <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_ybar)              <span class="co"># Standard error of sample mean</span></span>
+<span id="cb1-21"><a href=""></a></span>
+<span id="cb1-22"><a href=""></a><span class="fu">list</span>(<span class="at">ybar_hat =</span> ybar_hat,              <span class="co"># Return list with results:</span></span>
+<span id="cb1-23"><a href=""></a>     <span class="at">Y_hat =</span> Y_hat,                    <span class="co"># - Sample mean</span></span>
+<span id="cb1-24"><a href=""></a>     <span class="at">se_ybar =</span> se_ybar)                <span class="co"># - Estimated population total</span></span>
+<span id="cb1-25"><a href=""></a>                                       <span class="co"># - Standard error of sample mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="stratified-sampling" class="slide level2">
+<h2>Stratified sampling</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>Population is divided into <strong>homogeneous subgroups (strata)</strong>.</li>
+<li>A <strong>simple random sample</strong> is drawn <strong>within each stratum</strong>.</li>
+<li>Improves efficiency by reducing variability <strong>within strata</strong>.</li>
+<li><strong>Stratified sample mean</strong> <span class="math display">\[
+\bar{x}_{st} = \sum_{h=1}^{L} \frac{N_h}{N} \bar{x}_h
+\]</span></li>
+<li><strong>Variance of stratified mean</strong> (without replacement)<br>
+<span class="math display">\[
+\operatorname{Var}(\bar{x}_{st}) = \sum_{h=1}^{L} \left( \frac{N_h}{N} \right)^2 \frac{\sigma_h^2}{n_h} \left(1 - \frac{n_h}{N_h} \right)
+\]</span></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="img/sampling_stratified.png" width="280"></p>
+<figcaption><strong>Stratified sampling</strong> (source: Wikipedia)</figcaption>
+</figure>
+</div>
+<p><span class="math inline">\(N_h\)</span>: size of stratum <span class="math inline">\(h\)</span>; <span class="math inline">\(n_h\)</span>: sample size for stratum <span class="math inline">\(h\)</span>; <span class="math inline">\(N\)</span>: total population size; <span class="math inline">\(W_h=\dfrac{N_h}{N}\)</span>: population weight of <span class="math inline">\(h\)</span>,</p>
+<p><span class="math inline">\(f_h=\dfrac{n_h}{N_h}\)</span>: sampling fraction in <span class="math inline">\(h\)</span>,</p>
+<p><span class="math inline">\(\bar x_h\)</span>: sample mean in <span class="math inline">\(h\)</span>,</p>
+<p><span class="math inline">\(s_h^2=\)</span>: sample variance in <span class="math inline">\(h\)</span>.</p>
+</div></div>
+</section>
+<section id="stratified-sampling-1" class="slide level2">
+<h2>Stratified sampling</h2>
+<h3 id="implementation-in-r-1">Implementation in R</h3>
+<div class="sourceCode" id="cb2" style="height:450px;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">7</span>)                                <span class="co"># Set seed for reproducibility</span></span>
+<span id="cb2-2"><a href=""></a>H <span class="ot">&lt;-</span> <span class="dv">3</span>                                     <span class="co"># Number of strata</span></span>
+<span id="cb2-3"><a href=""></a>N_h <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4000</span>, <span class="dv">3000</span>, <span class="dv">3000</span>)                 <span class="co"># Population sizes for each stratum</span></span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a>stratum <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>H, <span class="at">times =</span> N_h)           <span class="co"># Vector labeling each unit's stratum</span></span>
+<span id="cb2-6"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">sum</span>(N_h),         <span class="co"># Build full population dataset</span></span>
+<span id="cb2-7"><a href=""></a>                  <span class="at">h =</span> stratum,             <span class="co">#   - stratum membership</span></span>
+<span id="cb2-8"><a href=""></a>                  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(N_h[<span class="dv">1</span>], <span class="dv">50</span>, <span class="dv">10</span>),  <span class="co">#   - outcomes for stratum 1</span></span>
+<span id="cb2-9"><a href=""></a>                        <span class="fu">rnorm</span>(N_h[<span class="dv">2</span>], <span class="dv">60</span>, <span class="dv">15</span>),  <span class="co">#   - outcomes for stratum 2</span></span>
+<span id="cb2-10"><a href=""></a>                        <span class="fu">rnorm</span>(N_h[<span class="dv">3</span>], <span class="dv">55</span>, <span class="dv">12</span>))) <span class="co">#   - outcomes for stratum 3</span></span>
+<span id="cb2-11"><a href=""></a></span>
+<span id="cb2-12"><a href=""></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(pop)                             <span class="co"># Total population size</span></span>
+<span id="cb2-13"><a href=""></a>W_h <span class="ot">&lt;-</span> N_h <span class="sc">/</span> N                             <span class="co"># Stratum weights (proportion of population)</span></span>
+<span id="cb2-14"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">600</span>                                   <span class="co"># Desired total sample size</span></span>
+<span id="cb2-15"><a href=""></a></span>
+<span id="cb2-16"><a href=""></a>n_h <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> W_h)                      <span class="co"># Allocate sample size per stratum (proportional allocation)</span></span>
+<span id="cb2-17"><a href=""></a></span>
+<span id="cb2-18"><a href=""></a><span class="co"># Draw samples from each stratum</span></span>
+<span id="cb2-19"><a href=""></a>samp_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>H, <span class="cf">function</span>(h){      </span>
+<span id="cb2-20"><a href=""></a>  ids <span class="ot">&lt;-</span> <span class="fu">which</span>(pop<span class="sc">$</span>h <span class="sc">==</span> h)                 <span class="co"># Identify units in stratum h</span></span>
+<span id="cb2-21"><a href=""></a>  pick <span class="ot">&lt;-</span> <span class="fu">sample</span>(ids, <span class="at">size =</span> n_h[h],       <span class="co"># Randomly select n_h units without replacement</span></span>
+<span id="cb2-22"><a href=""></a>                 <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-23"><a href=""></a>  pop[pick, ]                              <span class="co"># Return sampled data</span></span>
+<span id="cb2-24"><a href=""></a>})</span>
+<span id="cb2-25"><a href=""></a></span>
+<span id="cb2-26"><a href=""></a>samp <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, samp_list)          <span class="co"># Combine stratum samples into one dataset</span></span>
+<span id="cb2-27"><a href=""></a></span>
+<span id="cb2-28"><a href=""></a>ybar_h <span class="ot">&lt;-</span> <span class="fu">tapply</span>(samp<span class="sc">$</span>y, samp<span class="sc">$</span>h, mean)     <span class="co"># Compute sample mean within each stratum</span></span>
+<span id="cb2-29"><a href=""></a>Ybar_hat <span class="ot">&lt;-</span> <span class="fu">sum</span>(W_h <span class="sc">*</span> ybar_h)              <span class="co"># Weighted average of stratum means (overall estimate)</span></span>
+<span id="cb2-30"><a href=""></a>Ybar_hat                                   <span class="co"># Print estimated population mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="cluster-sampling" class="slide level2">
+<h2>Cluster sampling</h2>
+<div class="columns">
+<div class="column" style="width:75%;">
+<ul>
+<li>Population is divided into <strong>clusters</strong>, often based on geography or natural groupings.</li>
+<li>A <strong>random sample of clusters</strong> is selected, and <strong>all (or a sample of) units within selected clusters</strong> are observed.</li>
+<li><strong>Cluster sample mean</strong> (one-stage sampling) <span class="math display">\[
+\bar{x}_{cl} = \frac{1}{n} \sum_{i=1}^{n} \bar{x}_{i}
+\]</span></li>
+<li><strong>Variance of cluster mean</strong> (equal-sized clusters) <span class="math display">\[
+\operatorname{Var}(\bar{x}_{cl}) = \frac{\sigma_c^2}{n} \left(1 - \frac{n}{N} \right)
+\]</span></li>
+</ul>
+</div><div class="column" style="width:25%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="img/sampling_cluster.png" width="354"></p>
+<figcaption><strong>Cluster sampling</strong> (source: Wikipedia)</figcaption>
+</figure>
+</div>
+<ul>
+<li><p><span class="math inline">\(N\)</span>: total population size</p></li>
+<li><p><span class="math inline">\(n\)</span>: number of clusters sampled</p></li>
+<li><p><span class="math inline">\(\bar{x}{_i}\)</span> mean of the <span class="math inline">\(i\)</span>-selected cluster</p></li>
+<li><p><span class="math inline">\(\sigma^2{_c}\)</span>: variance of cluster means (between clusters variance)</p></li>
+</ul>
+</div></div>
+</section>
+<section id="cluster-sampling-1" class="slide level2">
+<h2>Cluster sampling</h2>
+<h3 id="implementation-in-r-2">Implementation in R</h3>
+<div class="sourceCode" id="cb3" style="height:450px;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">11</span>)                           <span class="co"># Set random seed for reproducibility</span></span>
+<span id="cb3-2"><a href=""></a>J <span class="ot">&lt;-</span> <span class="dv">100</span>                               <span class="co"># Number of clusters in the population</span></span>
+<span id="cb3-3"><a href=""></a>mbar <span class="ot">&lt;-</span> <span class="dv">20</span>                             <span class="co"># Average cluster size</span></span>
+<span id="cb3-4"><a href=""></a>rho <span class="ot">&lt;-</span> <span class="fl">0.15</span>                            <span class="co"># Intra-cluster correlation (ICC)</span></span>
+<span id="cb3-5"><a href=""></a></span>
+<span id="cb3-6"><a href=""></a>M_j <span class="ot">&lt;-</span> <span class="fu">rpois</span>(J, mbar<span class="dv">-1</span>) <span class="sc">+</span> <span class="dv">1</span>            <span class="co"># Cluster sizes (Poisson around mbar)</span></span>
+<span id="cb3-7"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">50</span>                               <span class="co"># Overall population mean</span></span>
+<span id="cb3-8"><a href=""></a>sigma2 <span class="ot">&lt;-</span> <span class="dv">100</span>                          <span class="co"># Total variance of outcomes</span></span>
+<span id="cb3-9"><a href=""></a>tau2 <span class="ot">&lt;-</span> rho <span class="sc">*</span> sigma2                   <span class="co"># Between-cluster variance component</span></span>
+<span id="cb3-10"><a href=""></a>sigma2_within <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">-</span>rho) <span class="sc">*</span> sigma2      <span class="co"># Within-cluster variance component</span></span>
+<span id="cb3-11"><a href=""></a>cluster_effect <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(J, <span class="dv">0</span>, <span class="fu">sqrt</span>(tau2)) <span class="co"># Random cluster effects ~ N(0, tau2)</span></span>
+<span id="cb3-12"><a href=""></a></span>
+<span id="cb3-13"><a href=""></a>data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>J, <span class="cf">function</span>(j){   <span class="co"># Generate population data</span></span>
+<span id="cb3-14"><a href=""></a>  m <span class="ot">&lt;-</span> M_j[j]                          <span class="co"># Size of cluster j</span></span>
+<span id="cb3-15"><a href=""></a>  y <span class="ot">&lt;-</span> mu <span class="sc">+</span> cluster_effect[j] <span class="sc">+</span>        <span class="co"># Mean + cluster effect +</span></span>
+<span id="cb3-16"><a href=""></a>       <span class="fu">rnorm</span>(m, <span class="dv">0</span>, <span class="fu">sqrt</span>(sigma2_within))<span class="co"># individual error within cluster</span></span>
+<span id="cb3-17"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">cluster=</span>j, <span class="at">y=</span>y)           <span class="co"># Store results in dataframe</span></span>
+<span id="cb3-18"><a href=""></a>}))</span>
+<span id="cb3-19"><a href=""></a></span>
+<span id="cb3-20"><a href=""></a>n_c <span class="ot">&lt;-</span> <span class="dv">20</span>                              <span class="co"># Number of clusters to sample</span></span>
+<span id="cb3-21"><a href=""></a>sel_clust <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>J, n_c)          <span class="co"># Randomly select clusters</span></span>
+<span id="cb3-22"><a href=""></a>samp <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, cluster <span class="sc">%in%</span> sel_clust) <span class="co"># Extract all units in sampled clusters</span></span>
+<span id="cb3-23"><a href=""></a></span>
+<span id="cb3-24"><a href=""></a>t_j <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(y <span class="sc">~</span> cluster, samp, sum)     <span class="co"># Cluster totals of y in sample</span></span>
+<span id="cb3-25"><a href=""></a>M_sel <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(y <span class="sc">~</span> cluster, samp, length)<span class="co"># Cluster sizes in sample</span></span>
+<span id="cb3-26"><a href=""></a><span class="fu">names</span>(M_sel)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"m"</span></span>
+<span id="cb3-27"><a href=""></a></span>
+<span id="cb3-28"><a href=""></a>Y_hat <span class="ot">&lt;-</span> (J <span class="sc">/</span> n_c) <span class="sc">*</span> <span class="fu">sum</span>(t_j<span class="sc">$</span>y)              <span class="co"># Estimated population total (expansion factor J/n_c)</span></span>
+<span id="cb3-29"><a href=""></a>N_hat <span class="ot">&lt;-</span> (J <span class="sc">/</span> n_c) <span class="sc">*</span> <span class="fu">sum</span>(M_sel<span class="sc">$</span>m)            <span class="co"># Estimated population size</span></span>
+<span id="cb3-30"><a href=""></a>Ybar_hat <span class="ot">&lt;-</span> Y_hat <span class="sc">/</span> N_hat                    <span class="co"># Estimated population mean</span></span>
+<span id="cb3-31"><a href=""></a>Ybar_hat                                     <span class="co"># Print estimate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="weighted-sampling" class="slide level2">
+<h2>Weighted sampling</h2>
+<div class="columns">
+<div class="column" style="width:75%;">
+<ul>
+<li>Each unit in the population is assigned a <strong>weight</strong> reflecting its <strong>probability of selection</strong>.</li>
+<li>Units with higher weights have <strong>greater influence</strong> on the estimate.</li>
+<li>Often used in <strong>complex surveys</strong> or <strong>unequal probability sampling</strong> designs.</li>
+<li><strong>Weighted mean</strong><br>
+<span class="math display">\[
+\bar{x}_w = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}
+\]</span></li>
+<li><strong>Variance of weighted mean</strong> (approximate)<br>
+<span class="math display">\[
+\operatorname{Var}(\bar{x}_w) \approx \frac{1}{\left( \sum w_i \right)^2} \sum_{i=1}^{n} w_i^2 (x_i - \bar{x}_w)^2
+\]</span></li>
+</ul>
+</div><div class="column" style="width:25%;">
+<svg viewbox="0 0 800 430" xmlns="http://www.w3.org/2000/svg">
+  <!-- Population Grid -->
+  <g id="population">
+    <!-- Row 1 -->
+    <g id="row1">
+      <!-- Element 1 (weight 1) -->
+      <circle cx="60" cy="60" r="25" fill="#e0e0e0" stroke="#666" stroke-width="2"></circle>
+      <rect x="30" y="85" width="60" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="60" y="105" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">1</text>
+      <text x="60" y="130" text-anchor="middle" font-family="Arial" font-size="10">w=1</text>
+      
+      <!-- Element 2 (weight 5) - larger -->
+      <circle cx="150" cy="60" r="35" fill="#4a4a4a" stroke="#666" stroke-width="2"></circle>
+      <rect x="115" y="85" width="70" height="30" fill="#4a4a4a" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="150" y="105" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">2</text>
+      <text x="150" y="130" text-anchor="middle" font-family="Arial" font-size="10">w=5</text>
+      
+      <!-- Element 3 (weight 2) -->
+      <circle cx="240" cy="60" r="28" fill="#b0b0b0" stroke="#666" stroke-width="2"></circle>
+      <rect x="210" y="85" width="60" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="240" y="105" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">3</text>
+      <text x="240" y="130" text-anchor="middle" font-family="Arial" font-size="10">w=2</text>
+      
+      <!-- Element 4 (weight 4) -->
+      <circle cx="330" cy="60" r="32" fill="#2a2a2a" stroke="#666" stroke-width="2"></circle>
+      <rect x="300" y="85" width="60" height="30" fill="#2a2a2a" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="330" y="105" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">4</text>
+      <text x="330" y="130" text-anchor="middle" font-family="Arial" font-size="10">w=4</text>
+    </g>
+    
+    <!-- Row 2 -->
+    <g id="row2">
+      <!-- Element 5 (weight 1) -->
+      <circle cx="60" cy="180" r="25" fill="#e0e0e0" stroke="#666" stroke-width="2"></circle>
+      <rect x="30" y="205" width="60" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="60" y="225" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">5</text>
+      <text x="60" y="250" text-anchor="middle" font-family="Arial" font-size="10">w=1</text>
+      
+      <!-- Element 6 (weight 6) - largest -->
+      <circle cx="150" cy="180" r="38" fill="#1a1a1a" stroke="#666" stroke-width="2"></circle>
+      <rect x="112" y="205" width="76" height="30" fill="#1a1a1a" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="150" y="225" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">6</text>
+      <text x="150" y="250" text-anchor="middle" font-family="Arial" font-size="10">w=6</text>
+      
+      <!-- Element 7 (weight 3) -->
+      <circle cx="240" cy="180" r="30" fill="#3a3a3a" stroke="#666" stroke-width="2"></circle>
+      <rect x="210" y="205" width="60" height="30" fill="#3a3a3a" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="240" y="225" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">7</text>
+      <text x="240" y="250" text-anchor="middle" font-family="Arial" font-size="10">w=3</text>
+      
+      <!-- Element 8 (weight 2) -->
+      <circle cx="330" cy="180" r="28" fill="#b0b0b0" stroke="#666" stroke-width="2"></circle>
+      <rect x="300" y="205" width="60" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="330" y="225" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">8</text>
+      <text x="330" y="250" text-anchor="middle" font-family="Arial" font-size="10">w=2</text>
+    </g>
+    
+    <!-- Row 3 -->
+    <g id="row3">
+      <!-- Element 9 (weight 1) -->
+      <circle cx="60" cy="300" r="25" fill="#e0e0e0" stroke="#666" stroke-width="2"></circle>
+      <rect x="30" y="325" width="60" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="60" y="345" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">9</text>
+      <text x="60" y="370" text-anchor="middle" font-family="Arial" font-size="10">w=1</text>
+      
+      <!-- Element 10 (weight 1) -->
+      <circle cx="150" cy="300" r="25" fill="white" stroke="#666" stroke-width="2"></circle>
+      <rect x="120" y="325" width="60" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="150" y="345" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">10</text>
+      <text x="150" y="370" text-anchor="middle" font-family="Arial" font-size="10">w=1</text>
+      
+      <!-- Element 11 (weight 4) -->
+      <circle cx="240" cy="300" r="32" fill="#2a2a2a" stroke="#666" stroke-width="2"></circle>
+      <rect x="210" y="325" width="60" height="30" fill="#2a2a2a" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="240" y="345" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">11</text>
+      <text x="240" y="370" text-anchor="middle" font-family="Arial" font-size="10">w=4</text>
+      
+      <!-- Element 12 (weight 1) -->
+      <circle cx="330" cy="300" r="25" fill="white" stroke="#666" stroke-width="2"></circle>
+      <rect x="300" y="325" width="60" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+      <text x="330" y="345" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">12</text>
+      <text x="330" y="370" text-anchor="middle" font-family="Arial" font-size="10">w=1</text>
+    </g>
+  </g>
+  
+  <!-- Population Label -->
+  <text x="190" y="420" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold">Population</text>
+  <text x="190" y="440" text-anchor="middle" font-family="Arial" font-size="12">(Elements sized by weight)</text>
+  
+  <!-- Curved arrows showing weighted selection -->
+  <!-- Arrow to element 6 (highest weight) -->
+  <path d="M 350 200 Q 450 150 550 180" fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"></path>
+  
+  <!-- Arrow to element 2 (high weight) -->
+  <path d="M 200 100 Q 400 50 600 80" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"></path>
+  
+  <!-- Arrow to element 11 (high weight) -->
+  <path d="M 280 330 Q 450 350 550 280" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"></path>
+  
+  <!-- Sample elements (showing higher-weight elements more likely to be selected) -->
+  <g id="sample">
+    <!-- Sample element 1 (element 6) -->
+    <circle cx="580" cy="120" r="30" fill="#1a1a1a" stroke="#666" stroke-width="2"></circle>
+    <rect x="550" y="145" width="60" height="30" fill="#1a1a1a" stroke="#666" stroke-width="1" rx="3"></rect>
+    <text x="580" y="165" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">6</text>
+    
+    <!-- Sample element 2 (element 2) -->
+    <circle cx="660" cy="120" r="27" fill="#4a4a4a" stroke="#666" stroke-width="2"></circle>
+    <rect x="635" y="145" width="50" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+    <text x="660" y="165" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">2</text>
+    
+    <!-- Sample element 3 (element 11) -->
+    <circle cx="580" cy="240" r="27" fill="#2a2a2a" stroke="#666" stroke-width="2"></circle>
+    <rect x="555" y="265" width="50" height="30" fill="#2a2a2a" stroke="#666" stroke-width="1" rx="3"></rect>
+    <text x="580" y="285" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">11</text>
+    
+    <!-- Sample element 4 (element 4) -->
+    <circle cx="660" cy="240" r="25" fill="#2a2a2a" stroke="#666" stroke-width="2"></circle>
+    <rect x="635" y="265" width="50" height="30" fill="white" stroke="#666" stroke-width="1" rx="3"></rect>
+    <text x="660" y="285" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">4</text>
+  </g>
+  
+  <!-- Sample Label -->
+  <text x="620" y="330" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Sample</text>
+  <text x="620" y="350" text-anchor="middle" font-family="Arial" font-size="11">(Higher weights → Higher</text>
+  <text x="620" y="365" text-anchor="middle" font-family="Arial" font-size="11">selection probability)</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerwidth="10" markerheight="7" refx="10" refy="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"></polygon>
+    </marker>
+  </defs>
+</svg>
+<p><span style="font-size:14px"><strong>Probability weighted sampling.</strong></span></p>
+<ul>
+<li><p><span class="math inline">\(x{_i}\)</span>: value of the <span class="math inline">\(i\)</span>-th sampled unit</p></li>
+<li><p><span class="math inline">\(w{_i}\)</span>: weight assigned to the <span class="math inline">\(i\)</span> unit</p></li>
+<li><p><span class="math inline">\(\bar{x}{_w}\)</span>: weighted mean</p></li>
+</ul>
+</div></div>
+<p>ℹ️ The variance approximation is computed using rhe Taylor-series linearization.</p>
+</section>
+<section id="weighted-sampling-1" class="slide level2">
+<h2>Weighted sampling</h2>
+<h3 id="implementation-in-r-3">Implementation in R</h3>
+<div class="sourceCode" id="cb4" style="height:450px;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)                              <span class="co"># Fix seed for reproducibility</span></span>
+<span id="cb4-2"><a href=""></a></span>
+<span id="cb4-3"><a href=""></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span>                                  <span class="co"># Population size</span></span>
+<span id="cb4-4"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="dv">1</span>, <span class="dv">10</span>)                       <span class="co"># Size measure</span></span>
+<span id="cb4-5"><a href=""></a>y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(N)                    <span class="co"># Outcome correlated with x</span></span>
+<span id="cb4-6"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id=</span><span class="dv">1</span><span class="sc">:</span>N, <span class="at">x=</span>x, <span class="at">y=</span>y)        <span class="co"># Store in a dataframe</span></span>
+<span id="cb4-7"><a href=""></a></span>
+<span id="cb4-8"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>                                   <span class="co"># Sample size</span></span>
+<span id="cb4-9"><a href=""></a>srs <span class="ot">&lt;-</span> pop[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>N, n), ]               <span class="co"># Draw SRS without replacement</span></span>
+<span id="cb4-10"><a href=""></a>mean_srs <span class="ot">&lt;-</span> <span class="fu">mean</span>(srs<span class="sc">$</span>y)                    <span class="co"># Sample mean (unweighted)</span></span>
+<span id="cb4-11"><a href=""></a><span class="fu">mean</span>(pop<span class="sc">$</span>y)                                <span class="co"># True population mean (for comparison)</span></span>
+<span id="cb4-12"><a href=""></a></span>
+<span id="cb4-13"><a href=""></a>prob <span class="ot">&lt;-</span> x <span class="sc">/</span> <span class="fu">sum</span>(x)                         <span class="co"># Selection probs proportional to x</span></span>
+<span id="cb4-14"><a href=""></a>samp_ids <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>N, n, <span class="at">prob=</span>prob)      <span class="co"># Draw weighted sample</span></span>
+<span id="cb4-15"><a href=""></a>pps <span class="ot">&lt;-</span> pop[samp_ids, ]                     <span class="co"># Extract sampled units</span></span>
+<span id="cb4-16"><a href=""></a>pps<span class="sc">$</span>w <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>prob[samp_ids]                  <span class="co"># Compute weights = 1 / inclusion prob</span></span>
+<span id="cb4-17"><a href=""></a></span>
+<span id="cb4-18"><a href=""></a>mean_pps <span class="ot">&lt;-</span> <span class="fu">sum</span>(pps<span class="sc">$</span>w <span class="sc">*</span> pps<span class="sc">$</span>y) <span class="sc">/</span> <span class="fu">sum</span>(pps<span class="sc">$</span>w) <span class="co"># Weighted mean (Horvitz–Thompson estimator)</span></span>
+<span id="cb4-19"><a href=""></a></span>
+<span id="cb4-20"><a href=""></a>mean_srs                                   <span class="co"># Unweighted mean from SRS</span></span>
+<span id="cb4-21"><a href=""></a>mean_pps                                   <span class="co"># Weighted mean from PPS</span></span>
+<span id="cb4-22"><a href=""></a><span class="fu">mean</span>(pop<span class="sc">$</span>y)                                <span class="co"># True population mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="multistage-sampling" class="slide level2">
+<h2>Multistage Sampling</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>Sampling is conducted in <strong>two or more stages</strong>, selecting units at each stage.</p></li>
+<li><p>Common design:</p>
+<ul>
+<li>Stage 1: Randomly sample <strong>clusters</strong> (e.g., schools).</li>
+<li>Stage 2: Randomly sample <strong>elements within clusters</strong> (e.g., students).</li>
+</ul></li>
+<li><p>Useful when a complete list of all population units is unavailable.</p></li>
+<li><p><strong>Multistage sample mean</strong> (two-stage) <span class="math display">\[
+\bar{x}_{ms} = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{1}{m_i} \sum_{j=1}^{m_i} x_{ij} \right)
+\]</span></p></li>
+<li><p><strong>Variance (approximate)</strong> <span class="math display">\[
+\operatorname{Var}(\bar{x}_{ms}) = \operatorname{Var}_{\text{between}} + \operatorname{Var}_{\text{within}}
+\]</span></p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<svg viewbox="0 0 900 430" xmlns="http://www.w3.org/2000/svg">
+  <!-- Population - Stage 1: Clusters -->
+  <g id="population">
+    <!-- Cluster A -->
+    <g id="clusterA">
+      <rect x="50" y="50" width="180" height="120" fill="#f0f8ff" stroke="black" stroke-width="3" stroke-dasharray="8,4" rx="10"></rect>
+      <text x="140" y="30" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="black">Cluster A</text>
+      
+      <!-- Elements in Cluster A -->
+      <circle cx="80" cy="80" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="80" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">1</text>
+      
+      <circle cx="120" cy="80" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="120" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">2</text>
+      
+      <circle cx="160" cy="80" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="160" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">3</text>
+      
+      <circle cx="200" cy="80" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="200" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">4</text>
+      
+      <circle cx="80" cy="120" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="80" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">5</text>
+      
+      <circle cx="120" cy="120" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="120" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">6</text>
+      
+      <circle cx="160" cy="120" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="160" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">7</text>
+      
+      <circle cx="200" cy="120" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="200" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">8</text>
+    </g>
+    
+    <!-- Cluster B -->
+    <g id="clusterB">
+      <rect x="280" y="50" width="180" height="120" fill="#fff0f8" stroke="black" stroke-width="3" stroke-dasharray="8,4" rx="10"></rect>
+      <text x="370" y="30" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="black">Cluster B</text>
+      
+      <!-- Elements in Cluster B -->
+      <circle cx="310" cy="80" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="310" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">9</text>
+      
+      <circle cx="350" cy="80" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="350" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">10</text>
+      
+      <circle cx="390" cy="80" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="390" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">11</text>
+      
+      <circle cx="430" cy="80" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="430" y="85" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">12</text>
+      
+      <circle cx="310" cy="120" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="310" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">13</text>
+      
+      <circle cx="350" cy="120" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="350" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">14</text>
+      
+      <circle cx="390" cy="120" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="390" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">15</text>
+      
+      <circle cx="430" cy="120" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="430" y="125" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">16</text>
+    </g>
+    
+    <!-- Cluster C -->
+    <g id="clusterC">
+      <rect x="50" y="220" width="180" height="120" fill="#f0fff0" stroke="black" stroke-width="3" stroke-dasharray="8,4" rx="10"></rect>
+      <text x="140" y="200" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="black">Cluster C</text>
+      
+      <!-- Elements in Cluster C -->
+      <circle cx="80" cy="250" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="80" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">17</text>
+      
+      <circle cx="120" cy="250" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="120" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">18</text>
+      
+      <circle cx="160" cy="250" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="160" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">19</text>
+      
+      <circle cx="200" cy="250" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="200" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">20</text>
+      
+      <circle cx="80" cy="290" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="80" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">21</text>
+      
+      <circle cx="120" cy="290" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="120" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">22</text>
+      
+      <circle cx="160" cy="290" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="160" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">23</text>
+      
+      <circle cx="200" cy="290" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="200" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">24</text>
+    </g>
+    
+    <!-- Cluster D -->
+    <g id="clusterD">
+      <rect x="280" y="220" width="180" height="120" fill="#fffaf0" stroke="black" stroke-width="3" stroke-dasharray="8,4" rx="10"></rect>
+      <text x="370" y="200" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="black">Cluster D</text>
+      
+      <!-- Elements in Cluster D -->
+      <circle cx="310" cy="250" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="310" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">25</text>
+      
+      <circle cx="350" cy="250" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="350" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">26</text>
+      
+      <circle cx="390" cy="250" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="390" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">27</text>
+      
+      <circle cx="430" cy="250" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="430" y="255" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">28</text>
+      
+      <circle cx="310" cy="290" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="310" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">29</text>
+      
+      <circle cx="350" cy="290" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="350" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">30</text>
+      
+      <circle cx="390" cy="290" r="12" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+      <text x="390" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">31</text>
+      
+      <circle cx="430" cy="290" r="12" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+      <text x="430" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">32</text>
+    </g>
+  </g>
+  
+  <!-- Stage 1 Arrow and Label -->
+  <text x="520" y="120" font-family="Arial" font-size="16" font-weight="bold" fill="#333">Stage 1:</text>
+  <text x="520" y="140" font-family="Arial" font-size="14" fill="#333">Select Clusters</text>
+  <path d="M 490 170 Q 550 170 600 170" fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"></path>
+  
+  <!-- Selected Clusters (Stage 1 Result) -->
+  <g id="selectedClusters">
+    <!-- Selected Cluster A -->
+    <rect x="630" y="80" width="120" height="80" fill="#f0f8ff" stroke="#2196F3" stroke-width="3" rx="8"></rect>
+    <text x="690" y="70" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#2196F3">Cluster A</text>
+    
+    <circle cx="650" cy="100" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="650" y="104" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">1</text>
+    
+    <circle cx="670" cy="100" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="670" y="104" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">2</text>
+    
+    <circle cx="690" cy="100" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="690" y="104" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">3</text>
+    
+    <circle cx="710" cy="100" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="710" y="104" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">4</text>
+    
+    <circle cx="730" cy="100" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="730" y="104" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">5</text>
+    
+    <circle cx="650" cy="120" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="650" y="124" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">6</text>
+    
+    <circle cx="670" cy="120" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="670" y="124" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">7</text>
+    
+    <circle cx="690" cy="120" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="690" y="124" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">8</text>
+    
+    <!-- Selected Cluster C -->
+    <rect x="630" y="200" width="120" height="80" fill="#f0fff0" stroke="#4CAF50" stroke-width="3" rx="8"></rect>
+    <text x="690" y="190" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#4CAF50">Cluster C</text>
+    
+    <circle cx="650" cy="220" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="650" y="224" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">17</text>
+    
+    <circle cx="670" cy="220" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="670" y="224" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">18</text>
+    
+    <circle cx="690" cy="220" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="690" y="224" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">19</text>
+    
+    <circle cx="710" cy="220" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="710" y="224" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">20</text>
+    
+    <circle cx="730" cy="220" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="730" y="224" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">21</text>
+    
+    <circle cx="650" cy="240" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="650" y="244" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">22</text>
+    
+    <circle cx="670" cy="240" r="8" fill="#e0e0e0" stroke="#666" stroke-width="1"></circle>
+    <text x="670" y="244" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold">23</text>
+    
+    <circle cx="690" cy="240" r="8" fill="#2a2a2a" stroke="#666" stroke-width="1"></circle>
+    <text x="690" y="244" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">24</text>
+  </g>
+  
+  <!-- Stage 2 Arrow and Label -->
+  <text x="520" y="320" font-family="Arial" font-size="16" font-weight="bold" fill="#333">Stage 2:</text>
+  <text x="520" y="340" font-family="Arial" font-size="14" fill="#333">Select Elements</text>
+  <text x="520" y="355" font-family="Arial" font-size="14" fill="#333">within Clusters</text>
+  <path d="M 750 200 Q 800 250 770 320" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"></path>
+  <path d="M 750 120 Q 820 180 790 320" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"></path>
+  
+  <!-- Final Sample -->
+  <g id="finalSample">
+    <rect x="630" y="370" width="140" height="60" fill="#fff" stroke="#333" stroke-width="2" rx="8"></rect>
+    <text x="700" y="360" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Sample</text>
+    
+    <!-- Sample from Cluster A -->
+    <circle cx="650" cy="390" r="12" fill="#2a2a2a" stroke="#2196F3" stroke-width="2"></circle>
+    <text x="650" y="395" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">2</text>
+    
+    <circle cx="680" cy="390" r="12" fill="#2a2a2a" stroke="#2196F3" stroke-width="2"></circle>
+    <text x="680" y="395" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">6</text>
+    
+    <circle cx="710" cy="390" r="12" fill="#2a2a2a" stroke="#2196F3" stroke-width="2"></circle>
+    <text x="710" y="395" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">8</text>
+    
+    <!-- Sample from Cluster C -->
+    <circle cx="650" cy="410" r="12" fill="#2a2a2a" stroke="#4CAF50" stroke-width="2"></circle>
+    <text x="650" y="415" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">18</text>
+    
+    <circle cx="680" cy="410" r="12" fill="#2a2a2a" stroke="#4CAF50" stroke-width="2"></circle>
+    <text x="680" y="415" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">20</text>
+    
+    <circle cx="710" cy="410" r="12" fill="#2a2a2a" stroke="#4CAF50" stroke-width="2"></circle>
+    <text x="710" y="415" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">22</text>
+    
+    <circle cx="740" cy="400" r="12" fill="#2a2a2a" stroke="#4CAF50" stroke-width="2"></circle>
+    <text x="740" y="405" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">24</text>
+  </g>
+  
+  <!-- Labels -->
+  <text x="255" y="380" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold">Population</text>
+  <text x="255" y="400" text-anchor="middle" font-family="Arial" font-size="12">(Organized in Clusters)</text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerwidth="10" markerheight="7" refx="10" refy="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"></polygon>
+    </marker>
+  </defs>
+</svg>
+<p><span style="font-size:14px"><strong>Multistage sampling.</strong></span></p>
+<ul>
+<li><span class="math inline">\(n\)</span> number of primary sampling units</li>
+<li><span class="math inline">\(m{_i}\)</span> number of secondary sampling units</li>
+<li><span class="math inline">\(t\)</span></li>
+</ul>
+</div></div>
+</section>
+<section id="multistage-sampling-1" class="slide level2">
+<h2>Multistage Sampling</h2>
+<h3 id="implementation-in-r-4">Implementation in R</h3>
+<div class="sourceCode" id="cb5" style="height:450px;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)  <span class="co"># Ensure reproducibility</span></span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a><span class="co"># --- Stage 0: Define population ---</span></span>
+<span id="cb5-4"><a href=""></a>J <span class="ot">&lt;-</span> <span class="dv">50</span>                 <span class="co"># Number of primary clusters (e.g., schools)</span></span>
+<span id="cb5-5"><a href=""></a>mbar <span class="ot">&lt;-</span> <span class="dv">30</span>              <span class="co"># Average number of units per cluster (e.g., students)</span></span>
+<span id="cb5-6"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">60</span>                <span class="co"># Overall population mean</span></span>
+<span id="cb5-7"><a href=""></a>sigma2 <span class="ot">&lt;-</span> <span class="dv">100</span>           <span class="co"># Total variance</span></span>
+<span id="cb5-8"><a href=""></a></span>
+<span id="cb5-9"><a href=""></a><span class="co"># Generate cluster sizes (first-stage)</span></span>
+<span id="cb5-10"><a href=""></a>M_j <span class="ot">&lt;-</span> <span class="fu">rpois</span>(J, mbar<span class="dv">-1</span>) <span class="sc">+</span> <span class="dv">1</span>   <span class="co"># Random cluster sizes around mbar</span></span>
+<span id="cb5-11"><a href=""></a></span>
+<span id="cb5-12"><a href=""></a><span class="co"># Generate cluster-level effects</span></span>
+<span id="cb5-13"><a href=""></a>tau2 <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="sc">*</span> sigma2           <span class="co"># Between-cluster variance</span></span>
+<span id="cb5-14"><a href=""></a>sigma2_within <span class="ot">&lt;-</span> sigma2 <span class="sc">-</span> tau2 <span class="co"># Within-cluster variance</span></span>
+<span id="cb5-15"><a href=""></a>cluster_effect <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(J, <span class="dv">0</span>, <span class="fu">sqrt</span>(tau2))  <span class="co"># Random cluster effects</span></span>
+<span id="cb5-16"><a href=""></a></span>
+<span id="cb5-17"><a href=""></a><span class="co"># Generate full population data</span></span>
+<span id="cb5-18"><a href=""></a>population <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>J, <span class="cf">function</span>(j){</span>
+<span id="cb5-19"><a href=""></a>  m <span class="ot">&lt;-</span> M_j[j]                                   <span class="co"># Size of cluster j</span></span>
+<span id="cb5-20"><a href=""></a>  y <span class="ot">&lt;-</span> mu <span class="sc">+</span> cluster_effect[j] <span class="sc">+</span>                 <span class="co"># Population mean + cluster effect +</span></span>
+<span id="cb5-21"><a href=""></a>       <span class="fu">rnorm</span>(m, <span class="dv">0</span>, <span class="fu">sqrt</span>(sigma2_within))        <span class="co"># individual random variation</span></span>
+<span id="cb5-22"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">cluster =</span> j, <span class="at">y =</span> y)               <span class="co"># Return data for cluster j</span></span>
+<span id="cb5-23"><a href=""></a>}))</span>
+<span id="cb5-24"><a href=""></a></span>
+<span id="cb5-25"><a href=""></a><span class="co"># --- Stage 1: Sample clusters (PSUs) ---</span></span>
+<span id="cb5-26"><a href=""></a>n_clusters <span class="ot">&lt;-</span> <span class="dv">10</span>                               <span class="co"># Number of clusters to sample</span></span>
+<span id="cb5-27"><a href=""></a>sampled_clusters <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>J, n_clusters, <span class="at">replace =</span> <span class="cn">FALSE</span>) <span class="co"># Random cluster selection</span></span>
+<span id="cb5-28"><a href=""></a>stage1_sample <span class="ot">&lt;-</span> <span class="fu">subset</span>(population, cluster <span class="sc">%in%</span> sampled_clusters) <span class="co"># Keep selected clusters</span></span>
+<span id="cb5-29"><a href=""></a></span>
+<span id="cb5-30"><a href=""></a><span class="co"># --- Stage 2: Sample units within sampled clusters (SSUs) ---</span></span>
+<span id="cb5-31"><a href=""></a>n_within <span class="ot">&lt;-</span> <span class="dv">5</span>                                  <span class="co"># Number of units to sample per cluster</span></span>
+<span id="cb5-32"><a href=""></a>stage2_sample <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sampled_clusters, <span class="cf">function</span>(j){</span>
+<span id="cb5-33"><a href=""></a>  cluster_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(stage1_sample, cluster <span class="sc">==</span> j)  <span class="co"># Units in cluster j</span></span>
+<span id="cb5-34"><a href=""></a>  cluster_data[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(cluster_data), n_within), ] <span class="co"># Randomly sample n_within units</span></span>
+<span id="cb5-35"><a href=""></a>}))</span>
+<span id="cb5-36"><a href=""></a></span>
+<span id="cb5-37"><a href=""></a><span class="co"># --- Estimate population mean ---</span></span>
+<span id="cb5-38"><a href=""></a>cluster_sizes <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(y <span class="sc">~</span> cluster, stage2_sample, length) <span class="co"># Sampled units per cluster</span></span>
+<span id="cb5-39"><a href=""></a>cluster_totals <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(y <span class="sc">~</span> cluster, stage2_sample, sum)  <span class="co"># Sum of y per cluster</span></span>
+<span id="cb5-40"><a href=""></a></span>
+<span id="cb5-41"><a href=""></a>Y_hat <span class="ot">&lt;-</span> (J <span class="sc">/</span> n_clusters) <span class="sc">*</span> <span class="fu">sum</span>(cluster_totals<span class="sc">$</span>y) <span class="co"># Expand cluster totals to population total</span></span>
+<span id="cb5-42"><a href=""></a>N_hat <span class="ot">&lt;-</span> (J <span class="sc">/</span> n_clusters) <span class="sc">*</span> <span class="fu">sum</span>(cluster_sizes<span class="sc">$</span>y)  <span class="co"># Approximate population size</span></span>
+<span id="cb5-43"><a href=""></a>Ybar_hat <span class="ot">&lt;-</span> Y_hat <span class="sc">/</span> N_hat                          <span class="co"># Estimated population mean</span></span>
+<span id="cb5-44"><a href=""></a>Ybar_hat                                         <span class="co"># Print estimated mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="summary-table" class="slide level2">
+<h2>Summary Table</h2>
+</section>
+<section id="comparison-of-sampling-methods" class="slide level2">
+<h2>Comparison of Sampling Methods</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 28%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sampling Method</th>
+<th>Key Characteristics</th>
+<th>Strengths</th>
+<th>Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Simple Random</strong></td>
+<td>Every unit has an equal chance; requires full sampling frame</td>
+<td>Unbiased; easy to implement</td>
+<td>Inefficient for large or dispersed populations; ignores subgroups</td>
+</tr>
+<tr class="even">
+<td><strong>Stratified</strong></td>
+<td>Population divided into homogeneous strata; random sample within each stratum</td>
+<td>Higher precision; ensures subgroup representation</td>
+<td>Requires stratum info for all units; complex analysis</td>
+</tr>
+<tr class="odd">
+<td><strong>Cluster</strong></td>
+<td>Population divided into clusters; some clusters randomly selected</td>
+<td>Cost-effective; useful for large/geographic populations</td>
+<td>Higher variance if clusters are homogeneous</td>
+</tr>
+<tr class="even">
+<td><strong>Weighted</strong></td>
+<td>Units sampled with unequal probabilities; weights used in estimation</td>
+<td>Adjusts for unequal probabilities; enables oversampling</td>
+<td>Requires accurate weights; complex variance estimation</td>
+</tr>
+<tr class="odd">
+<td><strong>Multistage</strong></td>
+<td>Sampling occurs in two or more stages (e.g., clusters → elements)</td>
+<td>Logistically efficient; scalable</td>
+<td>Can increase variance; complex design and analysis</td>
+</tr>
+<tr class="even">
+<td><strong>Non-Probability</strong></td>
+<td>Units selected based on convenience or judgment, not randomization</td>
+<td>Easy, fast, cheap</td>
+<td>Cannot generalize to population; prone to bias</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="best-practices-in-sampling-design" class="slide level2">
+<h2>Best Practices in Sampling Design</h2>
+<ol type="1">
+<li><strong>Define Population &amp; Objectives</strong></li>
+<li><strong>Establish Reliable Sampling Frame</strong></li>
+<li><strong>Choose Method Aligned with Objectives &amp; Resources</strong></li>
+<li><strong>Calculate Appropriate Sample Size</strong></li>
+<li><strong>Minimize Bias &amp; Sampling Error</strong></li>
+<li><strong>Document Design &amp; Limitations Thoroughly</strong></li>
+</ol>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
+<ul>
+<li>Sampling definition and motivation — Wikipedia :contentReference<span data-index="19">oaicite:19</span><br>
+</li>
+<li>Sample size determination — Wikipedia :contentReference<span data-index="20">oaicite:20</span><br>
+</li>
+<li>Detailed sampling methods (probability vs.&nbsp;non-probability) — Scribbr, SurveyMonkey, Verywell Mind :contentReference<span data-index="21">oaicite:21</span><br>
+</li>
+<li>Sampling frame; Cluster, Stratified, Systematic, Multistage methods — Wikipedia :contentReference<span data-index="22">oaicite:22</span><br>
+</li>
+<li>Sampling bias — Wikipedia :contentReference<span data-index="23">oaicite:23</span></li>
+</ul>
+</section>
+<section id="resources" class="slide level2">
+<h2>Resources</h2>
+<ul>
+<li>Särndal, Swensson, and Wretman (1992) <em>Model Assisted Survey Sampling</em></li>
+<li>Lohr (2019) <em>Sampling: Design and Analysis</em></li>
+<li>Lumley (2010) <em>Complex Surveys: A Guide to Analysis Using R</em></li>
+<li>R packages: <code>survey</code>, <code>srvyr</code>, <code>sampling</code></li>
+</ul>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="02_samplingDesing_introduction_test_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
