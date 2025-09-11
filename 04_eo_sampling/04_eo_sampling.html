@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.6.42">
 
   <meta name="author" content="Earth Observation data for sampling">
-  <meta name="dcterms.date" content="2025-09-17">
+  <meta name="dcterms.date" content="2025-09-22">
   <title>Workshop on Advanced Sampling Methodologies</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -206,10 +206,25 @@ Earth Observation data for sampling
     </div>
 </div>
 
-  <p class="date">2025-09-17</p>
+  <p class="date">2025-09-22</p>
 </section>
-<section id="agenda" class="slide level2">
-<h2>Agenda</h2>
+<section id="workshops-agenda" class="slide level2">
+<h2>Workshop’s agenda</h2>
+<ul>
+<li><strong>Day 1</strong>: Introduction to QGIS</li>
+<li><strong>Day 2</strong>: Automatic update of census EA and national sampling frame</li>
+<li><strong>Day 3</strong>: Introduction to R programming</li>
+<li><strong>Day 4</strong>: Introduction to Sampling Design</li>
+<li><strong>Day 5</strong>: Advanced R programming</li>
+<li><strong>Day 6</strong>: Earth observation (EO) for sampling design</li>
+<li><strong>Day 7</strong>: AI and machine learning for sample selection</li>
+<li><strong>Day 8</strong>: Simulation and optimization of sampling strategies</li>
+<li><strong>Day 9</strong>: R Shiny for sampling design evaluation</li>
+<li><strong>Day 10</strong>: Wrap-up and workshop evaluation</li>
+</ul>
+</section>
+<section id="todays-agenda" class="slide level2">
+<h2>Today’s agenda</h2>
 <ul>
 <li>Spatial data in R<br>
 </li>
@@ -448,7 +463,7 @@ max value   :                6050.907715 </code></pre>
 </div>
 </section>
 <section id="gee-code-editor" class="slide level2">
-<h2>GEE Code Editor</h2>
+<h2>GEE code editor</h2>
 <p>Open <a href="https://code.earthengine.google.com/"><strong>GEE Code Editor</strong></a> and follow the following <strong>step-by-step</strong>:</p>
 <pre><code>1.  Sign in with a Google account (example: samplingworkshop\@gmail.com)\
 2.  Click New Script
@@ -463,7 +478,7 @@ max value   :                6050.907715 </code></pre>
 </div>
 </section>
 <section id="gee-example-script" class="slide level2">
-<h2>GEE Example Script</h2>
+<h2>GEE example script</h2>
 <div class="sourceCode" id="cb13"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href=""></a><span class="co">// Example: extract mean NDVI for a region in 2020</span></span>
 <span id="cb13-2"><a href=""></a><span class="kw">var</span> roi <span class="op">=</span> ee<span class="op">.</span><span class="at">Geometry</span><span class="op">.</span><span class="fu">Rectangle</span>([<span class="fl">34.5</span><span class="op">,</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">,</span> <span class="fl">35.5</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.5</span>])<span class="op">;</span></span>
 <span id="cb13-3"><a href=""></a><span class="kw">var</span> collection <span class="op">=</span> ee<span class="op">.</span><span class="fu">ImageCollection</span>(<span class="st">'MODIS/006/MOD13Q1'</span>)</span>

@@ -2,7 +2,7 @@
 title: "Workshop on Advanced Sampling Methodologies"
 author: "Earth Observation data for sampling"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
-date: "09-17-2025"
+date: "09-22-2025"
 title-slide-attributes:
   data-background-image: "wp.png"
   data-background-size: "3.2em"
@@ -17,7 +17,22 @@ toc: false
 toc-title: "Content"
 ---
 
-## Agenda
+## Workshop's agenda
+
+-   **Day 1**: Introduction to QGIS
+-   **Day 2**: Automatic update of census EA and national sampling frame
+-   **Day 3**: Introduction to R programming
+-   **Day 4**: Introduction to Sampling Design
+-   **Day 5**: Advanced R programming
+-   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 7**: AI and machine learning for sample selection
+-   **Day 8**: Simulation and optimization of sampling strategies
+-   **Day 9**: R Shiny for sampling design evaluation
+-   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Today's agenda
 
 -   Spatial data in R\
 -   Vector and raster data\
@@ -232,7 +247,7 @@ ggplot(elevation_df) +
 
 ------------------------------------------------------------------------
 
-## GEE Code Editor
+## GEE code editor
 
 Open [**GEE Code Editor**](https://code.earthengine.google.com/) and follow the following **step-by-step**:
 
@@ -254,7 +269,7 @@ Open [**GEE Code Editor**](https://code.earthengine.google.com/) and follow the 
 
 ------------------------------------------------------------------------
 
-## GEE Example Script
+## GEE example script
 
 ``` javascript
 // Example: extract mean NDVI for a region in 2020
