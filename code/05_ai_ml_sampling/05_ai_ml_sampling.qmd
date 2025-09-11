@@ -17,67 +17,67 @@ toc: false
 toc-title: "Content"
 ---
 
- ---
+------------------------------------------------------------------------
 
 ## Agenda
 
-* Introduction to AI & ML in Sampling
-* K-Means Clustering for Stratification
-* Random Forest for Sample Weighting and Prediction
-* Implementation in R with tidymodels
-* Summary & Key Takeaways
+-   Introduction to AI & ML in Sampling
+-   K-Means Clustering for Stratification
+-   Random Forest for Sample Weighting and Prediction
+-   Implementation in R with tidymodels
+-   Summary & Key Takeaways
 
----
+------------------------------------------------------------------------
 
 ## Introduction to AI & ML in Sampling
 
-* Enhance sampling efficiency and representativeness
-* Detect patterns in population data
-* Reduce bias and improve stratification
+-   Enhance sampling efficiency and representativeness
+-   Detect patterns in population data
+-   Reduce bias and improve stratification
 
----
+------------------------------------------------------------------------
 
 ## Why ML for Sampling?
 
-* Identify hidden population structure
-* Prioritize high-impact units
-* Reduce sample size while maintaining accuracy
+-   Identify hidden population structure
+-   Prioritize high-impact units
+-   Reduce sample size while maintaining accuracy
 
----
+------------------------------------------------------------------------
 
 ## Overview of Machine Learning
 
-* **Supervised learning:** prediction based on known outcomes
-* **Unsupervised learning:** finding patterns/clusters without labeled outcomes
-* Features (inputs) and targets (outputs)
-* Training, validation, and prediction workflow
+-   **Supervised learning:** prediction based on known outcomes
+-   **Unsupervised learning:** finding patterns/clusters without labeled outcomes
+-   Features (inputs) and targets (outputs)
+-   Training, validation, and prediction workflow
 
----
+------------------------------------------------------------------------
 
 ## Unsupervised Learning: Clustering
 
-* Detect natural groups in population data
-* k-Means: widely used for stratification
-* Useful for creating representative samples
+-   Detect natural groups in population data
+-   k-Means: widely used for stratification
+-   Useful for creating representative samples
 
----
+------------------------------------------------------------------------
 
 ## K-Means Clustering Concept
 
-* Partition population into **K clusters**
-* Minimize within-cluster variance
-* Example: stratification for sampling
+-   Partition population into **K clusters**
+-   Minimize within-cluster variance
+-   Example: stratification for sampling
 
----
+------------------------------------------------------------------------
 
 ## K-Means Algorithm Steps
 
-1. Initialize centroids
-2. Assign units to nearest centroid
-3. Update centroids
-4. Iterate until convergence
+1.  Initialize centroids
+2.  Assign units to nearest centroid
+3.  Update centroids
+4.  Iterate until convergence
 
----
+------------------------------------------------------------------------
 
 ## K-Means in R
 
@@ -93,7 +93,7 @@ kmeans_fit <- kmeans(scale(data), centers = 3)
 data$cluster <- kmeans_fit$cluster
 ```
 
----
+------------------------------------------------------------------------
 
 ## Visualizing K-Means Clusters
 
@@ -106,33 +106,33 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster))) +
   labs(color="Cluster")
 ```
 
----
+------------------------------------------------------------------------
 
 ## K-Means for Sampling Design
 
-* Select representative units from each cluster
-* Ensures diversity within the sample
-* Acts as a data-driven stratification method
+-   Select representative units from each cluster
+-   Ensures diversity within the sample
+-   Acts as a data-driven stratification method
 
----
+------------------------------------------------------------------------
 
 ## Supervised Learning: Random Forest
 
-* Ensemble of decision trees
-* Predict outcomes or probabilities
-* Assess feature importance
-* Useful for weighted sampling or prioritization
+-   Ensemble of decision trees
+-   Predict outcomes or probabilities
+-   Assess feature importance
+-   Useful for weighted sampling or prioritization
 
----
+------------------------------------------------------------------------
 
 ## Random Forest Concept
 
-* Many decision trees combined
-* Classification: majority vote
-* Regression: average prediction
-* Identify important variables in dataset
+-   Many decision trees combined
+-   Classification: majority vote
+-   Regression: average prediction
+-   Identify important variables in dataset
 
----
+------------------------------------------------------------------------
 
 ## Random Forest Example in R
 
@@ -147,34 +147,34 @@ rf_model <- rand_forest(mode = "classification") |>
   fit(Species ~ ., data = iris)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Evaluating Random Forest
 
-* Confusion matrix
-* Accuracy, precision, recall
-* Feature importance plot
+-   Confusion matrix
+-   Accuracy, precision, recall
+-   Feature importance plot
 
 ```{r}
 #rf_model$fit$variable.importance
 ```
 
----
+------------------------------------------------------------------------
 
 ## Using RF Predictions for Sampling
 
-* Predict probability of selection or outcome
-* Compute weights: $w_i = 1 / p_i$
-* Adjust sample to improve representativeness
+-   Predict probability of selection or outcome
+-   Compute weights: $w_i = 1 / p_i$
+-   Adjust sample to improve representativeness
 
----
+------------------------------------------------------------------------
 
 ## Combining K-Means and Random Forest
 
-* K-Means: identify clusters for stratified sampling
-* Random Forest: weight or prioritize units within clusters
+-   K-Means: identify clusters for stratified sampling
+-   Random Forest: weight or prioritize units within clusters
 
----
+------------------------------------------------------------------------
 
 ## Example Workflow in R
 
@@ -188,7 +188,7 @@ rf_model <- rand_forest(mode="classification") |>
   fit(Species ~ Sepal.Length + Sepal.Width, data=iris)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Visualizing Sample Selection
 
@@ -198,47 +198,47 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster), size=rf_m
   theme_minimal()
 ```
 
----
+------------------------------------------------------------------------
 
 ## Practical Considerations
 
-* Choosing **K** in k-means (elbow method)
-* Number of trees in random forest
-* Handle missing data appropriately
-* Scale/normalize features before clustering
+-   Choosing **K** in k-means (elbow method)
+-   Number of trees in random forest
+-   Handle missing data appropriately
+-   Scale/normalize features before clustering
 
----
+------------------------------------------------------------------------
 
 ## Advantages of ML-Based Sampling
 
-* Data-driven stratification
-* Capture complex patterns in population
-* Reduce variance and sampling bias
+-   Data-driven stratification
+-   Capture complex patterns in population
+-   Reduce variance and sampling bias
 
----
+------------------------------------------------------------------------
 
 ## Limitations
 
-* Requires sufficient population data
-* Black-box predictions may reduce interpretability
-* Computationally intensive for large datasets
+-   Requires sufficient population data
+-   Black-box predictions may reduce interpretability
+-   Computationally intensive for large datasets
 
----
+------------------------------------------------------------------------
 
 ## Take home
 
-* AI/ML complements traditional sampling
-* K-Means identifies clusters for stratification
-* Random Forest helps prioritize or weight units
-* R/tidymodels provides reproducible workflow
-* Visualization is key for interpretation
+-   AI/ML complements traditional sampling
+-   K-Means identifies clusters for stratification
+-   Random Forest helps prioritize or weight units
+-   R/tidymodels provides reproducible workflow
+-   Visualization is key for interpretation
 
----
+------------------------------------------------------------------------
 
 ## Resources
 
-* James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). *An Introduction to Statistical Learning with Applications in R*. Springer. [https://www.statlearning.com](https://www.statlearning.com)
-* Kuhn, M., & Wickham, H. (2023). *tidymodels: Unified Interface for Modeling in R*. [https://www.tidymodels.org](https://www.tidymodels.org)
-* Pebesma, E. (2018). *Simple Features for R*. R Journal. [https://journal.r-project.org](https://journal.r-project.org)
-* R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. [https://www.R-project.org](https://www.R-project.org)
-* Grolemund, G., Wickham, H. (2017). *R for Data Science*. [https://r4ds.had.co.nz](https://r4ds.had.co.nz)
+-   James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). *An Introduction to Statistical Learning with Applications in R*. Springer. <https://www.statlearning.com>
+-   Kuhn, M., & Wickham, H. (2023). *tidymodels: Unified Interface for Modeling in R*. <https://www.tidymodels.org>
+-   Pebesma, E. (2018). *Simple Features for R*. R Journal. <https://journal.r-project.org>
+-   R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. <https://www.R-project.org>
+-   Grolemund, G., Wickham, H. (2017). *R for Data Science*. <https://r4ds.had.co.nz>

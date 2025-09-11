@@ -17,13 +17,28 @@ toc: false
 toc-title: "Content"
 ---
 
-## Agenda
+## Workshop's agenda
 
--   Introduction to Sampling Concepts
--   Probability Sampling Methods
--   Weighted Sampling & Unequal Probability Designs
--   Practical Implementation in R
--   Design Considerations & Summary
+-   **Day 1**: Introduction to QGIS
+-   **Day 2**: Automatic update of census EA and national sampling frame
+-   **Day 3**: Introduction to R programming
+-   **Day 4**: Introduction to Sampling Design
+-   **Day 5**: Advanced R programming
+-   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 7**: AI and machine learning for sample selection
+-   **Day 8**: Simulation and optimization of sampling strategies
+-   **Day 9**: R Shiny for sampling design evaluation
+-   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Today's agenda
+
+-   Introduction to sampling concepts
+-   Probability sampling methods
+-   Weighted sampling and unequal probability designs
+-   Practical implementation in R
+-   Design considerations and summary
 -   Practical exercises
 
 ------------------------------------------------------------------------
@@ -550,12 +565,12 @@ $$
 ::: {.column width="40%"}
 $N$: Population size\
 $x_i$: Value of the $i$-th element in the population\
-$w_i$:Weight of element $i$ (proportional to size, often $w_i \propto$ cluster or unit size)\
+$w_i$:Weight of element $i$ (proportional to size)\
 $S$: Set of sampled elements\
-$\bar{x}\_w$: Weighted sample mean\
+$\bar{x}_w$: Weighted sample mean\
 $\mu$: Population mean (weighted)\
 $\sigma^2$: Population variance (weighted)\
-$\operatorname{Var}(\bar{x}\_w)$: Approximate variance of weighted sample mean
+$\operatorname{Var}(\bar{x}_w)$: Approximate variance of weighted sample mean
 :::
 :::::
 
@@ -877,13 +892,13 @@ $$
 ::: {.column width="40%"}
 $N$ Total population size\
 $C$: Number of clusters in population\
-$N_c$: Size of cluster \$c \$\
+$N_c$: Size of cluster $c$\
 $n_c$: Number of clusters sampled\
 $S$: Set of sampled clusters\
 $x_{ci}$: Value of element $i$ in $c$\
-$S_c$: ariance of cluster means in population\
+$S_c$: Variance of cluster means in population\
 $S_{ci}^2$: Variance of elements within sampled $c$\
-$n_{ci}$: Number of elements sampled from \$c \$\
+$n_{ci}$: Number of elements sampled from $c$\
 $\bar{x}_c$: Mean of sampled elements in $c$
 :::
 :::::
@@ -945,7 +960,7 @@ Ybar_hat                                         # Print estimated mean
 
 ------------------------------------------------------------------------
 
-## Summary Table
+## Summary table
 
 ::: {style="font-size:80%;"}
 | Sampling Method | Key Characteristics | Strengths | Limitations |
@@ -960,16 +975,16 @@ Ybar_hat                                         # Print estimated mean
 
 ------------------------------------------------------------------------
 
-## Sampling Design
+## Sampling design
 
 **Key considerations**
 
-1.  Define Population & Objectives
-2.  Establish Reliable Sampling Frame
-3.  Choose Method Aligned with Objectives & Resources
-4.  Calculate Appropriate Sample Size
-5.  Minimize Bias & Sampling Error
-6.  Document Design & Limitations Thoroughly
+1.  Define population and objectives
+2.  Establish reliable sampling frame
+3.  Choose method aligned with objectives and resources
+4.  Calculate appropriate sample size
+5.  Minimize bias & sampling error
+6.  Document design and limitations thoroughly
 
 ------------------------------------------------------------------------
 

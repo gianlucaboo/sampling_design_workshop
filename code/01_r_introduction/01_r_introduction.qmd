@@ -17,7 +17,22 @@ toc: false
 toc-title: "Content"
 ---
 
-## Agenda
+## Workshop's agenda
+
+-   **Day 1**: Introduction to QGIS
+-   **Day 2**: Automatic update of census EA and national sampling frame
+-   **Day 3**: Introduction to R programming
+-   **Day 4**: Introduction to Sampling Design
+-   **Day 5**: Advanced R programming
+-   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 7**: AI and machine learning for sample selection
+-   **Day 8**: Simulation and optimization of sampling strategies
+-   **Day 9**: R Shiny for sampling design evaluation
+-   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Today's agenda
 
 -   Introduction to R and RStudio
 -   Data types and data structures
@@ -36,6 +51,8 @@ toc-title: "Content"
 -   The first stable version was **released in 2000**\
 -   **RStudio** provides a user-friendly interface to R
 
+![](img/r.png)
+
 ------------------------------------------------------------------------
 
 ## Why R?
@@ -45,6 +62,12 @@ toc-title: "Content"
 -   Thousands of user-created **packages** extend its functionality\
 -   Large and active **community** with extensive support
 
+::: embed
+<iframe src="https://gallery.shinyapps.io/050-kmeans-example/" width="100%" height="350">
+
+</iframe>
+:::
+
 ------------------------------------------------------------------------
 
 ## Installing R and RStudio
@@ -53,7 +76,7 @@ toc-title: "Content"
 
 ------------------------------------------------------------------------
 
-## RStudio Interface
+## RStudio interface
 
 RStudio has four main panes:\
 - **Source Editor** – write and save code\
@@ -102,7 +125,7 @@ RStudio has four main panes:\
 
 ------------------------------------------------------------------------
 
-## R as a Calculator
+## R as a calculator
 
 -   R can perform arithmetic directly
 
@@ -120,7 +143,7 @@ b + b
 
 ------------------------------------------------------------------------
 
-## R Packages
+## R packages
 
 -   Collections of functions, datasets, and documentation.\
 -   Expand R beyond base functions.\
@@ -145,7 +168,7 @@ install.packages("dplyr")
 
 ------------------------------------------------------------------------
 
-## Loading Packages
+## Loading packages
 
 ::::: columns
 ::: {.column width="50%"}
@@ -166,7 +189,7 @@ library(dplyr)
 
 ------------------------------------------------------------------------
 
-## R Objects
+## R objects
 
 -   Everything in R is an **object** (vectors, lists, functions, data frames, etc.).\
 -   Assign values using `<-`.
@@ -187,7 +210,7 @@ x + x   # returns 10
 
 ------------------------------------------------------------------------
 
-## Data Types
+## Data types
 
 -   **Numeric**: numbers, may include decimals.\
 
@@ -223,7 +246,7 @@ typeof(object)
 
 ------------------------------------------------------------------------
 
-## Data Structures
+## Data structures
 
 -   **Vectors**: one-dimensional, homogeneous elements\
 -   **Matrices**: two-dimensional, homogeneous elements\
@@ -368,7 +391,7 @@ Useful for structured multi-dimensional data. However, this is hardly used in mo
 
 ------------------------------------------------------------------------
 
-## Importing Data
+## Importing data
 
 -   Create data manually, but usually import from files
 
@@ -392,7 +415,7 @@ csv_data <- read.csv("data/world_data.csv")
 
 ------------------------------------------------------------------------
 
-## Saving Your Script
+## Saving your script
 
 -   Save all steps of analysis in `.R` scripts\
 -   Add comments with `#`\
