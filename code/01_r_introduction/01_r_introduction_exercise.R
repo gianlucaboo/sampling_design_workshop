@@ -20,15 +20,12 @@ b + b
 # Exercise 1 (Beginner):
 # Calculate the square root of 144 and store it in a variable named sqrt_val
 # Hint: use sqrt()
-sqrt_val <- sqrt(144)
-sqrt_val
 
 # ================================
 # 2. Working Directory
 # ================================
 
 # Check current working directory
-getwd()
 
 # Set a working directory (replace path with your project folder)
 # setwd("C:/Users/YourName/Documents/R_Workshop")
@@ -43,7 +40,6 @@ getwd()
 
 # Install and load a package (if not installed)
 # install.packages("dplyr")
-library(dplyr)
 
 # Exercise 3 (Beginner):
 # Load the ggplot2 package and check its version

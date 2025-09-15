@@ -86,6 +86,8 @@ RStudio has four main panes:\
 
 ![](img/rstudio_interface.png)
 
+ℹ️ Try to navigate through the different panes.
+
 ------------------------------------------------------------------------
 
 ## Script Editor vs Console
@@ -192,7 +194,7 @@ library(dplyr)
 ## R objects
 
 -   Everything in R is an **object** (vectors, lists, functions, data frames, etc.).\
--   Assign values using `<-`.
+-   Assign values using `<-` (`Alt` + `-` (minus sign) on Windows and Linux, and `Option` + `-` on a Mac).
 
 ``` r
 x <- 5
@@ -445,6 +447,20 @@ Options:\
 ➡️ Do **not** save the workspace image. Always start fresh for reproducibility.
 
 ℹ️ Try to close and reopen your R Session.
+
+------------------------------------------------------------------------
+
+## R cheatsheets
+
+-   R and RStudio are relatively difficult to learn at the beginning\
+-   Once you master the basis it is much easier to move forward\
+-   R cheatsheets are an excellent resource for beginners\
+
+![](img/r_cheatsheet.png)
+
+ℹ️ Most R cheatsheet can be found here: <https://rstudio.github.io/cheatsheets/contributed-cheatsheets.html>.
+
+------------------------------------------------------------------------
 
 ## Take home
 
