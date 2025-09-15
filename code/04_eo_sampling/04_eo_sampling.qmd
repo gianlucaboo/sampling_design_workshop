@@ -45,21 +45,18 @@ toc-title: "Content"
 
 ## EO data for sampling
 
-- **Up-to-date spatial coverage**  
-  - Complements or updates outdated census and survey frames  
-  - Detects new settlements, urban growth, and rural changes  
-
-- **Population distribution and density**  
-  - Proxy indicators: night-time lights, building footprints, land cover  
-  - Supports stratification and proportional allocation of samples  
-
-- **Environmental and contextual variables**  
-  - NDVI, elevation, climate, accessibility data  
-  - Enable stratified sampling by ecological or geographic conditions  
-
-- **Improved sampling efficiency**  
-  - Helps identify hard-to-reach or hidden populations  
-  - Reduces cost and field effort by targeting relevant areas  
+-   **Up-to-date spatial coverage**
+    -   Complements or updates outdated census and survey frames\
+    -   Detects new settlements, urban growth, and rural changes
+-   **Population distribution and density**
+    -   Proxy indicators: night-time lights, building footprints, land cover\
+    -   Supports stratification and proportional allocation of samples
+-   **Environmental and contextual variables**
+    -   NDVI, elevation, climate, accessibility data\
+    -   Enable stratified sampling by ecological or geographic conditions
+-   **Improved sampling efficiency**
+    -   Helps identify hard-to-reach or hidden populations\
+    -   Reduces cost and field effort by targeting relevant areas
 
 ------------------------------------------------------------------------
 

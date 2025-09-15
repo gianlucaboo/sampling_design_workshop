@@ -31,44 +31,38 @@ toc-title: "Content"
 
 ## 2. Create or open a new document
 
--   Create a new document:
-![](img/quarto_newFile.png){width="350"}
+-   Create a new document, or\
+-   [Download](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/02_samplingDesing_introduction/02_quartoReporting_exercise.qmd) and open an existing document.\
 
--   Basic YAML header:
+![](img/quarto_hello.png){width="500"}\
 
-    ``` yaml
-    ---
-    title: "Hello Quarto"
-    format: html
-    ---
-    ```
+ℹ️ Try click on the button **Render**.
 
 ------------------------------------------------------------------------
 
-## 3. Write Markdown & Code Chunks
-# 1. Two Main Editing Modes
+## 3. Two main editing modes
 
 Quarto lets you choose between a **Visual Editor** and a **Source (Code) Editor**.
 
-## Visual Editor
+### Visual Editor
 - WYSIWYG interface similar to a word processor.
 - Ideal for those who prefer formatting buttons and live preview.
 - Features include toolbar for headings, lists, tables, and inserting code chunks.
 
-## Source (Code) Editor
+### Source (Code) Editor
 - Plain-text editing of the `.qmd` file.
 - Preferred by users comfortable with Markdown and YAML.
 - Works well with version control systems like Git.
 
-> You can switch between Visual and Source modes at any time; both modes save the same underlying `.qmd` text.
+ℹ️ Try to inspect the document. You can switch between Visual and Source modes at any time; both modes save the same underlying `.qmd` text.
 
----
+------------------------------------------------------------------------
 
-# 2. Document Structure Elements
+## 4. Document structure elements
 
 Quarto uses **YAML front matter** for metadata and **Markdown** for content.
 
-## YAML Front Matter
+### YAML Front Matter
 Example:
 ```yaml
 ---
@@ -80,37 +74,64 @@ format: html
 ```
 - Sets metadata such as title, author, date, and output format.
 
-## Headings
+------------------------------------------------------------------------
+
+### Headings
 - `#` Level 1
 - `##` Level 2
 - `###` Level 3
 
-## Lists
-- Bulleted list:
+### Lists
+- Bullet list:
   - Item one
   - Item two
 - Numbered list:
   1. First
   2. Second
 
-## Code Chunks
-````
-```{r}
-summary(cars)
-```
-````
+ℹ️ Try to add headings and list in the document.
+
+------------------------------------------------------------------------
+
+### Code Chunks
 - Supports many languages (R, Python, Julia, Bash, etc.).
 - Chunk options (e.g., `echo`, `eval`, `fig.width`) modify output.
 
-## Callouts
-Create callouts for tips or warnings:
-```markdown
-::: {.callout-tip}
-This is a helpful tip.
-:::
+```{r}
+#| echo: true
+summary(cars)
 ```
 
-## Tables
+
+ℹ️ Try to find code chunks in the document.
+
+
+------------------------------------------------------------------------
+
+### Callouts
+Create callouts for tips or warnings:
+::: {.callout-note}
+Note that there are five types of callouts, including:
+`note`, `warning`, `important`, `tip`, and `caution`.
+:::
+
+::: {.callout-tip}
+## Tip with Title
+
+This is an example of a callout with a title.
+:::
+
+::: {.callout-caution collapse="true"}
+## Expand To Learn About Collapse
+
+This is an example of a 'folded' caution callout that can be expanded by the user. You can use `collapse="true"` to collapse it by default or `collapse="false"` to make a collapsible callout that is expanded by default.
+:::
+
+ℹ️ Try to add callouts using the visual mode in the document.
+
+------------------------------------------------------------------------
+
+### Tables
 Create simple tables using pipe syntax:
 ```
 | Column1 | Column2 |
@@ -118,13 +139,14 @@ Create simple tables using pipe syntax:
 |   10    |   20    |
 ```
 
-## Cross-References and Citations
-- `@fig-label` for figure references.
-- `[@key]` for bibliography citations from a `.bib` file.
+### Images
+![](https://quarto.org/docs/get-started/hello/images/rstudio-qmd-how-it-works.png)
 
----
+ℹ️ Try to add tables and images using the visual mode in the document.
 
-# 3. Example Document Layout
+------------------------------------------------------------------------
+
+## 3. Example Document Layout
 
 ```markdown
 ---
@@ -146,25 +168,11 @@ library(dplyr)
 - Key finding 2
 ```
 
----
-
-------------------------------------------------------------------------
-
-## 4. Render the Document
-
--   From the terminal:
-
-    ``` bash
-    quarto render hello.qmd
-    ```
-
--   Produces `hello.html` (or PDF/Word if you set a different format).
-
 ------------------------------------------------------------------------
 
 ## 5. Customize Appearance
 
--   Use a built-in theme:
+Use a built-in theme:
 
     ``` yaml
     format:
@@ -172,37 +180,12 @@ library(dplyr)
         theme: cosmo
     ```
 
--   Add custom CSS for branding or typography.
+ℹ️ Try different themes from <https://quarto.org/docs/output-formats/html-themes.html>.
 
 ------------------------------------------------------------------------
 
-## 6. Build Presentations
-
--   For slides, set:
-
-    ``` yaml
-    format: revealjs
-    ```
-
--   Use `##` for new slides, `###` for sub-slides.
-
--   Render to create an interactive Reveal.js deck.
-
-------------------------------------------------------------------------
-
-## 7. Resources
+## 6. Resources
 
 -   Documentation: <https://quarto.org/docs/>
 -   Tutorials and guides: <https://quarto.org/docs/get-started/>
 -   Community support via RStudio Community and GitHub discussions.
-
-------------------------------------------------------------------------
-
-## Suggested Screenshots
-
--   Quarto homepage\
--   Terminal output of `quarto check`\
--   Example `.qmd` file open in VS Code or RStudio\
--   Rendered HTML output\
--   Reveal.js slide in a browser\
--   GitHub Pages site after publishing
