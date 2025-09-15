@@ -239,6 +239,35 @@ Earth Observation data for sampling
 <li>Remote sensing with Google Hearth Engine</li>
 </ul>
 </section>
+<section id="eo-data-for-sampling" class="slide level2">
+<h2>EO data for sampling</h2>
+<ul>
+<li><strong>Up-to-date spatial coverage</strong>
+<ul>
+<li>Complements or updates outdated census and survey frames<br>
+</li>
+<li>Detects new settlements, urban growth, and rural changes</li>
+</ul></li>
+<li><strong>Population distribution and density</strong>
+<ul>
+<li>Proxy indicators: night-time lights, building footprints, land cover<br>
+</li>
+<li>Supports stratification and proportional allocation of samples</li>
+</ul></li>
+<li><strong>Environmental and contextual variables</strong>
+<ul>
+<li>NDVI, elevation, climate, accessibility data<br>
+</li>
+<li>Enable stratified sampling by ecological or geographic conditions</li>
+</ul></li>
+<li><strong>Improved sampling efficiency</strong>
+<ul>
+<li>Helps identify hard-to-reach or hidden populations<br>
+</li>
+<li>Reduces cost and field effort by targeting relevant areas</li>
+</ul></li>
+</ul>
+</section>
 <section id="spatial-data-in-r" class="slide level2">
 <h2>Spatial data in R</h2>
 <ul>
@@ -464,7 +493,7 @@ max value   :                6050.907715 </code></pre>
 </section>
 <section id="gee-code-editor" class="slide level2">
 <h2>GEE code editor</h2>
-<p>Open <a href="https://code.earthengine.google.com/"><strong>GEE Code Editor</strong></a> and follow the following <strong>step-by-step</strong>:</p>
+<p>Open <a href="https://code.earthengine.google.com/"><strong>GEE Code Editor</strong></a> and follow the following <strong>step-by-step</strong> (more <a href="https://scienceparkstudygroup.github.io/GoogleEarthEngine/02-code-editor/">here</a>):</p>
 <pre><code>1.  Sign in with a Google account (example: samplingworkshop\@gmail.com)\
 2.  Click New Script
 3.  Use the **search bar to find datasets
@@ -472,11 +501,8 @@ max value   :                6050.907715 </code></pre>
 5.  Use filters (e.g., date, location, bands)
 6.  Display results with Map.addLayer()
 7.  Export data with Export.image.toDrive() or Export.table.toDrive()</code></pre>
-<div class="embed">
-<iframe src="https://code.earthengine.google.com" width="100%" height="350">
-</iframe>
-</div>
-</section>
+
+<img data-src="img/gee_codeeditor.png" class="r-stretch"></section>
 <section id="gee-example-script" class="slide level2">
 <h2>GEE example script</h2>
 <div class="sourceCode" id="cb13"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href=""></a><span class="co">// Example: extract mean NDVI for a region in 2020</span></span>
@@ -553,9 +579,6 @@ max value   :                6050.907715 </code></pre>
 <p>R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org</p>
 <p>Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., &amp; Moore, R. (2017). *Google Earth Engine: Planetary-scale geospatial analysis for everyone*. Remote Sensing of Environment, 202, 18–27. https://developers.google.com/earth-engine</p>
 <p>Grolemund, G., &amp; Wickham, H. (2017). *R for Data Science: Import, Tidy, Transform, Visualize, and Model Data*. O’Reilly Media. https://r4ds.had.co.nz</p>
-<ul>
-<li></li>
-</ul>
 </section>
 <section id="exercise" class="slide level2">
 <h2>Exercise</h2>

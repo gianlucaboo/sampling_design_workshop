@@ -9,7 +9,7 @@
 <link href="05_ai_ml_sampling_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.6.42">
 
-  <meta name="author" content="AI and ML for sampling">
+  <meta name="author" content="AI and machine learning for sampling">
   <meta name="dcterms.date" content="2025-09-17">
   <title>Workshop on Advanced Sampling Methodologies</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -133,7 +133,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-AI and ML for sampling 
+AI and machine learning for sampling 
 </div>
         <p class="quarto-title-affiliation">
             Dr.&nbsp;Gianluca Boo, WorldPop, University of Southampton
@@ -143,32 +143,41 @@ AI and ML for sampling
 
   <p class="date">2025-09-17</p>
 </section>
-<section id="agenda" class="slide level2">
-<h2>Agenda</h2>
+<section id="workshops-agenda" class="slide level2">
+<h2>Workshop’s agenda</h2>
 <ul>
-<li>Introduction to AI &amp; ML in Sampling</li>
-<li>K-Means Clustering for Stratification</li>
-<li>Random Forest for Sample Weighting and Prediction</li>
+<li><strong>Day 1</strong>: Introduction to QGIS</li>
+<li><strong>Day 2</strong>: Automatic update of census EA and national sampling frame</li>
+<li><strong>Day 3</strong>: Introduction to R programming</li>
+<li><strong>Day 4</strong>: Introduction to Sampling Design</li>
+<li><strong>Day 5</strong>: Advanced R programming</li>
+<li><strong>Day 6</strong>: Earth observation (EO) for sampling design</li>
+<li><strong>Day 7</strong>: AI and machine learning for sample selection</li>
+<li><strong>Day 8</strong>: Simulation and optimization of sampling strategies</li>
+<li><strong>Day 9</strong>: R Shiny for sampling design evaluation</li>
+<li><strong>Day 10</strong>: Wrap-up and workshop evaluation</li>
+</ul>
+</section>
+<section id="todays-agenda" class="slide level2">
+<h2>Today’s agenda</h2>
+<ul>
+<li>Introduction to AI and ML in sampling</li>
+<li>K-Means clustering for stratification</li>
+<li>Random Forest for sample weighting and prediction</li>
 <li>Implementation in R with tidymodels</li>
-<li>Summary &amp; Key Takeaways</li>
+<li>Practical exercises</li>
 </ul>
 </section>
-<section id="introduction-to-ai-ml-in-sampling" class="slide level2">
-<h2>Introduction to AI &amp; ML in Sampling</h2>
+<section id="ai-and-machine-learning-in-sampling" class="slide level2">
+<h2>AI and machine learning in sampling</h2>
 <ul>
-<li>Enhance sampling efficiency and representativeness</li>
-<li>Detect patterns in population data</li>
-<li>Reduce bias and improve stratification</li>
+<li>Improve <strong>sampling efficiency and representativeness</strong></li>
+<li>Detect patterns in <strong>complex population data</strong></li>
+<li><strong>Reduce bias</strong> and <strong>improve stratification</strong></li>
+<li><strong>Reduce sample</strong> size while maintaining accuracy</li>
 </ul>
-</section>
-<section id="why-ml-for-sampling" class="slide level2">
-<h2>Why ML for Sampling?</h2>
-<ul>
-<li>Identify hidden population structure</li>
-<li>Prioritize high-impact units</li>
-<li>Reduce sample size while maintaining accuracy</li>
-</ul>
-</section>
+
+<img data-src="img/ai_ml.gif" class="r-stretch quarto-figure-left"><p class="caption">A grid-based sample design framework (source: <a href="https://gatesopenresearch.org/articles/4-13">Boo et al.</a>).</p></section>
 <section id="overview-of-machine-learning" class="slide level2">
 <h2>Overview of Machine Learning</h2>
 <ul>
@@ -177,22 +186,47 @@ AI and ML for sampling
 <li>Features (inputs) and targets (outputs)</li>
 <li>Training, validation, and prediction workflow</li>
 </ul>
-</section>
+
+<img data-src="img/ml.png" class="r-stretch quarto-figure-left"><p class="caption">source: <a href="https://www.edureka.co/blog/what-is-machine-learning/">Edureka</a>.</p></section>
 <section id="unsupervised-learning-clustering" class="slide level2">
 <h2>Unsupervised Learning: Clustering</h2>
 <ul>
+<li><strong>Clustering</strong> is an <strong>unsupervised learning</strong> method</li>
 <li>Detect natural groups in population data</li>
 <li>k-Means: widely used for stratification</li>
 <li>Useful for creating representative samples</li>
 </ul>
 </section>
-<section id="k-means-clustering-concept" class="slide level2">
-<h2>K-Means Clustering Concept</h2>
+<section id="k-means-clustering" class="slide level2">
+<h2>K-Means Clustering</h2>
 <ul>
-<li>Partition population into <strong>K clusters</strong></li>
-<li>Minimize within-cluster variance</li>
-<li>Example: stratification for sampling</li>
+<li><p>Partition population into <strong>K clusters</strong></p></li>
+<li><p>Minimize within-cluster variance</p></li>
+<li><p>Example: stratification for sampling</p></li>
+<li></li>
 </ul>
+<p><strong>Slide 3: What is K-means?</strong></p>
+<ul>
+<li>A <strong>partitioning clustering algorithm</strong><br>
+</li>
+<li>Divides data into <strong>K clusters</strong><br>
+</li>
+<li>Each cluster has a <strong>centroid</strong> (mean)<br>
+</li>
+<li>Objective: minimize <strong>within-cluster variance</strong></li>
+</ul>
+<p><strong>Slide 4: K-means Algorithm Steps </strong></p>
+<ol type="1">
+<li>Choose <strong>K</strong> (number of clusters)<br>
+</li>
+<li>Randomly initialize cluster centroids<br>
+</li>
+<li>Assign each observation to nearest centroid<br>
+</li>
+<li>Update centroids (mean of assigned points)<br>
+</li>
+<li>Repeat until convergence</li>
+</ol>
 </section>
 <section id="k-means-algorithm-steps" class="slide level2">
 <h2>K-Means Algorithm Steps</h2>
@@ -307,11 +341,11 @@ AI and ML for sampling
 <section id="resources" class="slide level2">
 <h2>Resources</h2>
 <ul>
-<li>James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). <em>An Introduction to Statistical Learning with Applications in R</em>. Springer. <a href="https://www.statlearning.com">https://www.statlearning.com</a></li>
-<li>Kuhn, M., &amp; Wickham, H. (2023). <em>tidymodels: Unified Interface for Modeling in R</em>. <a href="https://www.tidymodels.org">https://www.tidymodels.org</a></li>
-<li>Pebesma, E. (2018). <em>Simple Features for R</em>. R Journal. <a href="https://journal.r-project.org">https://journal.r-project.org</a></li>
-<li>R Core Team. (2025). <em>R: A Language and Environment for Statistical Computing</em>. <a href="https://www.R-project.org">https://www.R-project.org</a></li>
-<li>Grolemund, G., Wickham, H. (2017). <em>R for Data Science</em>. <a href="https://r4ds.had.co.nz">https://r4ds.had.co.nz</a></li>
+<li>James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). <em>An Introduction to Statistical Learning with Applications in R</em>. Springer. <a href="https://www.statlearning.com" class="uri">https://www.statlearning.com</a></li>
+<li>Kuhn, M., &amp; Wickham, H. (2023). <em>tidymodels: Unified Interface for Modeling in R</em>. <a href="https://www.tidymodels.org" class="uri">https://www.tidymodels.org</a></li>
+<li>Pebesma, E. (2018). <em>Simple Features for R</em>. R Journal. <a href="https://journal.r-project.org" class="uri">https://journal.r-project.org</a></li>
+<li>R Core Team. (2025). <em>R: A Language and Environment for Statistical Computing</em>. <a href="https://www.R-project.org" class="uri">https://www.R-project.org</a></li>
+<li>Grolemund, G., Wickham, H. (2017). <em>R for Data Science</em>. <a href="https://r4ds.had.co.nz" class="uri">https://r4ds.had.co.nz</a></li>
 </ul>
 
 </section>

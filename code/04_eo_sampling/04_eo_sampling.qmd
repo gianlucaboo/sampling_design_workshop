@@ -43,6 +43,26 @@ toc-title: "Content"
 
 ------------------------------------------------------------------------
 
+## EO data for sampling
+
+- **Up-to-date spatial coverage**  
+  - Complements or updates outdated census and survey frames  
+  - Detects new settlements, urban growth, and rural changes  
+
+- **Population distribution and density**  
+  - Proxy indicators: night-time lights, building footprints, land cover  
+  - Supports stratification and proportional allocation of samples  
+
+- **Environmental and contextual variables**  
+  - NDVI, elevation, climate, accessibility data  
+  - Enable stratified sampling by ecological or geographic conditions  
+
+- **Improved sampling efficiency**  
+  - Helps identify hard-to-reach or hidden populations  
+  - Reduces cost and field effort by targeting relevant areas  
+
+------------------------------------------------------------------------
+
 ## Spatial data in R
 
 -   Two main types:
@@ -249,7 +269,7 @@ ggplot(elevation_df) +
 
 ## GEE code editor
 
-Open [**GEE Code Editor**](https://code.earthengine.google.com/) and follow the following **step-by-step**:
+Open [**GEE Code Editor**](https://code.earthengine.google.com/) and follow the following **step-by-step** (more [here](https://scienceparkstudygroup.github.io/GoogleEarthEngine/02-code-editor/)):
 
 ```         
 1.  Sign in with a Google account (example: samplingworkshop\@gmail.com)\
@@ -261,11 +281,7 @@ Open [**GEE Code Editor**](https://code.earthengine.google.com/) and follow the 
 7.  Export data with Export.image.toDrive() or Export.table.toDrive()
 ```
 
-::: embed
-<iframe src="https://code.earthengine.google.com" width="100%" height="350">
-
-</iframe>
-:::
+![](img/gee_codeeditor.png)
 
 ------------------------------------------------------------------------
 
@@ -366,8 +382,6 @@ R Core Team. (2025). \*R: A Language and Environment for Statistical Computing\*
 Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., & Moore, R. (2017). \*Google Earth Engine: Planetary-scale geospatial analysis for everyone\*. Remote Sensing of Environment, 202, 18–27. https://developers.google.com/earth-engine
 
 Grolemund, G., & Wickham, H. (2017). \*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data\*. O’Reilly Media. https://r4ds.had.co.nz
-
--   
 
 ------------------------------------------------------------------------
 

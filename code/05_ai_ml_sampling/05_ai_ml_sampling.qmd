@@ -1,6 +1,6 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "AI and ML for sampling"
+author: "AI and machine learning for sampling"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-17-2025"
 title-slide-attributes:
@@ -19,29 +19,39 @@ toc-title: "Content"
 
 ------------------------------------------------------------------------
 
-## Agenda
+## Workshop's agenda
 
--   Introduction to AI & ML in Sampling
--   K-Means Clustering for Stratification
--   Random Forest for Sample Weighting and Prediction
+-   **Day 1**: Introduction to QGIS
+-   **Day 2**: Automatic update of census EA and national sampling frame
+-   **Day 3**: Introduction to R programming
+-   **Day 4**: Introduction to Sampling Design
+-   **Day 5**: Advanced R programming
+-   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 7**: AI and machine learning for sample selection
+-   **Day 8**: Simulation and optimization of sampling strategies
+-   **Day 9**: R Shiny for sampling design evaluation
+-   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Today's agenda
+
+-   Introduction to AI and ML in sampling
+-   K-Means clustering for stratification
+-   Random Forest for sample weighting and prediction
 -   Implementation in R with tidymodels
--   Summary & Key Takeaways
+-   Practical exercises
 
 ------------------------------------------------------------------------
 
-## Introduction to AI & ML in Sampling
+## AI and machine learning in sampling
 
--   Enhance sampling efficiency and representativeness
--   Detect patterns in population data
--   Reduce bias and improve stratification
+-   Improve **sampling efficiency and representativeness**
+-   Detect patterns in **complex population data**
+-   **Reduce bias** and **improve stratification**
+-   **Reduce sample** size while maintaining accuracy
 
-------------------------------------------------------------------------
-
-## Why ML for Sampling?
-
--   Identify hidden population structure
--   Prioritize high-impact units
--   Reduce sample size while maintaining accuracy
+![A grid-based sample design framework (source: [Boo et al.](https://gatesopenresearch.org/articles/4-13)).](img/ai_ml.gif){fig-align="left"}
 
 ------------------------------------------------------------------------
 
@@ -52,21 +62,45 @@ toc-title: "Content"
 -   Features (inputs) and targets (outputs)
 -   Training, validation, and prediction workflow
 
+![source: [Edureka](https://www.edureka.co/blog/what-is-machine-learning/).](img/ml.png){fig-align="left"}
+
 ------------------------------------------------------------------------
 
 ## Unsupervised Learning: Clustering
 
+-   **Clustering** is an **unsupervised learning** method
 -   Detect natural groups in population data
 -   k-Means: widely used for stratification
 -   Useful for creating representative samples
 
 ------------------------------------------------------------------------
 
-## K-Means Clustering Concept
+## K-Means Clustering
 
 -   Partition population into **K clusters**
+
 -   Minimize within-cluster variance
+
 -   Example: stratification for sampling
+
+-   
+
+**Slide 3: What is K-means?**
+
+-   A **partitioning clustering algorithm**\
+-   Divides data into **K clusters**\
+-   Each cluster has a **centroid** (mean)\
+-   Objective: minimize **within-cluster variance**
+
+
+
+**Slide 4: K-means Algorithm Steps **
+
+1.  Choose **K** (number of clusters)\
+2.  Randomly initialize cluster centroids\
+3.  Assign each observation to nearest centroid\
+4.  Update centroids (mean of assigned points)\
+5.  Repeat until convergence
 
 ------------------------------------------------------------------------
 
