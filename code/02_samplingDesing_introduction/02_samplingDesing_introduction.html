@@ -6,8 +6,8 @@
 <script src="02_samplingDesing_introduction_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="02_samplingDesing_introduction_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="02_samplingDesing_introduction_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="02_samplingDesing_introduction_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+<link href="02_samplingDesing_introduction_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="Introduction to Sampling Design">
   <meta name="dcterms.date" content="2025-09-18">
@@ -30,8 +30,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -42,7 +43,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -95,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="02_samplingDesing_introduction_files/libs/revealjs/dist/theme/quarto-21278d62b890e0d2198d3b9301299743.css">
+  <link rel="stylesheet" href="02_samplingDesing_introduction_files/libs/revealjs/dist/theme/quarto-06ba0374b4992178375dd84683eed57c.css">
   <link href="02_samplingDesing_introduction_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="02_samplingDesing_introduction_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="02_samplingDesing_introduction_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -368,7 +369,7 @@ Introduction to Sampling Design
 <p><span class="math inline">\(n\)</span>: sample size</p>
 <p><span class="math inline">\(N\)</span>: population size</p>
 </div></div>
-<p>ℹ️ The sample mean can be computed by substituting <span class="math inline">\(N\)</span> with <span class="math inline">\(n\)</span>, while the sample variance by substituting <span class="math inline">\(N\)</span> with <span class="math inline">\(n\)</span> and <span class="math inline">\(n-1\)</span> in the denominator.</p>
+<p>ℹ️ The sample mean can be computed by substituting <span class="math inline">\(N\)</span> with <span class="math inline">\(n\)</span>, while the sample variance by substituting <span class="math inline">\(N\)</span> with <span class="math inline">\(n\)</span> and <span class="math inline">\(n-1\)</span> in the denominator (Bessel’s correction).</p>
 </section>
 <section id="simple-random-sampling-2" class="slide level2">
 <h2>Simple random sampling</h2>
@@ -412,24 +413,32 @@ Introduction to Sampling Design
 <h2>Stratified sampling</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
-<p><strong>Sample mean</strong>: <span class="math display">\[
+<p><strong>Sample mean</strong> <span class="math display">\[
     \bar{x}_{st} = \sum_{h=1}^H W_h \bar{x}_h
     \]</span> <strong>Approximate variance</strong> <span class="math display">\[
     \operatorname{Var}(\bar{x}_{st}) = \sum_{h=1}^H W_h^2 \frac{\sigma_h^2}{n_h} \left(1 - \frac{n_h}{N_h}\right)
     \]</span> <strong>Population mean</strong> <span class="math display">\[
-    \mu = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} x_{hi}
+    \mu = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} x_{h_{i}}
     \]</span> <strong>Population variance</strong> <span class="math display">\[
-      \sigma^2 = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} (x_{hi} - \mu)^2
+      \sigma^2 = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} (x_{h_{i}} - \mu)^2
     \]</span></p>
 </div><div class="column" style="width:40%;">
-<p><span class="math inline">\(N_h\)</span>: size of stratum <span class="math inline">\(h\)</span>;</p>
-<p><span class="math inline">\(n_h\)</span>: sample size for stratum <span class="math inline">\(h\)</span>;</p>
-<p><span class="math inline">\(N\)</span>: total population size;</p>
-<p><span class="math inline">\(W_h=\dfrac{N_h}{N}\)</span>: population weight of <span class="math inline">\(h\)</span>,</p>
-<p><span class="math inline">\(f_h=\dfrac{n_h}{N_h}\)</span>: sampling fraction in <span class="math inline">\(h\)</span>,</p>
-<p><span class="math inline">\(\bar x_h\)</span>: sample mean in <span class="math inline">\(h\)</span>,</p>
-<p><span class="math inline">\(s_h^2=\)</span>: sample variance in <span class="math inline">\(h\)</span>.</p>
+<p><span class="math inline">\(N_h\)</span>: size of stratum <span class="math inline">\(h\)</span><br>
+</p>
+<p><span class="math inline">\(n_h\)</span>: sample size for stratum <span class="math inline">\(h\)</span><br>
+</p>
+<p><span class="math inline">\(N\)</span>: total population size<br>
+</p>
+<p><span class="math inline">\(W_h=\dfrac{N_h}{N}\)</span>: population weight of <span class="math inline">\(h\)</span><br>
+</p>
+<p><span class="math inline">\(f_h=\dfrac{n_h}{N_h}\)</span>: sampling fraction in <span class="math inline">\(h\)</span><br>
+</p>
+<p><span class="math inline">\(\bar x_h\)</span>: sample mean in <span class="math inline">\(h\)</span><br>
+</p>
+<p><span class="math inline">\(s_h^2=\)</span>: sample variance in <span class="math inline">\(h\)</span><br>
+</p>
 </div></div>
+<p>ℹ️ The mean and variance are weighted by the stratum’s size (<span class="math inline">\(W_h=\dfrac{N_h}{N}\)</span>).</p>
 </section>
 <section id="stratified-sampling-2" class="slide level2">
 <h2>Stratified sampling</h2>
@@ -500,6 +509,7 @@ Introduction to Sampling Design
 <span class="math inline">\(S_c^2\)</span>: Variance of cluster means<br>
 <span class="math inline">\(S\)</span>: Set of sampled clusters</p>
 </div></div>
+<p>ℹ️ The mean and variance are weighted by the clusters’ size similar to stratified sampling (<span class="math inline">\(W_h=\dfrac{N_h}{N}\)</span>) if needed.</p>
 </section>
 <section id="cluster-sampling-2" class="slide level2">
 <h2>Cluster sampling</h2>
@@ -689,27 +699,27 @@ Introduction to Sampling Design
 <h2>Weighted sampling</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
-<p><strong>Population mean (weighted)</strong> <span class="math display">\[
-\mu = \frac{\sum_{i=1}^{N} w_i x_i}{\sum_{i=1}^{N} w_i}
+<p><strong>Population total (Horvitz–Thompson estimator)</strong> <span class="math display">\[
+\hat T = \sum_{i\in S} \frac{x_i}{\pi_i}
 \]</span></p>
-<p><strong>Population variance (weighted)</strong> <span class="math display">\[
-\sigma^2 = \frac{\sum_{i=1}^{N} w_i (x_i - \mu)^2}{\sum_{i=1}^{N} w_i}
+<p><strong>Population mean (Horvitz–Thompson estimator)</strong> <span class="math display">\[
+\mu_{HT} = \frac{1}{N} \sum_{i \in S} \frac{x_i}{\pi_i}
 \]</span></p>
+<p>ℹ️ The Horvitz–Thompson estimator works if&nbsp;<span class="math inline">\(N\)</span> is known.</p>
 <p><strong>Weighted sample mean</strong> <span class="math display">\[
 \bar{x}_w = \frac{\sum_{i \in S} w_i x_i}{\sum_{i \in S} w_i}
-\]</span></p>
-<p><strong>Approximate variance of</strong> <span class="math inline">\(\bar{x}_w\)</span> <span class="math display">\[
-\operatorname{Var}(\bar{x}_w) \approx \sum_{i \in S} \frac{w_i^2}{(\sum_{i \in S} w_i)^2} (x_i - \bar{x}_w)^2
 \]</span></p>
 </div><div class="column" style="width:40%;">
 <p><span class="math inline">\(N\)</span>: Population size<br>
 <span class="math inline">\(x_i\)</span>: Value of the <span class="math inline">\(i\)</span>-th element in the population<br>
-<span class="math inline">\(w_i\)</span>:Weight of element <span class="math inline">\(i\)</span> (proportional to size)<br>
+<span class="math inline">\(w_i\)</span>: Weight of element <span class="math inline">\(i\)</span><br>
 <span class="math inline">\(S\)</span>: Set of sampled elements<br>
 <span class="math inline">\(\bar{x}_w\)</span>: Weighted sample mean<br>
-<span class="math inline">\(\mu\)</span>: Population mean (weighted)<br>
-<span class="math inline">\(\sigma^2\)</span>: Population variance (weighted)<br>
-<span class="math inline">\(\operatorname{Var}(\bar{x}_w)\)</span>: Approximate variance of weighted sample mean</p>
+<span class="math inline">\(\mu_{HT}\)</span>: Population mean<br>
+<span class="math inline">\(\hat T\)</span>: Population total<br>
+<span class="math inline">\(\pi_i\)</span>: Inclusion probability for for unit <span class="math inline">\(i\)</span><br>
+<span class="math inline">\(w_i\)</span>: Sampling weight for unit <span class="math inline">\(i\)</span>, <span class="math inline">\(1/\pi_i\)</span><br>
+</p>
 </div></div>
 </section>
 <section id="weighted-sampling-2" class="slide level2">
@@ -1140,7 +1150,7 @@ Introduction to Sampling Design
 <li>Establish reliable sampling frame</li>
 <li>Choose method aligned with objectives and resources</li>
 <li>Calculate appropriate sample size</li>
-<li>Minimize bias &amp; sampling error</li>
+<li>Minimize bias and sampling error</li>
 <li>Document design and limitations thoroughly</li>
 </ol>
 </section>
@@ -1387,190 +1397,172 @@ Introduction to Sampling Design
       });
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
-          }
-        }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
-          }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
             }
           }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          return false;
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
             }
-          }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
         }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
-          }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
-          }
-        } else {
-          return undefined;
-        }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
+        const getTextToCopy = function(trigger) {
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
               }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+            }
+            return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

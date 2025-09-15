@@ -180,7 +180,7 @@ $N$: population size
 :::
 :::::
 
-ℹ️ The sample mean can be computed by substituting $N$ with $n$, while the sample variance by substituting $N$ with $n$ and $n-1$ in the denominator.
+ℹ️ The sample mean can be computed by substituting $N$ with $n$, while the sample variance by substituting $N$ with $n$ and $n-1$ in the denominator (Bessel’s correction).
 
 ------------------------------------------------------------------------
 
@@ -233,33 +233,35 @@ list(ybar_hat = ybar_hat,              # Return list with results:
 
 ::::: columns
 ::: {.column width="60%"}
-**Sample mean**: $$ 
+**Sample mean** $$ 
     \bar{x}_{st} = \sum_{h=1}^H W_h \bar{x}_h
     $$ **Approximate variance** $$
     \operatorname{Var}(\bar{x}_{st}) = \sum_{h=1}^H W_h^2 \frac{\sigma_h^2}{n_h} \left(1 - \frac{n_h}{N_h}\right)
     $$ **Population mean** $$ 
-    \mu = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} x_{hi}
+    \mu = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} x_{h_{i}}
     $$ **Population variance** $$
-      \sigma^2 = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} (x_{hi} - \mu)^2
+      \sigma^2 = \frac{1}{N} \sum_{h=1}^{H} \sum_{i=1}^{N_h} (x_{h_{i}} - \mu)^2
     $$
 :::
 
 ::: {.column width="40%"}
-$N_h$: size of stratum $h$;
+$N_h$: size of stratum $h$\
 
-$n_h$: sample size for stratum $h$;
+$n_h$: sample size for stratum $h$\
 
-$N$: total population size;
+$N$: total population size\
 
-$W_h=\dfrac{N_h}{N}$: population weight of $h$,
+$W_h=\dfrac{N_h}{N}$: population weight of $h$\
 
-$f_h=\dfrac{n_h}{N_h}$: sampling fraction in $h$,
+$f_h=\dfrac{n_h}{N_h}$: sampling fraction in $h$\
 
-$\bar x_h$: sample mean in $h$,
+$\bar x_h$: sample mean in $h$\
 
-$s_h^2=$: sample variance in $h$.
+$s_h^2=$: sample variance in $h$\
 :::
 :::::
+
+ℹ️ The mean and variance are weighted by the stratum's size ($W_h=\dfrac{N_h}{N}$).
 
 ------------------------------------------------------------------------
 
@@ -342,6 +344,8 @@ $S_c^2$: Variance of cluster means\
 $S$: Set of sampled clusters
 :::
 :::::
+
+ℹ️ The mean and variance are weighted by the clusters' size similar to stratified sampling ($W_h=\dfrac{N_h}{N}$) if needed.
 
 ------------------------------------------------------------------------
 
@@ -545,32 +549,31 @@ Ybar_hat                                     # Print estimate
 
 ::::: columns
 ::: {.column width="60%"}
-**Population mean (weighted)** $$
-\mu = \frac{\sum_{i=1}^{N} w_i x_i}{\sum_{i=1}^{N} w_i}
+**Population total (Horvitz–Thompson estimator)** $$
+\hat T = \sum_{i\in S} \frac{x_i}{\pi_i}
 $$
 
-**Population variance (weighted)** $$
-\sigma^2 = \frac{\sum_{i=1}^{N} w_i (x_i - \mu)^2}{\sum_{i=1}^{N} w_i}
+**Population mean (Horvitz–Thompson estimator)** $$
+\mu_{HT} = \frac{1}{N} \sum_{i \in S} \frac{x_i}{\pi_i}
 $$
+
+ℹ️ The Horvitz–Thompson estimator works if $N$ is known.
 
 **Weighted sample mean** $$
 \bar{x}_w = \frac{\sum_{i \in S} w_i x_i}{\sum_{i \in S} w_i}
-$$
-
-**Approximate variance of** $\bar{x}_w$ $$
-\operatorname{Var}(\bar{x}_w) \approx \sum_{i \in S} \frac{w_i^2}{(\sum_{i \in S} w_i)^2} (x_i - \bar{x}_w)^2
 $$
 :::
 
 ::: {.column width="40%"}
 $N$: Population size\
 $x_i$: Value of the $i$-th element in the population\
-$w_i$:Weight of element $i$ (proportional to size)\
+$w_i$: Weight of element $i$\
 $S$: Set of sampled elements\
 $\bar{x}_w$: Weighted sample mean\
-$\mu$: Population mean (weighted)\
-$\sigma^2$: Population variance (weighted)\
-$\operatorname{Var}(\bar{x}_w)$: Approximate variance of weighted sample mean
+$\mu_{HT}$: Population mean\
+$\hat T$: Population total\
+$\pi_i$: Inclusion probability for for unit $i$\
+$w_i$: Sampling weight for unit $i$, $1/\pi_i$\
 :::
 :::::
 
@@ -983,7 +986,7 @@ Ybar_hat                                         # Print estimated mean
 2.  Establish reliable sampling frame
 3.  Choose method aligned with objectives and resources
 4.  Calculate appropriate sample size
-5.  Minimize bias & sampling error
+5.  Minimize bias and sampling error
 6.  Document design and limitations thoroughly
 
 ------------------------------------------------------------------------

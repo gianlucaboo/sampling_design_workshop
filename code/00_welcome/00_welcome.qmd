@@ -1,8 +1,8 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
 author: "Welcome and Introduction"
-institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
-date: "09-17-2025"
+institute: "Dr. Sarchil Quader and Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-15-2025"
 title-slide-attributes:
   data-background-image: "wp.png"
   data-background-size: "3.2em"

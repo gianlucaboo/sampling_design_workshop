@@ -1,0 +1,208 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "Reporting with Quarto"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-18-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+## 1. Install Quarto
+
+-   Download and install from <https://quarto.org/docs/get-started/>.\
+-   Ensure R is installed if you plan to execute code chunks.\
+
+::: embed
+<iframe src="https://quarto.org/docs/get-started/" width="100%" height="450">
+</iframe>
+:::
+
+------------------------------------------------------------------------
+
+## 2. Create or open a new document
+
+-   Create a new document:
+![](img/quarto_newFile.png){width="350"}
+
+-   Basic YAML header:
+
+    ``` yaml
+    ---
+    title: "Hello Quarto"
+    format: html
+    ---
+    ```
+
+------------------------------------------------------------------------
+
+## 3. Write Markdown & Code Chunks
+# 1. Two Main Editing Modes
+
+Quarto lets you choose between a **Visual Editor** and a **Source (Code) Editor**.
+
+## Visual Editor
+- WYSIWYG interface similar to a word processor.
+- Ideal for those who prefer formatting buttons and live preview.
+- Features include toolbar for headings, lists, tables, and inserting code chunks.
+
+## Source (Code) Editor
+- Plain-text editing of the `.qmd` file.
+- Preferred by users comfortable with Markdown and YAML.
+- Works well with version control systems like Git.
+
+> You can switch between Visual and Source modes at any time; both modes save the same underlying `.qmd` text.
+
+---
+
+# 2. Document Structure Elements
+
+Quarto uses **YAML front matter** for metadata and **Markdown** for content.
+
+## YAML Front Matter
+Example:
+```yaml
+---
+title: "My Analysis"
+author: "Jane Doe"
+date: "2025-09-15"
+format: html
+---
+```
+- Sets metadata such as title, author, date, and output format.
+
+## Headings
+- `#` Level 1
+- `##` Level 2
+- `###` Level 3
+
+## Lists
+- Bulleted list:
+  - Item one
+  - Item two
+- Numbered list:
+  1. First
+  2. Second
+
+## Code Chunks
+````
+```{r}
+summary(cars)
+```
+````
+- Supports many languages (R, Python, Julia, Bash, etc.).
+- Chunk options (e.g., `echo`, `eval`, `fig.width`) modify output.
+
+## Callouts
+Create callouts for tips or warnings:
+```markdown
+::: {.callout-tip}
+This is a helpful tip.
+:::
+```
+
+## Tables
+Create simple tables using pipe syntax:
+```
+| Column1 | Column2 |
+|--------:|:-------:|
+|   10    |   20    |
+```
+
+## Cross-References and Citations
+- `@fig-label` for figure references.
+- `[@key]` for bibliography citations from a `.bib` file.
+
+---
+
+# 3. Example Document Layout
+
+```markdown
+---
+title: "Sales Analysis Report"
+format: html
+---
+
+# Introduction
+Brief description…
+
+## Data Preparation
+```{r}
+library(dplyr)
+# your code here
+```
+
+## Results
+- Key finding 1
+- Key finding 2
+```
+
+---
+
+------------------------------------------------------------------------
+
+## 4. Render the Document
+
+-   From the terminal:
+
+    ``` bash
+    quarto render hello.qmd
+    ```
+
+-   Produces `hello.html` (or PDF/Word if you set a different format).
+
+------------------------------------------------------------------------
+
+## 5. Customize Appearance
+
+-   Use a built-in theme:
+
+    ``` yaml
+    format:
+      html:
+        theme: cosmo
+    ```
+
+-   Add custom CSS for branding or typography.
+
+------------------------------------------------------------------------
+
+## 6. Build Presentations
+
+-   For slides, set:
+
+    ``` yaml
+    format: revealjs
+    ```
+
+-   Use `##` for new slides, `###` for sub-slides.
+
+-   Render to create an interactive Reveal.js deck.
+
+------------------------------------------------------------------------
+
+## 7. Resources
+
+-   Documentation: <https://quarto.org/docs/>
+-   Tutorials and guides: <https://quarto.org/docs/get-started/>
+-   Community support via RStudio Community and GitHub discussions.
+
+------------------------------------------------------------------------
+
+## Suggested Screenshots
+
+-   Quarto homepage\
+-   Terminal output of `quarto check`\
+-   Example `.qmd` file open in VS Code or RStudio\
+-   Rendered HTML output\
+-   Reveal.js slide in a browser\
+-   GitHub Pages site after publishing
