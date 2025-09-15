@@ -66,35 +66,39 @@ toc-title: "Content"
 
 ------------------------------------------------------------------------
 
-## Unsupervised Learning: Clustering
+## Unsupervised learning: K-Means clustering
 
 -   **Clustering** is an **unsupervised learning** method
--   Detect natural groups in population data
--   k-Means: widely used for stratification
--   Useful for creating representative samples
+-   Detect **natural groups** in population data
+-   Useful for creating **representative samples**
+-   k-means: widely used for stratification
 
 ------------------------------------------------------------------------
 
-## K-Means Clustering
+## K-Means clustering
 
 -   Partition population into **K clusters**
+-   Minimize **within-cluster variance**
+-   **Example**: stratification for sampling based on spending and annual income
 
--   Minimize within-cluster variance
+![source: [Neptune.ai](https://www.neptune.ai).](img/k_means.png){fig-align="left"}
 
--   Example: stratification for sampling
+------------------------------------------------------------------------
 
--   
-
-**Slide 3: What is K-means?**
+## K-Means clustering
 
 -   A **partitioning clustering algorithm**\
 -   Divides data into **K clusters**\
 -   Each cluster has a **centroid** (mean)\
 -   Objective: minimize **within-cluster variance**
 
+![K-means clusters' centroid (with k=3), source: [Neptune.ai](https://www.neptune.ai).](img/k_means_3.png){fig-align="left"}
 
+------------------------------------------------------------------------
 
-**Slide 4: K-means Algorithm Steps **
+## K-means clustering
+
+### Main steps
 
 1.  Choose **K** (number of clusters)\
 2.  Randomly initialize cluster centroids\
@@ -102,43 +106,88 @@ toc-title: "Content"
 4.  Update centroids (mean of assigned points)\
 5.  Repeat until convergence
 
+![K-means clusters' centroid (with k=3), source: [Neptune.ai](https://www.neptune.ai).](img/k_means_3_converged.png){fig-align="left"}
+
 ------------------------------------------------------------------------
 
-## K-Means Algorithm Steps
+## K-Means in R
 
-1.  Initialize centroids
-2.  Assign units to nearest centroid
-3.  Update centroids
-4.  Iterate until convergence
+### The Iris dataset
+
+-   British statistician and biologist **Ronald Fisher** in his 1936 paper.\
+-   The data set consists of **50 samples** from each of **three species** of Iris.\
+-   Four features were measured from each sample: the **length and the width of the sepals and petals**, in centimeters.
+
+::::: columns
+::: {.column width="33%"}
+![Iris setosa (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kosaciec_szczecinkowaty_Iris_setosa.jpg/500px-Kosaciec_szczecinkowaty_Iris_setosa.jpg){width="225"}
+:::
+
+::: {.column width="33%"}
+![Iris versicolor (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Iris_versicolor_3.jpg/500px-Iris_versicolor_3.jpg)
+:::
+:::::
+
+::: {.column width="33%"}
+![Iris Virginica (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/500px-Iris_virginica.jpg)
+:::
+
+:::::
 
 ------------------------------------------------------------------------
 
 ## K-Means in R
 
 ```{r}
-library(tidymodels)
-library(cluster)
+#| echo: true
+#| eval: false
 
-## Example dataset
-data <- iris[,1:4]
+library(tidyverse)
 
-## K-Means clustering
-kmeans_fit <- kmeans(scale(data), centers = 3)
-data$cluster <- kmeans_fit$cluster
-```
+# Explore dataset
+iris |> 
+  head(n=2)
 
-------------------------------------------------------------------------
-
-## Visualizing K-Means Clusters
-
-```{r}
-library(ggplot2)
-
-ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster))) +
+# Plot species
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Species))) +
   geom_point(size=3) +
   theme_minimal() +
   labs(color="Cluster")
 ```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## K-Means in R
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(tidymodels)
+library(tidyverse)
+library(cluster)
+
+## Remove species
+data <- 
+  iris |> 
+  select(-Species)
+  
+## K-Means clustering
+kmeans_fit <- kmeans(scale(data), centers = 3)
+
+data <- 
+ data |> 
+  mutate(Cluster=kmeans_fit$cluster,
+         Species=iris |> pull(Species))
+
+ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Cluster))) +
+  geom_point(size=3) +
+  theme_minimal() +
+  labs(color="Cluster")
+```
+ℹ️ Try to run the code in your Script Editor. Try to use 4 or 5 clusters.
 
 ------------------------------------------------------------------------
 
@@ -171,6 +220,8 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster))) +
 ## Random Forest Example in R
 
 ```{r}
+#| echo: true
+#| eval: false
 library(tidymodels)
 library(ranger)
 
@@ -213,8 +264,10 @@ rf_model <- rand_forest(mode = "classification") |>
 ## Example Workflow in R
 
 ```{r}
+#| echo: true
+#| eval: false
 ## Step 1: K-Means
-data$cluster <- kmeans(scale(data[,1:4]), centers = 3)$cluster
+data$cluster <- kmeans(scale(data), centers = 3)$cluster
 
 ## Step 2: Random Forest within clusters
 rf_model <- rand_forest(mode="classification") |>
@@ -227,6 +280,8 @@ rf_model <- rand_forest(mode="classification") |>
 ## Visualizing Sample Selection
 
 ```{r}
+#| echo: true
+#| eval: false
 ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster), size=rf_model$fit$predicted)) +
   geom_point() +
   theme_minimal()
