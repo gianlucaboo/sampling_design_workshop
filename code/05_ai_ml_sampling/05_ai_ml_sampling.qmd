@@ -2,7 +2,7 @@
 title: "Workshop on Advanced Sampling Methodologies"
 author: "AI and ML for sampling"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
-date: "09-17-2025"
+date: "09-23-2025"
 title-slide-attributes:
   data-background-image: "wp.png"
   data-background-size: "3.2em"
@@ -24,13 +24,22 @@ toc-title: "Content"
 -   **Day 1**: Introduction to QGIS
 -   **Day 2**: Automatic update of census EA and national sampling frame
 -   **Day 3**: Introduction to R programming
--   **Day 4**: Introduction to Sampling Design
+-   **Day 4**: Introduction to sampling design
 -   **Day 5**: Advanced R programming
 -   **Day 6**: Earth observation (EO) for sampling design
--   **Day 7**: AI and machine learning for sample selection
+-   **Day 7: AI and machine learning for sample selection**
 -   **Day 8**: Simulation and optimization of sampling strategies
 -   **Day 9**: R Shiny for sampling design evaluation
 -   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Course materials
+
+1.  Today's course materials are on **Github**: https://github.com/gianlucaboo/sampling_design_workshop
+2.  Click on **Day 7: AI and machine learning for sample selection**
+3.  **Copy the url** and **paste it** on https://download-directory.github.io
+4.  Save the zipped directory on the workshop and unzip it
 
 ------------------------------------------------------------------------
 
@@ -229,7 +238,7 @@ ggplot(k_means_multiple_fit, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Clu
 
 ## K-means in R
 
-Additionally the total within sum of squares, saved in the `tot.withinss` column,  represents the variance within the clusters. It generally decreases as `k` increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value. 
+Additionally the total within sum of squares, saved in the `tot.withinss` column, represents the variance within the clusters. It generally decreases as `k` increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.
 
 ```{r}
 #| echo: true
