@@ -1,7 +1,7 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
 author: "Welcome and Introduction"
-institute: "Dr. Sarchil Quader and Dr. Gianluca Boo, WorldPop, University of Southampton"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-15-2025"
 title-slide-attributes:
   data-background-image: "wp.png"
@@ -15,30 +15,6 @@ format:
 editor: visual
 toc: false
 ---
-
-## Welcome!
-
-## Team
-
-::::: columns
-::: {.column width="50%"}
-#### Dr. Sarchil Quader
-
--   Senior Enterprise Fellow at WorldPop, University of Southampton.
--   Develop research to improve population mapping and agricultural monitoring in low- and middle-income countries using big data, such as remote sensing.
-
-![](img/sarchil.png){width="250"}
-:::
-
-::: {.column width="50%"}
-#### Dr. Gianluca Boo
-
--   Senior Research Fellow at WorldPop, University of Southampton.
--   Develop research to improve population mapping in low- and middle-income countries using statistical modelling, particularly Bayesian hierarchical models.
-
-![](img/gianluca.png){width="250"}
-:::
-:::::
 
 ## Workshop
 
