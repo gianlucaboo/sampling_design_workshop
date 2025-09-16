@@ -1,46 +1,55 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-subtitle: "Google Earth Engine Code Editor Tutorial"
-author: "Dr. Gianluca Boo"
-institute: "WorldPop, University of Southampton"
+author: "Google Earth Engine (GEE) Code Editor tutorial"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-22-2025"
-format: html
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
 editor: visual
+toc: false
+toc-title: "Content"
 ---
 
-### 1. Open the Code Editor
+## Open the Code Editor
 
-* Go to [https://code.earthengine.google.com/](https://code.earthengine.google.com/).
-* Make sure you’re signed in with a Google account that has Earth Engine access.
+-   Go to <https://code.earthengine.google.com/>.
+-   Make sure you’re signed in with a Google account that has Earth Engine access.
 
----
+------------------------------------------------------------------------
 
-### 2. Load a Shapefile
+## Load a Shapefile
 
 There are two ways:
 
 **Option A: Upload a shapefile**
 
-1. In the **Assets** tab (left panel), click **NEW → Table upload**.
-2. Upload your `.shp` (plus `.shx`, `.dbf`, etc. in a zipped folder).
-3. Once uploaded, it appears under your assets.
+1.  In the **Assets** tab (left panel), click **NEW → Table upload**.
+2.  Upload your `.shp` (plus `.shx`, `.dbf`, etc. in a zipped folder).
+3.  Once uploaded, it appears under your assets.
 
 **Option B: Use an existing dataset**
 
-```javascript
+``` javascript
 // Example: Use a country boundary from FAO GAUL dataset
 var region = ee.FeatureCollection("FAO/GAUL/2015/level0")
               .filter(ee.Filter.eq('ADM0_NAME', 'Kenya'));
 Map.centerObject(region, 6);
 ```
 
----
+------------------------------------------------------------------------
 
-### 3. Load an image and subset to shapefile
+## Load an image and subset to shapefile
 
 Example with **Sentinel-2 surface reflectance**:
 
-```javascript
+``` javascript
 // Load Sentinel-2 surface reflectance
 var image = ee.ImageCollection("COPERNICUS/S2_SR")
               .filterDate('2021-01-01', '2021-12-31')
@@ -52,23 +61,23 @@ var image = ee.ImageCollection("COPERNICUS/S2_SR")
 var clipped = image.clip(region);
 ```
 
----
+------------------------------------------------------------------------
 
-### 4. Explore available bands
+## Explore available bands
 
 Check which bands are included:
 
-```javascript
+``` javascript
 print('Sentinel-2 bands:', image.bandNames());
 ```
 
 Example band names: `B2 (blue)`, `B3 (green)`, `B4 (red)`, `B8 (NIR)`.
 
----
+------------------------------------------------------------------------
 
-### 5. Visualize the image
+## Visualize the image
 
-```javascript
+``` javascript
 // True color (RGB) visualization
 var visParams = {
   bands: ['B4', 'B3', 'B2'],
@@ -87,13 +96,13 @@ var falseColor = {
 Map.addLayer(clipped, falseColor, 'False Color');
 ```
 
----
+------------------------------------------------------------------------
 
-### 6. Export the image
+## Export the image
 
 Export to **Google Drive**:
 
-```javascript
+``` javascript
 Export.image.toDrive({
   image: clipped,
   description: 'Sentinel2_Kenya_2021',
@@ -106,7 +115,7 @@ Export.image.toDrive({
 
 Export to **Asset** (for later use in GEE):
 
-```javascript
+``` javascript
 Export.image.toAsset({
   image: clipped,
   description: 'Sentinel2_Kenya_Asset',
@@ -117,14 +126,12 @@ Export.image.toAsset({
 });
 ```
 
----
+------------------------------------------------------------------------
 
-**Summary**
+## Summary
 
-* Upload/load a shapefile as a `FeatureCollection`.
-* Filter an image collection and clip it to your shapefile.
-* Print and inspect band names.
-* Visualize with `Map.addLayer()` using different bands.
-* Export results to Drive or Assets.
-
----
+-   Upload/load a shapefile as a `FeatureCollection`.
+-   Filter an image collection and clip it to your shapefile.
+-   Print and inspect band names.
+-   Visualize with `Map.addLayer()` using different bands.
+-   Export results to Drive or Assets.

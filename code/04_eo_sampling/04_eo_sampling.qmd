@@ -1,6 +1,6 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "Earth Observation data for sampling"
+author: "Earth observation (EO) data for sampling design"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-22-2025"
 title-slide-attributes:
@@ -24,11 +24,20 @@ toc-title: "Content"
 -   **Day 3**: Introduction to R programming
 -   **Day 4**: Introduction to Sampling Design
 -   **Day 5**: Advanced R programming
--   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 6: Earth observation (EO) for sampling design**
 -   **Day 7**: AI and machine learning for sample selection
 -   **Day 8**: Simulation and optimization of sampling strategies
 -   **Day 9**: R Shiny for sampling design evaluation
 -   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Course materials
+
+1.  Today's course materials are on **Github**: https://github.com/gianlucaboo/sampling_design_workshop
+2.  Click on **Day 6: Earth observation (EO) for sampling design**
+3.  **Copy the url** and **paste it** on https://download-directory.github.io
+4.  Save the zipped directory on the workshop and unzip it
 
 ------------------------------------------------------------------------
 
@@ -45,18 +54,27 @@ toc-title: "Content"
 
 ## EO data for sampling
 
+::::: columns
+::: {.column width="50%"}
 -   **Up-to-date spatial coverage**
-    -   Complements or updates outdated census and survey frames\
+    -   Complements or updates outdated census and survey frames
     -   Detects new settlements, urban growth, and rural changes
 -   **Population distribution and density**
-    -   Proxy indicators: night-time lights, building footprints, land cover\
+    -   Proxy indicators: night-time lights, building footprints, land cover
     -   Supports stratification and proportional allocation of samples
+:::
+
+::: {.column width="50%"}
 -   **Environmental and contextual variables**
-    -   NDVI, elevation, climate, accessibility data\
+    -   NDVI, elevation, climate, accessibility data
     -   Enable stratified sampling by ecological or geographic conditions
 -   **Improved sampling efficiency**
-    -   Helps identify hard-to-reach or hidden populations\
+    -   Helps identify hard-to-reach or hidden populations
     -   Reduces cost and field effort by targeting relevant areas
+:::
+:::::
+
+![A gridded sampling design (source: Boo et al. 2020)](img/sampling_workflow.gif){fig-align="left"}
 
 ------------------------------------------------------------------------
 
@@ -370,15 +388,15 @@ ggplot(polygons) +
 
 ## Resources
 
-Pebesma, E. (2018). \*Simple Features for R: Standardized Support for Spatial Vector Data\*. The R Journal, 10(1), 439–446. https://journal.r-project.org/archive/2018/RJ-2018-009/index.html
+Pebesma, E. (2018). *Simple Features for R: Standardized Support for Spatial Vector Data*. The R Journal, 10(1), 439–446. https://journal.r-project.org/archive/2018/RJ-2018-009/index.html
 
-Hijmans, R. J. (2023). \*terra: Spatial Data Analysis\*. R package version 1.7-36. https://cran.r-project.org/package=terra
+Hijmans, R. J. (2023). *terra: Spatial Data Analysis*. R package version 1.7-36. https://cran.r-project.org/package=terra
 
-R Core Team. (2025). \*R: A Language and Environment for Statistical Computing\*. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
+R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
 
-Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., & Moore, R. (2017). \*Google Earth Engine: Planetary-scale geospatial analysis for everyone\*. Remote Sensing of Environment, 202, 18–27. https://developers.google.com/earth-engine
+Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., & Moore, R. (2017). *Google Earth Engine: Planetary-scale geospatial analysis for everyone*. Remote Sensing of Environment, 202, 18–27. https://developers.google.com/earth-engine
 
-Grolemund, G., & Wickham, H. (2017). \*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data\*. O’Reilly Media. https://r4ds.had.co.nz
+Grolemund, G., & Wickham, H. (2017). *R for Data Science: Import, Tidy, Transform, Visualize, and Model Data*. O’Reilly Media. https://r4ds.had.co.nz
 
 ------------------------------------------------------------------------
 
