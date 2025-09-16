@@ -12,3 +12,5 @@ This repository contains slides and exercises for a sampling design workshop.
 -   **Day 8**: [Simulation and optimization of sampling strategies](https://github.com/gianlucaboo/sampling_design_workshop/tree/main/06_simulation_sampling)
 -   **Day 9**: [R Shiny for sampling design evaluation](https://github.com/gianlucaboo/sampling_design_workshop/tree/main/07_r_shiny)
 -   **Day 10**: [Wrap-up and workshop evaluation](https://github.com/gianlucaboo/sampling_design_workshop/tree/main/08_wrap_up)
+
+Cheatsheets are available on [https://posit.co/resources/cheatsheets](https://posit.co/resources/cheatsheets/?type=posit-cheatsheets/).
