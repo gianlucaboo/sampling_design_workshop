@@ -9,8 +9,8 @@
 <link href="05_ai_ml_sampling_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.32">
 
-  <meta name="author" content="AI and ML for sampling">
-  <meta name="dcterms.date" content="2025-09-17">
+  <meta name="author" content="AI and ML for sample selection">
+  <meta name="dcterms.date" content="2025-09-23">
   <title>Workshop on Advanced Sampling Methodologies</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -199,7 +199,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-AI and ML for sampling 
+AI and ML for sample selection 
 </div>
         <p class="quarto-title-affiliation">
             Dr.&nbsp;Gianluca Boo, WorldPop, University of Southampton
@@ -207,7 +207,7 @@ AI and ML for sampling
     </div>
 </div>
 
-  <p class="date">2025-09-17</p>
+  <p class="date">2025-09-23</p>
 </section>
 <section id="workshops-agenda" class="slide level2">
 <h2>Workshop’s agenda</h2>
@@ -215,23 +215,37 @@ AI and ML for sampling
 <li><strong>Day 1</strong>: Introduction to QGIS</li>
 <li><strong>Day 2</strong>: Automatic update of census EA and national sampling frame</li>
 <li><strong>Day 3</strong>: Introduction to R programming</li>
-<li><strong>Day 4</strong>: Introduction to Sampling Design</li>
+<li><strong>Day 4</strong>: Introduction to sampling design</li>
 <li><strong>Day 5</strong>: Advanced R programming</li>
 <li><strong>Day 6</strong>: Earth observation (EO) for sampling design</li>
-<li><strong>Day 7</strong>: AI and machine learning for sample selection</li>
+<li><strong>Day 7: AI and machine learning for sample selection</strong></li>
 <li><strong>Day 8</strong>: Simulation and optimization of sampling strategies</li>
 <li><strong>Day 9</strong>: R Shiny for sampling design evaluation</li>
 <li><strong>Day 10</strong>: Wrap-up and workshop evaluation</li>
 </ul>
 </section>
+<section id="course-materials" class="slide level2">
+<h2>Course materials</h2>
+<ol type="1">
+<li>Today’s course materials are on <strong>Github</strong>: https://github.com/gianlucaboo/sampling_design_workshop</li>
+<li>Click on <strong>Day 7: AI and machine learning for sample selection</strong></li>
+<li><strong>Copy the url</strong> and <strong>paste it</strong> on https://download-directory.github.io</li>
+<li>Save the zipped directory on the workshop and unzip it</li>
+</ol>
+</section>
 <section id="todays-agenda" class="slide level2">
 <h2>Today’s agenda</h2>
 <ul>
-<li>Introduction to AI and ML in sampling</li>
-<li>K-means clustering for stratification</li>
-<li>Random forest for sample weighting and prediction</li>
-<li>Implementation in R with tidymodels</li>
-<li>Practical exercises</li>
+<li>Introduction to AI and ML in sampling<br>
+</li>
+<li>K-means clustering for stratification<br>
+</li>
+<li>Random forest for sample weighting and prediction<br>
+</li>
+<li>Implementation in R with tidymodels<br>
+</li>
+<li>Practical exercises<br>
+</li>
 </ul>
 </section>
 <section id="ai-and-ml-in-sampling" class="slide level2">
@@ -243,62 +257,42 @@ AI and ML for sampling
 <li><strong>Reduce sample</strong> size while maintaining accuracy</li>
 </ul>
 
-<img data-src="img/ai_ml.gif" class="r-stretch quarto-figure-left"><p class="caption">A grid-based sample design framework (source: <a href="https://gatesopenresearch.org/articles/4-13">Boo et al.</a>).</p></section>
+<img data-src="img/sampling_workflow.gif" class="r-stretch quarto-figure-left"><p class="caption">A grid-based sample design framework (source: <a href="https://gatesopenresearch.org/articles/4-13">Boo et al.</a>).</p></section>
 <section id="overview-of-ml" class="slide level2">
 <h2>Overview of ML</h2>
+<p>There are many ML algorithms, where the most common are:</p>
 <ul>
 <li><strong>Supervised learning:</strong> prediction based on known outcomes</li>
 <li><strong>Unsupervised learning:</strong> finding patterns/clusters without labeled outcomes</li>
-<li><strong>Features</strong> (inputs) and <strong>targets</strong> (outputs)</li>
-<li>Training, validation, and prediction <strong>workflow</strong></li>
 </ul>
 
-<img data-src="img/ml.png" class="r-stretch quarto-figure-left"><p class="caption">Some ML alghoritmns (source: <a href="https://www.edureka.co/blog/what-is-machine-learning/">Edureka</a>).</p></section>
+<img data-src="img/ml.png" class="r-stretch quarto-figure-left"><p class="caption">Some ML alghoritmns (source: <a href="https://vas3k.blog/blog/machine_learning/">Vas3K.blog</a>).</p></section>
+<section id="ml-workflow" class="slide level2">
+<h2>ML workflow</h2>
+<p>ML has a training, validation, and prediction workflow:</p>
+
+<img data-src="img/ml_workflow.gif" class="r-stretch quarto-figure-left"><p class="caption">A ML workflow (source: Edureka!).</p></section>
 <section id="k-means-clustering" class="slide level2">
 <h2>K-means clustering</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li><strong>Clustering</strong> is an <strong>unsupervised learning</strong> method</li>
+<li>This is an <strong>unsupervised learning</strong> method</li>
 <li>Detect <strong>natural groups</strong> in population data</li>
 <li>Useful for creating <strong>representative samples</strong></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
 <li>k-means: widely used for <strong>stratification</strong></li>
 <li>Partition population into <strong>K clusters</strong></li>
 <li>Minimize <strong>within-cluster variance</strong></li>
-<li><strong>Example</strong>: stratification for sampling based on spending and annual income</li>
 </ul>
+</div></div>
 
-<img data-src="img/k_means.png" class="r-stretch quarto-figure-left"><p class="caption">source: <a href="https://www.neptune.ai">Neptune.ai</a>.</p></section>
-<section id="k-means-clustering-1" class="slide level2">
-<h2>K-means clustering</h2>
-<ul>
-<li>A <strong>partitioning clustering algorithm</strong><br>
-</li>
-<li>Divides data into <strong>K clusters</strong><br>
-</li>
-<li>Each cluster has a <strong>centroid</strong> (mean)<br>
-</li>
-<li>Objective: minimize <strong>within-cluster variance</strong></li>
-</ul>
-
-<img data-src="img/k_means_3.png" class="r-stretch quarto-figure-left"><p class="caption">K-means clusters’ centroid (with k=3), source: <a href="https://www.neptune.ai">Neptune.ai</a>.</p></section>
-<section id="k-means-clustering-2" class="slide level2">
-<h2>K-means clustering</h2>
-<h3 id="main-steps">Main steps</h3>
-<ol type="1">
-<li>Choose <strong>K</strong> (number of clusters)<br>
-</li>
-<li>Randomly initialize <strong>cluster centroids</strong><br>
-</li>
-<li><strong>Assign each observation</strong> to nearest centroid<br>
-</li>
-<li><strong>Update centroids</strong> (mean of assigned points)<br>
-</li>
-<li>Repeat until <strong>convergence</strong></li>
-</ol>
-
-<img data-src="img/k_means_3_converged.png" class="r-stretch quarto-figure-left"><p class="caption">K-means clusters’ centroid (with k=3), source: <a href="https://www.neptune.ai">Neptune.ai</a>.</p></section>
+<img data-src="img/k_means.gif" class="r-stretch quarto-figure-left"><p class="caption">K-means clustering (source: tidymodels.org).</p></section>
 <section id="k-means-in-r" class="slide level2">
 <h2>K-means in R</h2>
-<h3 id="the-iris-dataset">The Iris dataset</h3>
+<p><strong>The Iris dataset</strong></p>
 <ul>
 <li>British statistician and biologist <strong>Ronald Fisher</strong> in his 1936 paper.<br>
 </li>
@@ -333,7 +327,7 @@ AI and ML for sampling
 </section>
 <section id="k-means-in-r-1" class="slide level2">
 <h2>K-means in R</h2>
-<p>A first glimpse of the data set</p>
+<p><strong>A first glimpse at the data set</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href=""></a></span>
@@ -351,7 +345,7 @@ AI and ML for sampling
 </section>
 <section id="k-means-in-r-2" class="slide level2">
 <h2>K-means in R</h2>
-<p>K-means clustering with <code>k=3</code></p>
+<p><strong>K-means clustering with <code>k=3</code></strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(tidymodels); <span class="fu">library</span>(tidyverse); <span class="fu">library</span>(cluster)</span>
 <span id="cb2-2"><a href=""></a></span>
@@ -380,7 +374,7 @@ AI and ML for sampling
 <h2>K-means in R</h2>
 <p>The output of <code>kmeans_fit</code> is a list of vectors:</p>
 <ul>
-<li><code>cluster</code> (150 values) contains information about each point<br>
+<li><code>cluster</code> contains information about each point<br>
 </li>
 <li><code>centers</code>, <code>withinss</code>, and <code>size</code> (3 values) contain information about each cluster<br>
 </li>
@@ -411,7 +405,7 @@ AI and ML for sampling
 </section>
 <section id="k-means-in-r-4" class="slide level2">
 <h2>K-means in R</h2>
-<p>Additionally the total within sum of squares, saved in the <code>tot.withinss</code> column, represents the variance within the clusters. It generally decreases as <code>k</code> increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.</p>
+<p>Additionally the total within sum of squares in the <code>tot.withinss</code> column represents the variance within the clusters. It generally decreases as <code>k</code> increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">library</span>(purrr); <span class="fu">library</span>(tidymodels); <span class="fu">library</span>(tidyverse); <span class="fu">library</span>(cluster)</span>
 <span id="cb4-2"><a href=""></a></span>
@@ -432,48 +426,99 @@ AI and ML for sampling
 <span id="cb4-17"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>ℹ️ Try to run the code in your Script Editor.</p>
+<p>———————————————————————-## Random forest for regression - <strong>Ensemble method</strong> combining many decision trees<br>
+- Each tree is trained on a <strong>bootstrap sample</strong> of the data<br>
+- Predictions are the <strong>average</strong> of the individual trees<br>
+- Helps reduce <strong>variance</strong> compared to a single tree</p>
+
+<img data-src="img/random_forest.png" class="r-stretch quarto-figure-left"><p class="caption">Random forest diagram (source: scikit-learn.org).</p><table class="caption-top">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">## Why random forest? - <strong>Non-linear relationships</strong>: handles complex interactions - <strong>Robust to noise</strong> and overfitting - Works well with <strong>mixed feature types</strong> (categorical + numeric) - Provides <strong>variable importance</strong> measures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">## Random forest workflow - Step 1: Split data into <strong>training and testing sets</strong> - Step 2: Fit a <strong>random forest model</strong> - Step 3: Evaluate performance with <strong>RMSE / R²</strong> - Step 4: Inspect <strong>feature importance</strong></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="random-forest" class="slide level2">
-<h2>Random forest</h2>
-<ul>
-<li><strong>Supervised learning</strong> based on ensemble of <strong>decision trees</strong></li>
-<li>Predict <strong>outcomes</strong> or <strong>probabilities</strong></li>
-<li>Assess <strong>feature importance</strong></li>
-<li>Useful for <strong>weighted sampling</strong> or prioritization</li>
-</ul>
-</section>
-<section id="random-forest-concept" class="slide level2">
-<h2>Random Forest Concept</h2>
-<ul>
-<li>Many decision trees combined</li>
-<li>Classification: majority vote</li>
-<li>Regression: average prediction</li>
-<li>Identify important variables in dataset</li>
-</ul>
-</section>
-<section id="random-forest-example-in-r" class="slide level2">
-<h2>Random Forest Example in R</h2>
+<section id="random-forest-in-r-tidymodels" class="slide level2">
+<h2>Random forest in R (tidymodels)</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb5-2"><a href=""></a><span class="fu">library</span>(ranger)</span>
-<span id="cb5-3"><a href=""></a></span>
-<span id="cb5-4"><a href=""></a><span class="do">## Example dataset</span></span>
-<span id="cb5-5"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb5-6"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mode =</span> <span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href=""></a>  <span class="fu">fit</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a><span class="co"># Split data</span></span>
+<span id="cb5-4"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb5-5"><a href=""></a>data_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(mtcars, <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb5-6"><a href=""></a>train <span class="ot">&lt;-</span> <span class="fu">training</span>(data_split)</span>
+<span id="cb5-7"><a href=""></a>test <span class="ot">&lt;-</span> <span class="fu">testing</span>(data_split)</span>
+<span id="cb5-8"><a href=""></a></span>
+<span id="cb5-9"><a href=""></a><span class="co"># Define recipe and model</span></span>
+<span id="cb5-10"><a href=""></a>rf_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(mpg <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
+<span id="cb5-11"><a href=""></a></span>
+<span id="cb5-12"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">trees =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href=""></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="evaluating-random-forest" class="slide level2">
-<h2>Evaluating Random Forest</h2>
-<ul>
-<li>Confusion matrix</li>
-<li>Accuracy, precision, recall</li>
-<li>Feature importance plot</li>
-</ul>
+<section id="training-the-random-forest" class="slide level2">
+<h2>Training the random forest</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co"># Workflow</span></span>
+<span id="cb6-2"><a href=""></a>rf_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href=""></a>  <span class="fu">add_recipe</span>(rf_recipe) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href=""></a>  <span class="fu">add_model</span>(rf_model)</span>
+<span id="cb6-5"><a href=""></a></span>
+<span id="cb6-6"><a href=""></a><span class="co"># Fit model</span></span>
+<span id="cb6-7"><a href=""></a>rf_fit <span class="ot">&lt;-</span> rf_wf <span class="sc">%&gt;%</span> <span class="fu">fit</span>(<span class="at">data =</span> train)</span>
+<span id="cb6-8"><a href=""></a></span>
+<span id="cb6-9"><a href=""></a><span class="co"># Predict</span></span>
+<span id="cb6-10"><a href=""></a>rf_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_fit, test) <span class="sc">%&gt;%</span></span>
+<span id="cb6-11"><a href=""></a>  <span class="fu">bind_cols</span>(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="evaluating-performance" class="slide level2">
+<h2>Evaluating performance</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>rf_preds <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href=""></a>  <span class="fu">metrics</span>(<span class="at">truth =</span> mpg, <span class="at">estimate =</span> .pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Typical outputs:<br>
+- <strong>RMSE</strong>: root mean squared error (lower is better)<br>
+- <strong>R²</strong>: proportion of variance explained (higher is better)</p>
+</section>
+<section id="visualizing-predictions" class="slide level2">
+<h2>Visualizing predictions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>rf_preds <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mpg, <span class="at">y =</span> .pred)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href=""></a>  <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="dv">1</span>, <span class="at">intercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Observed mpg"</span>, <span class="at">y=</span><span class="st">"Predicted mpg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
+<section id="variable-importance" class="slide level2">
+<h2>Variable importance</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">library</span>(vip)</span>
+<span id="cb9-2"><a href=""></a></span>
+<span id="cb9-3"><a href=""></a>rf_fit <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href=""></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href=""></a>  <span class="fu">vip</span>(<span class="at">num_features =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="using-rf-predictions-for-sampling" class="slide level2">
-<h2>Using RF Predictions for Sampling</h2>
+<h2>Using RF predictions for Sampling</h2>
 <ul>
 <li>Predict probability of selection or outcome</li>
 <li>Compute weights: <span class="math inline">\(w_i = 1 / p_i\)</span></li>
@@ -490,21 +535,21 @@ AI and ML for sampling
 <section id="example-workflow-in-r" class="slide level2">
 <h2>Example Workflow in R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="do">## Step 1: K-means</span></span>
-<span id="cb6-2"><a href=""></a>data<span class="sc">$</span>cluster <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">scale</span>(data), <span class="at">centers =</span> <span class="dv">3</span>)<span class="sc">$</span>cluster</span>
-<span id="cb6-3"><a href=""></a></span>
-<span id="cb6-4"><a href=""></a><span class="do">## Step 2: Random Forest within clusters</span></span>
-<span id="cb6-5"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mode=</span><span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-7"><a href=""></a>  <span class="fu">fit</span>(Species <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width, <span class="at">data=</span>iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="do">## Step 1: K-means</span></span>
+<span id="cb10-2"><a href=""></a>data<span class="sc">$</span>cluster <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">scale</span>(data), <span class="at">centers =</span> <span class="dv">3</span>)<span class="sc">$</span>cluster</span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a><span class="do">## Step 2: Random Forest within clusters</span></span>
+<span id="cb10-5"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mode=</span><span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-7"><a href=""></a>  <span class="fu">fit</span>(Species <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width, <span class="at">data=</span>iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualizing-sample-selection" class="slide level2">
 <h2>Visualizing Sample Selection</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">color=</span><span class="fu">factor</span>(cluster), <span class="at">size=</span>rf_model<span class="sc">$</span>fit<span class="sc">$</span>predicted)) <span class="sc">+</span></span>
-<span id="cb7-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb7-3"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">color=</span><span class="fu">factor</span>(cluster), <span class="at">size=</span>rf_model<span class="sc">$</span>fit<span class="sc">$</span>predicted)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="practical-considerations" class="slide level2">

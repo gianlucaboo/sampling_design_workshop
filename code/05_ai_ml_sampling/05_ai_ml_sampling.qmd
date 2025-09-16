@@ -1,6 +1,6 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "AI and ML for sampling"
+author: "AI and ML for sample selection"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-23-2025"
 title-slide-attributes:
@@ -45,11 +45,11 @@ toc-title: "Content"
 
 ## Today's agenda
 
--   Introduction to AI and ML in sampling
--   K-means clustering for stratification
--   Random forest for sample weighting and prediction
--   Implementation in R with tidymodels
--   Practical exercises
+-   Introduction to AI and ML in sampling\
+-   K-means clustering for stratification\
+-   Random forest for sample weighting and prediction\
+-   Implementation in R with tidymodels\
+-   Practical exercises\
 
 ------------------------------------------------------------------------
 
@@ -60,63 +60,52 @@ toc-title: "Content"
 -   **Reduce bias** and **improve stratification**
 -   **Reduce sample** size while maintaining accuracy
 
-![A grid-based sample design framework (source: [Boo et al.](https://gatesopenresearch.org/articles/4-13)).](img/ai_ml.gif){fig-align="left"}
+![A grid-based sample design framework (source: [Boo et al.](https://gatesopenresearch.org/articles/4-13)).](img/sampling_workflow.gif){fig-align="left"}
 
 ------------------------------------------------------------------------
 
 ## Overview of ML
 
+There are many ML algorithms, where the most common are:
+
 -   **Supervised learning:** prediction based on known outcomes
 -   **Unsupervised learning:** finding patterns/clusters without labeled outcomes
--   **Features** (inputs) and **targets** (outputs)
--   Training, validation, and prediction **workflow**
 
-![Some ML alghoritmns (source: [Edureka](https://www.edureka.co/blog/what-is-machine-learning/)).](img/ml.png){fig-align="left"}
+![Some ML alghoritmns (source: [Vas3K.blog](https://vas3k.blog/blog/machine_learning/)).](img/ml.png){fig-align="left"}
+
+------------------------------------------------------------------------
+
+## ML workflow
+
+ML has a training, validation, and prediction workflow:
+
+![A ML workflow (source: Edureka!).](img/ml_workflow.gif){fig-align="left"}
 
 ------------------------------------------------------------------------
 
 ## K-means clustering
 
--   **Clustering** is an **unsupervised learning** method
+::::: columns
+::: {.column width="50%"}
+-   This is an **unsupervised learning** method
 -   Detect **natural groups** in population data
 -   Useful for creating **representative samples**
+:::
+
+::: {.column width="50%"}
 -   k-means: widely used for **stratification**
 -   Partition population into **K clusters**
 -   Minimize **within-cluster variance**
--   **Example**: stratification for sampling based on spending and annual income
+:::
+:::::
 
-![source: [Neptune.ai](https://www.neptune.ai).](img/k_means.png){fig-align="left"}
-
-------------------------------------------------------------------------
-
-## K-means clustering
-
--   A **partitioning clustering algorithm**\
--   Divides data into **K clusters**\
--   Each cluster has a **centroid** (mean)\
--   Objective: minimize **within-cluster variance**
-
-![K-means clusters' centroid (with k=3), source: [Neptune.ai](https://www.neptune.ai).](img/k_means_3.png){fig-align="left"}
-
-------------------------------------------------------------------------
-
-## K-means clustering
-
-### Main steps
-
-1.  Choose **K** (number of clusters)\
-2.  Randomly initialize **cluster centroids**\
-3.  **Assign each observation** to nearest centroid\
-4.  **Update centroids** (mean of assigned points)\
-5.  Repeat until **convergence**
-
-![K-means clusters' centroid (with k=3), source: [Neptune.ai](https://www.neptune.ai).](img/k_means_3_converged.png){fig-align="left"}
+![K-means clustering (source: tidymodels.org).](img/k_means.gif){fig-align="left"}
 
 ------------------------------------------------------------------------
 
 ## K-means in R
 
-### The Iris dataset
+**The Iris dataset**
 
 -   British statistician and biologist **Ronald Fisher** in his 1936 paper.\
 -   The data set consists of **50 samples** from each of **three species** of Iris.\
@@ -142,7 +131,7 @@ toc-title: "Content"
 
 ## K-means in R
 
-A first glimpse of the data set
+**A first glimpse at the data set**
 
 ```{r}
 #| echo: true
@@ -167,7 +156,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Species))) +
 
 ## K-means in R
 
-K-means clustering with `k=3`
+**K-means clustering with `k=3`**
 
 ```{r}
 #| echo: true
@@ -203,7 +192,7 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Cluster))) +
 
 The output of `kmeans_fit` is a list of vectors:
 
--   `cluster` (150 values) contains information about each point\
+-   `cluster` contains information about each point\
 -   `centers`, `withinss`, and `size` (3 values) contain information about each cluster\
 -   `totss`, `tot.withinss`, `betweenss`, and `iter` (1 value) contain information about the full clustering
 
@@ -238,7 +227,7 @@ ggplot(k_means_multiple_fit, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Clu
 
 ## K-means in R
 
-Additionally the total within sum of squares, saved in the `tot.withinss` column, represents the variance within the clusters. It generally decreases as `k` increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.
+Additionally the total within sum of squares in the `tot.withinss` column represents the variance within the clusters. It generally decreases as `k` increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.
 
 ```{r}
 #| echo: true
@@ -265,56 +254,124 @@ ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
 
 ℹ️ Try to run the code in your Script Editor.
 
+----------------------------------------------------------------------## Random forest for regression
+- **Ensemble method** combining many decision trees  
+- Each tree is trained on a **bootstrap sample** of the data  
+- Predictions are the **average** of the individual trees  
+- Helps reduce **variance** compared to a single tree  
+
+![Random forest diagram (source: scikit-learn.org).](img/random_forest.png){fig-align="left"}  
+
 ------------------------------------------------------------------------
 
 ## Random forest
-
--   **Supervised learning** based on ensemble of **decision trees**
--   Predict **outcomes** or **probabilities**
--   Assess **feature importance**
--   Useful for **weighted sampling** or prioritization
-
-------------------------------------------------------------------------
-
-## Random Forest Concept
-
--   Many decision trees combined
--   Classification: majority vote
--   Regression: average prediction
--   Identify important variables in dataset
+- **Non-linear relationships**: handles complex interactions  
+- **Robust to noise** and overfitting  
+- Works well with **mixed feature types** (categorical + numeric)  
+- Provides **variable importance** measures  
 
 ------------------------------------------------------------------------
 
-## Random Forest Example in R
+## Random forest workflow
+- Step 1: Split data into **training and testing sets**  
+- Step 2: Fit a **random forest model**  
+- Step 3: Evaluate performance with **RMSE / R²**  
+- Step 4: Inspect **feature importance**  
 
+------------------------------------------------------------------------
+
+## Random forest in R
 ```{r}
 #| echo: true
 #| eval: false
+
 library(tidymodels)
-library(ranger)
 
-## Example dataset
+# Split data
 set.seed(123)
-rf_model <- rand_forest(mode = "classification") |>
-  set_engine("ranger") |>
-  fit(Species ~ ., data = iris)
+data_split <- initial_split(mtcars, prop = 0.8)
+train <- training(data_split)
+test <- testing(data_split)
+
+# Define recipe and model
+rf_recipe <- recipe(mpg ~ ., data = train)
+
+rf_model <- rand_forest(trees = 500) %>%
+  set_engine("ranger") %>%
+  set_mode("regression")
 ```
+ℹ️ Try to run the code in your Script Editor.  
 
 ------------------------------------------------------------------------
 
-## Evaluating Random Forest
-
--   Confusion matrix
--   Accuracy, precision, recall
--   Feature importance plot
-
+## Training the random forest
 ```{r}
-#rf_model$fit$variable.importance
+#| echo: true
+#| eval: false
+
+# Workflow
+rf_wf <- workflow() %>%
+  add_recipe(rf_recipe) %>%
+  add_model(rf_model)
+
+# Fit model
+rf_fit <- rf_wf %>% fit(data = train)
+
+# Predict
+rf_preds <- predict(rf_fit, test) %>%
+  bind_cols(test)
 ```
+ℹ️ Try to run the code in your Script Editor.  
 
 ------------------------------------------------------------------------
 
-## Using RF Predictions for Sampling
+## Evaluating performance
+```{r}
+#| echo: true
+#| eval: false
+
+rf_preds %>%
+  metrics(truth = mpg, estimate = .pred)
+```
+
+Typical outputs:  
+- **RMSE**: root mean squared error (lower is better)  
+- **R²**: proportion of variance explained (higher is better)  
+
+------------------------------------------------------------------------
+
+## Visualizing predictions
+```{r}
+#| echo: true
+#| eval: false
+
+rf_preds %>%
+  ggplot(aes(x = mpg, y = .pred)) +
+  geom_point(size=3, color="steelblue") +
+  geom_abline(slope=1, intercept=0, linetype="dashed") +
+  theme_minimal() +
+  labs(x="Observed mpg", y="Predicted mpg")
+```
+ℹ️ Try to run the code in your Script Editor.  
+
+------------------------------------------------------------------------
+
+## Variable importance
+```{r}
+#| echo: true
+#| eval: false
+
+library(vip)
+
+rf_fit %>%
+  extract_fit_parsnip() %>%
+  vip(num_features = 6)
+```
+ℹ️ Try to run the code in your Script Editor.  
+
+------------------------------------------------------------------------
+
+## Using RF predictions for Sampling
 
 -   Predict probability of selection or outcome
 -   Compute weights: $w_i = 1 / p_i$
