@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="05_ai_ml_sampling_files/libs/clipboard/clipboard.min.js"></script>
-<script src="05_ai_ml_sampling_files/libs/quarto-html/tabby.min.js"></script>
-<script src="05_ai_ml_sampling_files/libs/quarto-html/popper.min.js"></script>
-<script src="05_ai_ml_sampling_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="05_ai_ml_sampling_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="05_ai_ml_sampling_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="05_ai_ml_sampling_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="07_r_shiny_files/libs/clipboard/clipboard.min.js"></script>
+<script src="07_r_shiny_files/libs/quarto-html/tabby.min.js"></script>
+<script src="07_r_shiny_files/libs/quarto-html/popper.min.js"></script>
+<script src="07_r_shiny_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="07_r_shiny_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="07_r_shiny_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="07_r_shiny_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.32">
 
-  <meta name="author" content="AI and ML for sampling">
-  <meta name="dcterms.date" content="2025-09-17">
+  <meta name="author" content="Introduction to R Shiny">
+  <meta name="dcterms.date" content="2025-09-25">
   <title>Workshop on Advanced Sampling Methodologies</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="05_ai_ml_sampling_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="05_ai_ml_sampling_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="07_r_shiny_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="07_r_shiny_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -96,11 +96,11 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="05_ai_ml_sampling_files/libs/revealjs/dist/theme/quarto-09908318ec2edbecead30da86d4887b2.css">
-  <link href="05_ai_ml_sampling_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="05_ai_ml_sampling_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="05_ai_ml_sampling_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="05_ai_ml_sampling_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="07_r_shiny_files/libs/revealjs/dist/theme/quarto-09908318ec2edbecead30da86d4887b2.css">
+  <link href="07_r_shiny_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="07_r_shiny_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="07_r_shiny_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="07_r_shiny_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
@@ -199,7 +199,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-AI and ML for sampling 
+Introduction to R Shiny 
 </div>
         <p class="quarto-title-affiliation">
             Dr.&nbsp;Gianluca Boo, WorldPop, University of Southampton
@@ -207,7 +207,7 @@ AI and ML for sampling
     </div>
 </div>
 
-  <p class="date">2025-09-17</p>
+  <p class="date">2025-09-25</p>
 </section>
 <section id="workshops-agenda" class="slide level2">
 <h2>Workshop’s agenda</h2>
@@ -234,312 +234,205 @@ AI and ML for sampling
 <li>Practical exercises</li>
 </ul>
 </section>
-<section id="ai-and-ml-in-sampling" class="slide level2">
-<h2>AI and ML in sampling</h2>
+<section id="shiny" class="slide level2">
+<h2>Shiny</h2>
 <ul>
-<li>Improve <strong>sampling efficiency and representativeness</strong></li>
-<li>Detect patterns in <strong>complex population data</strong></li>
-<li><strong>Reduce bias</strong> and <strong>improve stratification</strong></li>
-<li><strong>Reduce sample</strong> size while maintaining accuracy</li>
+<li>Shiny is an R package for building <strong>interactive web applications</strong> directly from R.<br>
+</li>
+<li>Originally developed for R by RStudio (now Posit), it is now available in Python.<br>
+</li>
+<li>Allows embedding of code, reactive UI elements (sliders, inputs, etc.), and outputs (plots, tables, etc.) that update when inputs change.</li>
 </ul>
-
-<img data-src="img/ai_ml.gif" class="r-stretch quarto-figure-left"><p class="caption">A grid-based sample design framework (source: <a href="https://gatesopenresearch.org/articles/4-13">Boo et al.</a>).</p></section>
-<section id="overview-of-ml" class="slide level2">
-<h2>Overview of ML</h2>
-<ul>
-<li><strong>Supervised learning:</strong> prediction based on known outcomes</li>
-<li><strong>Unsupervised learning:</strong> finding patterns/clusters without labeled outcomes</li>
-<li><strong>Features</strong> (inputs) and <strong>targets</strong> (outputs)</li>
-<li>Training, validation, and prediction <strong>workflow</strong></li>
-</ul>
-
-<img data-src="img/ml.png" class="r-stretch quarto-figure-left"><p class="caption">Some ML alghoritmns (source: <a href="https://www.edureka.co/blog/what-is-machine-learning/">Edureka</a>).</p></section>
-<section id="k-means-clustering" class="slide level2">
-<h2>K-means clustering</h2>
-<ul>
-<li><strong>Clustering</strong> is an <strong>unsupervised learning</strong> method</li>
-<li>Detect <strong>natural groups</strong> in population data</li>
-<li>Useful for creating <strong>representative samples</strong></li>
-<li>k-means: widely used for <strong>stratification</strong></li>
-<li>Partition population into <strong>K clusters</strong></li>
-<li>Minimize <strong>within-cluster variance</strong></li>
-<li><strong>Example</strong>: stratification for sampling based on spending and annual income</li>
-</ul>
-
-<img data-src="img/k_means.png" class="r-stretch quarto-figure-left"><p class="caption">source: <a href="https://www.neptune.ai">Neptune.ai</a>.</p></section>
-<section id="k-means-clustering-1" class="slide level2">
-<h2>K-means clustering</h2>
-<ul>
-<li>A <strong>partitioning clustering algorithm</strong><br>
-</li>
-<li>Divides data into <strong>K clusters</strong><br>
-</li>
-<li>Each cluster has a <strong>centroid</strong> (mean)<br>
-</li>
-<li>Objective: minimize <strong>within-cluster variance</strong></li>
-</ul>
-
-<img data-src="img/k_means_3.png" class="r-stretch quarto-figure-left"><p class="caption">K-means clusters’ centroid (with k=3), source: <a href="https://www.neptune.ai">Neptune.ai</a>.</p></section>
-<section id="k-means-clustering-2" class="slide level2">
-<h2>K-means clustering</h2>
-<h3 id="main-steps">Main steps</h3>
-<ol type="1">
-<li>Choose <strong>K</strong> (number of clusters)<br>
-</li>
-<li>Randomly initialize <strong>cluster centroids</strong><br>
-</li>
-<li><strong>Assign each observation</strong> to nearest centroid<br>
-</li>
-<li><strong>Update centroids</strong> (mean of assigned points)<br>
-</li>
-<li>Repeat until <strong>convergence</strong></li>
-</ol>
-
-<img data-src="img/k_means_3_converged.png" class="r-stretch quarto-figure-left"><p class="caption">K-means clusters’ centroid (with k=3), source: <a href="https://www.neptune.ai">Neptune.ai</a>.</p></section>
-<section id="k-means-in-r" class="slide level2">
-<h2>K-means in R</h2>
-<h3 id="the-iris-dataset">The Iris dataset</h3>
-<ul>
-<li>British statistician and biologist <strong>Ronald Fisher</strong> in his 1936 paper.<br>
-</li>
-<li>The data set consists of <strong>50 samples</strong> from each of <strong>three species</strong> of Iris.<br>
-</li>
-<li>Four features were measured: the <strong>length and the width of the sepals and petals</strong>, in centimeters.</li>
-</ul>
+<div class="embed">
+<iframe src="https://phillyo.shinyapps.io/intelligentsia/" width="100%" height="350">
+</iframe>
+</div>
+</section>
+<section id="shiny-app-structure" class="slide level2">
+<h2>Shiny app structure</h2>
 <div class="columns">
-<div class="column" style="width:33%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kosaciec_szczecinkowaty_Iris_setosa.jpg/500px-Kosaciec_szczecinkowaty_Iris_setosa.jpg" width="225"></p>
-<figcaption>Iris setosa (source: Wikipedia)</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:33%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Iris_versicolor_3.jpg/500px-Iris_versicolor_3.jpg"></p>
-<figcaption>Iris versicolor (source: Wikipedia)</figcaption>
-</figure>
-</div>
+<div class="column" style="width:50%;">
+<p>You can create a Shiny web app directly in R</p>
+<p><img data-src="img/shiny_new.png"></p>
+</div><div class="column" style="width:50%;">
+<p>Every Shiny app has two main parts:</p>
+<p>1. <strong>UI (User Interface)</strong>: defines layout and inputs/outputs visible to the user.</p>
+<p>2. <strong>Server</strong>: defines how inputs are processed, computations, reactive expressions, outputs created.</p>
+<p><img data-src="img/shiny_structure.png"></p>
 </div></div>
-<div class="column" style="width:33%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/500px-Iris_virginica.jpg"></p>
-<figcaption>Iris Virginica (source: Wikipedia)</figcaption>
-</figure>
-</div>
-</div><p>:::::</p>
 </section>
-<section id="k-means-in-r-1" class="slide level2">
-<h2>K-means in R</h2>
-<p>A first glimpse of the data set</p>
+<section id="shiny-app-example" class="slide level2">
+<h2>Shiny app example</h2>
+<p>This is a structure of your shiny app.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(shiny)</span>
 <span id="cb1-2"><a href=""></a></span>
-<span id="cb1-3"><a href=""></a><span class="co"># Explore dataset</span></span>
-<span id="cb1-4"><a href=""></a>iris <span class="sc">|&gt;</span> </span>
-<span id="cb1-5"><a href=""></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">2</span>)</span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a><span class="co"># Plot species</span></span>
-<span id="cb1-8"><a href=""></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">color=</span><span class="fu">factor</span>(Species))) <span class="sc">+</span></span>
-<span id="cb1-9"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb1-10"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb1-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">"Cluster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href=""></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb1-4"><a href=""></a>  <span class="fu">titlePanel</span>(<span class="st">"Hello Shiny"</span>),</span>
+<span id="cb1-5"><a href=""></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb1-6"><a href=""></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb1-7"><a href=""></a>      <span class="fu">sliderInput</span>(<span class="st">"bins"</span>, <span class="st">"Number of bins:"</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">50</span>, <span class="at">value =</span> <span class="dv">30</span>)</span>
+<span id="cb1-8"><a href=""></a>    ),</span>
+<span id="cb1-9"><a href=""></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb1-10"><a href=""></a>      <span class="fu">plotOutput</span>(<span class="st">"hist"</span>)</span>
+<span id="cb1-11"><a href=""></a>    )</span>
+<span id="cb1-12"><a href=""></a>  )</span>
+<span id="cb1-13"><a href=""></a>)</span>
+<span id="cb1-14"><a href=""></a></span>
+<span id="cb1-15"><a href=""></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb1-16"><a href=""></a>  output<span class="sc">$</span>hist <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb1-17"><a href=""></a>    x <span class="ot">&lt;-</span> faithful<span class="sc">$</span>waiting</span>
+<span id="cb1-18"><a href=""></a>    <span class="fu">hist</span>(x, <span class="at">breaks =</span> input<span class="sc">$</span>bins,</span>
+<span id="cb1-19"><a href=""></a>         <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb1-20"><a href=""></a>         <span class="at">main =</span> <span class="st">"Histogram of Old Faithful waiting times"</span>,</span>
+<span id="cb1-21"><a href=""></a>         <span class="at">xlab =</span> <span class="st">"Waiting time"</span>)</span>
+<span id="cb1-22"><a href=""></a>  })</span>
+<span id="cb1-23"><a href=""></a>}</span>
+<span id="cb1-24"><a href=""></a></span>
+<span id="cb1-25"><a href=""></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>ℹ️ Try to run the code in your Script Editor.</p>
+<p>ℹ️ Try to run the app using the <strong>Run app</strong> button.</p>
 </section>
-<section id="k-means-in-r-2" class="slide level2">
-<h2>K-means in R</h2>
-<p>K-means clustering with <code>k=3</code></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(tidymodels); <span class="fu">library</span>(tidyverse); <span class="fu">library</span>(cluster)</span>
-<span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a><span class="do">## Remove species</span></span>
-<span id="cb2-4"><a href=""></a>data <span class="ot">&lt;-</span> </span>
-<span id="cb2-5"><a href=""></a>  iris <span class="sc">|&gt;</span> </span>
-<span id="cb2-6"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>Species)</span>
-<span id="cb2-7"><a href=""></a>  </span>
-<span id="cb2-8"><a href=""></a><span class="do">## K-means clustering</span></span>
-<span id="cb2-9"><a href=""></a>kmeans_fit <span class="ot">&lt;-</span> </span>
-<span id="cb2-10"><a href=""></a>  <span class="fu">kmeans</span>(<span class="fu">scale</span>(data), <span class="at">centers =</span> <span class="dv">3</span>) <span class="co"># it is important to scale and center the data</span></span>
-<span id="cb2-11"><a href=""></a></span>
-<span id="cb2-12"><a href=""></a>data <span class="ot">&lt;-</span> </span>
-<span id="cb2-13"><a href=""></a> data <span class="sc">|&gt;</span> </span>
-<span id="cb2-14"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Cluster=</span>kmeans_fit<span class="sc">$</span>cluster,</span>
-<span id="cb2-15"><a href=""></a>         <span class="at">Species=</span>iris <span class="sc">|&gt;</span> <span class="fu">pull</span>(Species))</span>
-<span id="cb2-16"><a href=""></a></span>
-<span id="cb2-17"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">color=</span><span class="fu">factor</span>(Cluster))) <span class="sc">+</span></span>
-<span id="cb2-18"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb2-19"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb2-20"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">"Cluster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>ℹ️ Try to run the code in your Script Editor. Try to use 4 or 5 clusters.</p>
-</section>
-<section id="k-means-in-r-3" class="slide level2">
-<h2>K-means in R</h2>
-<p>The output of <code>kmeans_fit</code> is a list of vectors:</p>
+<section id="basic-reactive-concepts" class="slide level2">
+<h2>Basic Reactive Concepts</h2>
 <ul>
-<li><code>cluster</code> (150 values) contains information about each point<br>
-</li>
-<li><code>centers</code>, <code>withinss</code>, and <code>size</code> (3 values) contain information about each cluster<br>
-</li>
-<li><code>totss</code>, <code>tot.withinss</code>, <code>betweenss</code>, and <code>iter</code> (1 value) contain information about the full clustering</li>
+<li><strong>Input</strong> functions/widgets: <code>sliderInput()</code>, <code>selectInput()</code>, <code>textInput()</code>, etc. provide</li>
+<li><strong>Reactive</strong> expressions/functions: computed when their inputs change, and those dependencies tracked automatically, for instannce when the slider input value changes.</li>
+<li><strong>Render</strong> functions: <code>renderPlot()</code>, <code>renderText()</code>, <code>renderTable()</code>, etc.</li>
+<li><strong>Output</strong> functions/widgets: <code>plotOutput()</code>, <code>tableOutput()</code>, etc.</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(purrr); <span class="fu">library</span>(tidymodels); <span class="fu">library</span>(tidyverse); <span class="fu">library</span>(cluster)</span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a>k_means_multiple_fit <span class="ot">&lt;-</span> </span>
-<span id="cb3-4"><a href=""></a>  <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-5"><a href=""></a>  <span class="fu">map</span> (<span class="cf">function</span>(k) {</span>
-<span id="cb3-6"><a href=""></a>      <span class="fu">kmeans</span>(<span class="fu">scale</span>(data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Cluster, Species))), <span class="at">centers =</span> k) <span class="sc">|&gt;</span></span>
-<span id="cb3-7"><a href=""></a>      _<span class="sc">$</span>cluster <span class="sc">|&gt;</span> </span>
-<span id="cb3-8"><a href=""></a>      <span class="fu">data.frame</span>()</span>
-<span id="cb3-9"><a href=""></a>}) <span class="sc">|&gt;</span> </span>
-<span id="cb3-10"><a href=""></a>  <span class="fu">list_cbind</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb3-11"><a href=""></a>  <span class="fu">cbind</span>(iris) <span class="sc">|&gt;</span></span>
-<span id="cb3-12"><a href=""></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">starts_with</span>(<span class="st">"kmeans"</span>), <span class="at">names_to=</span><span class="st">"k"</span>, <span class="at">values_to=</span><span class="st">"Cluster"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-13"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">k=</span>k <span class="sc">|&gt;</span>  <span class="fu">str_sub</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>))</span>
-<span id="cb3-14"><a href=""></a></span>
-<span id="cb3-15"><a href=""></a><span class="fu">ggplot</span>(k_means_multiple_fit, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">color=</span><span class="fu">factor</span>(Cluster))) <span class="sc">+</span></span>
-<span id="cb3-16"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-17"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb3-18"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(k))<span class="sc">+</span></span>
-<span id="cb3-19"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">"Cluster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>ℹ️ Try to run the code in your Script Editor.</p>
+
+<img data-src="https://shiny.posit.co/r/getstarted/build-an-app/images/reactive-flow-simple.png" class="r-stretch quarto-figure-center"><p class="caption">Reactive flow, simplified (source: Posit)</p></section>
+<section id="common-ui-inputs-in-shiny" class="slide level2">
+<h2>Common UI Inputs in Shiny</h2>
+<p>Shiny provides a wide range of input widgets to capture user input:</p>
+
+<img data-src="https://shiny.posit.co/r/getstarted/shiny-basics/lesson3/images/basic-widgets.png" class="r-stretch quarto-figure-center"><p class="caption">Shiny control widgets (source: Posit)</p></section>
+<section id="examples-of-ui-inputs-in-action" class="slide level2">
+<h2>Examples of UI Inputs in Action</h2>
+
+<img data-src="https://raw.githubusercontent.com/rstudio/shiny-examples/master/051-ui-widgets/screenshot.png" class="r-stretch"><p><em>(Screenshot showing various input controls such as sliders, text fields, and checkboxes.)</em></p>
 </section>
-<section id="k-means-in-r-4" class="slide level2">
-<h2>K-means in R</h2>
-<p>Additionally the total within sum of squares, saved in the <code>tot.withinss</code> column, represents the variance within the clusters. It generally decreases as <code>k</code> increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">library</span>(purrr); <span class="fu">library</span>(tidymodels); <span class="fu">library</span>(tidyverse); <span class="fu">library</span>(cluster)</span>
-<span id="cb4-2"><a href=""></a></span>
-<span id="cb4-3"><a href=""></a>k_means_multiple_withinss <span class="ot">&lt;-</span> </span>
-<span id="cb4-4"><a href=""></a>  <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-5"><a href=""></a>  <span class="fu">map</span> (<span class="cf">function</span>(k) {</span>
-<span id="cb4-6"><a href=""></a>      <span class="fu">kmeans</span>(<span class="fu">scale</span>(data), <span class="at">centers =</span> k) <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a href=""></a>      _<span class="sc">$</span>tot.withinss <span class="sc">|&gt;</span> </span>
-<span id="cb4-8"><a href=""></a>      <span class="fu">data.frame</span>()</span>
-<span id="cb4-9"><a href=""></a>}) <span class="sc">|&gt;</span> </span>
-<span id="cb4-10"><a href=""></a> <span class="fu">list_cbind</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb4-11"><a href=""></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">everything</span>(), <span class="at">names_to=</span><span class="st">"k"</span>, <span class="at">values_to=</span><span class="st">"tot.withinss"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-12"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">k=</span>k <span class="sc">|&gt;</span>  <span class="fu">str_sub</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">as.numeric</span>())</span>
+<section id="layouts-ui-helpers" class="slide level2">
+<h2>Layouts &amp; UI Helpers</h2>
+<ul>
+<li><code>fluidPage()</code>, <code>sidebarLayout()</code>, <code>tabsetPanel()</code>, <code>navbarPage()</code>, etc. for structuring layout.</li>
+<li>Can include HTML/CSS for styling.</li>
+<li>There are helper packages/themes to make UI nicer: e.g.&nbsp;<code>shinydashboard</code>, <code>shiny.semantic</code>, etc.</li>
+</ul>
+</section>
+<section id="screenshot-examples" class="slide level2">
+<h2>Screenshot + Examples</h2>
+<p>Here are some screenshots of real Shiny apps &amp; dashboards to see what’s possible:</p>
+<p><img data-src="https://raw.githubusercontent.com/rstudio/shiny-examples/master/001-hello/screenshot.png"></p>
+<p><img data-src="https://raw.githubusercontent.com/rstudio/shiny-examples/master/050-kmeans-example/screenshot.png"></p>
+</section>
+<section id="deployment-sharing" class="slide level2">
+<h2>Deployment &amp; Sharing</h2>
+<ul>
+<li>Once you build a Shiny app, you can run it locally with <code>runApp()</code>, or launch via RStudio.</li>
+<li>For sharing:
+<ul>
+<li><strong>shinyapps.io</strong> (hosted service)<br>
+</li>
+<li>Your own <strong>Shiny Server</strong><br>
+</li>
+<li>Posit Connect / other hosting platforms.</li>
+</ul></li>
+</ul>
+</section>
+<section id="tips-best-practices" class="slide level2">
+<h2>Tips &amp; Best Practices</h2>
+<ul>
+<li>Keep reactive logic simple; avoid repeated heavy computations.</li>
+<li>Use modularization for larger apps.</li>
+<li>Monitor performance, especially for large data / many users.</li>
+<li>Think about user interface design (visibility, ease of use).</li>
+<li>Use logging / error handling.</li>
+</ul>
+</section>
+<section id="resources-for-learning-more" class="slide level2">
+<h2>Resources for Learning More</h2>
+<ul>
+<li>Shiny official tutorials &amp; gallery: “Get Started with Shiny” on Posit website.</li>
+<li><em>Mastering Shiny</em> by Hadley Wickham — great in depth.</li>
+<li>Community &amp; examples: Shiny Gallery, GitHub repos.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+</section>
+<section id="interactive-outputs-maps-plots-and-tables" class="slide level2">
+<h2>Interactive Outputs: Maps, Plots, and Tables</h2>
+<h3 id="leaflet-maps">Leaflet Maps</h3>
+<p>Use the <strong>leaflet</strong> package to add interactive maps:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(shiny)</span>
+<span id="cb2-2"><a href=""></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb2-3"><a href=""></a></span>
+<span id="cb2-4"><a href=""></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb2-5"><a href=""></a>  <span class="fu">leafletOutput</span>(<span class="st">"mymap"</span>)</span>
+<span id="cb2-6"><a href=""></a>)</span>
+<span id="cb2-7"><a href=""></a></span>
+<span id="cb2-8"><a href=""></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb2-9"><a href=""></a>  output<span class="sc">$</span>mymap <span class="ot">&lt;-</span> <span class="fu">renderLeaflet</span>({</span>
+<span id="cb2-10"><a href=""></a>    <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href=""></a>      <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href=""></a>      <span class="fu">addMarkers</span>(<span class="at">lng =</span> <span class="sc">-</span><span class="fl">122.4194</span>, <span class="at">lat =</span> <span class="fl">37.7749</span>, <span class="at">popup =</span> <span class="st">"San Francisco"</span>)</span>
+<span id="cb2-13"><a href=""></a>  })</span>
+<span id="cb2-14"><a href=""></a>}</span>
+<span id="cb2-15"><a href=""></a></span>
+<span id="cb2-16"><a href=""></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<img data-src="https://raw.githubusercontent.com/rstudio/leaflet/master/man/figures/logo.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="interactive-ggplot-with-plotly">Interactive ggplot with plotly</h3>
+<p>Combine <strong>ggplot2</strong> and <strong>plotly</strong> to create interactive plots:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(shiny)</span>
+<span id="cb3-2"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-3"><a href=""></a><span class="fu">library</span>(plotly)</span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb3-6"><a href=""></a>  <span class="fu">plotlyOutput</span>(<span class="st">"plot"</span>)</span>
+<span id="cb3-7"><a href=""></a>)</span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb3-10"><a href=""></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb3-11"><a href=""></a>    p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(displ, hwy, <span class="at">color =</span> class)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb3-12"><a href=""></a>    <span class="fu">ggplotly</span>(p)</span>
+<span id="cb3-13"><a href=""></a>  })</span>
+<span id="cb3-14"><a href=""></a>}</span>
+<span id="cb3-15"><a href=""></a></span>
+<span id="cb3-16"><a href=""></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<img data-src="https://raw.githubusercontent.com/plotly/plotly.R/master/man/figures/logo.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="interactive-tables-with-dt">Interactive Tables with DT</h3>
+<p>Use <strong>DT</strong> (DataTables) for interactive tables:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">library</span>(shiny)</span>
+<span id="cb4-2"><a href=""></a><span class="fu">library</span>(DT)</span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb4-5"><a href=""></a>  <span class="fu">DTOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb4-6"><a href=""></a>)</span>
+<span id="cb4-7"><a href=""></a></span>
+<span id="cb4-8"><a href=""></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb4-9"><a href=""></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderDT</span>({</span>
+<span id="cb4-10"><a href=""></a>    <span class="fu">datatable</span>(iris, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span>
+<span id="cb4-11"><a href=""></a>  })</span>
+<span id="cb4-12"><a href=""></a>}</span>
 <span id="cb4-13"><a href=""></a></span>
-<span id="cb4-14"><a href=""></a><span class="fu">ggplot</span>(k_means_multiple_withinss, <span class="fu">aes</span>(<span class="at">x=</span>k, <span class="at">y=</span>tot.withinss)) <span class="sc">+</span></span>
-<span id="cb4-15"><a href=""></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
-<span id="cb4-16"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb4-17"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>ℹ️ Try to run the code in your Script Editor.</p>
-</section>
-<section id="random-forest" class="slide level2">
-<h2>Random forest</h2>
+<span id="cb4-14"><a href=""></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<img data-src="https://raw.githubusercontent.com/rstudio/DT/master/man/figures/logo.png" class="r-stretch"></section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
 <ul>
-<li><strong>Supervised learning</strong> based on ensemble of <strong>decision trees</strong></li>
-<li>Predict <strong>outcomes</strong> or <strong>probabilities</strong></li>
-<li>Assess <strong>feature importance</strong></li>
-<li>Useful for <strong>weighted sampling</strong> or prioritization</li>
-</ul>
-</section>
-<section id="random-forest-concept" class="slide level2">
-<h2>Random Forest Concept</h2>
-<ul>
-<li>Many decision trees combined</li>
-<li>Classification: majority vote</li>
-<li>Regression: average prediction</li>
-<li>Identify important variables in dataset</li>
-</ul>
-</section>
-<section id="random-forest-example-in-r" class="slide level2">
-<h2>Random Forest Example in R</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb5-2"><a href=""></a><span class="fu">library</span>(ranger)</span>
-<span id="cb5-3"><a href=""></a></span>
-<span id="cb5-4"><a href=""></a><span class="do">## Example dataset</span></span>
-<span id="cb5-5"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb5-6"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mode =</span> <span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href=""></a>  <span class="fu">fit</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="evaluating-random-forest" class="slide level2">
-<h2>Evaluating Random Forest</h2>
-<ul>
-<li>Confusion matrix</li>
-<li>Accuracy, precision, recall</li>
-<li>Feature importance plot</li>
-</ul>
-</section>
-<section id="using-rf-predictions-for-sampling" class="slide level2">
-<h2>Using RF Predictions for Sampling</h2>
-<ul>
-<li>Predict probability of selection or outcome</li>
-<li>Compute weights: <span class="math inline">\(w_i = 1 / p_i\)</span></li>
-<li>Adjust sample to improve representativeness</li>
-</ul>
-</section>
-<section id="combining-k-means-and-random-forest" class="slide level2">
-<h2>Combining K-means and Random Forest</h2>
-<ul>
-<li>K-means: identify clusters for stratified sampling</li>
-<li>Random Forest: weight or prioritize units within clusters</li>
-</ul>
-</section>
-<section id="example-workflow-in-r" class="slide level2">
-<h2>Example Workflow in R</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="do">## Step 1: K-means</span></span>
-<span id="cb6-2"><a href=""></a>data<span class="sc">$</span>cluster <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">scale</span>(data), <span class="at">centers =</span> <span class="dv">3</span>)<span class="sc">$</span>cluster</span>
-<span id="cb6-3"><a href=""></a></span>
-<span id="cb6-4"><a href=""></a><span class="do">## Step 2: Random Forest within clusters</span></span>
-<span id="cb6-5"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mode=</span><span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-7"><a href=""></a>  <span class="fu">fit</span>(Species <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width, <span class="at">data=</span>iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="visualizing-sample-selection" class="slide level2">
-<h2>Visualizing Sample Selection</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">color=</span><span class="fu">factor</span>(cluster), <span class="at">size=</span>rf_model<span class="sc">$</span>fit<span class="sc">$</span>predicted)) <span class="sc">+</span></span>
-<span id="cb7-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb7-3"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="practical-considerations" class="slide level2">
-<h2>Practical Considerations</h2>
-<ul>
-<li>Choosing <strong>K</strong> in k-means (elbow method)</li>
-<li>Number of trees in random forest</li>
-<li>Handle missing data appropriately</li>
-<li>Scale/normalize features before clustering</li>
-</ul>
-</section>
-<section id="advantages-of-ml-based-sampling" class="slide level2">
-<h2>Advantages of ML-Based Sampling</h2>
-<ul>
-<li>Data-driven stratification</li>
-<li>Capture complex patterns in population</li>
-<li>Reduce variance and sampling bias</li>
-</ul>
-</section>
-<section id="limitations" class="slide level2">
-<h2>Limitations</h2>
-<ul>
-<li>Requires sufficient population data</li>
-<li>Black-box predictions may reduce interpretability</li>
-<li>Computationally intensive for large datasets</li>
-</ul>
-</section>
-<section id="take-home" class="slide level2">
-<h2>Take home</h2>
-<ul>
-<li>AI/ML complements traditional sampling</li>
-<li>K-means identifies clusters for stratification</li>
-<li>Random Forest helps prioritize or weight units</li>
-<li>R/tidymodels provides reproducible workflow</li>
-<li>Visualization is key for interpretation</li>
+<li>Shiny lets you build reactive, interactive web apps using R.</li>
+<li>You design UI, write server logic, and connect them.</li>
+<li>You can create very simple or quite complex dashboards.</li>
+<li>With deployment options, you can share your apps.</li>
 </ul>
 </section>
 <section id="resources" class="slide level2">
@@ -561,19 +454,19 @@ AI and ML for sampling
 </div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="07_r_shiny_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

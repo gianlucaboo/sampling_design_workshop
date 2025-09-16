@@ -1,6 +1,6 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "AI and machine learning for sampling"
+author: "AI and ML for sampling"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-17-2025"
 title-slide-attributes:
@@ -37,14 +37,14 @@ toc-title: "Content"
 ## Today's agenda
 
 -   Introduction to AI and ML in sampling
--   K-Means clustering for stratification
--   Random Forest for sample weighting and prediction
+-   K-means clustering for stratification
+-   Random forest for sample weighting and prediction
 -   Implementation in R with tidymodels
 -   Practical exercises
 
 ------------------------------------------------------------------------
 
-## AI and machine learning in sampling
+## AI and ML in sampling
 
 -   Improve **sampling efficiency and representativeness**
 -   Detect patterns in **complex population data**
@@ -55,28 +55,23 @@ toc-title: "Content"
 
 ------------------------------------------------------------------------
 
-## Overview of Machine Learning
+## Overview of ML
 
 -   **Supervised learning:** prediction based on known outcomes
 -   **Unsupervised learning:** finding patterns/clusters without labeled outcomes
--   Features (inputs) and targets (outputs)
--   Training, validation, and prediction workflow
+-   **Features** (inputs) and **targets** (outputs)
+-   Training, validation, and prediction **workflow**
 
-![source: [Edureka](https://www.edureka.co/blog/what-is-machine-learning/).](img/ml.png){fig-align="left"}
+![Some ML alghoritmns (source: [Edureka](https://www.edureka.co/blog/what-is-machine-learning/)).](img/ml.png){fig-align="left"}
 
 ------------------------------------------------------------------------
 
-## Unsupervised learning: K-Means clustering
+## K-means clustering
 
 -   **Clustering** is an **unsupervised learning** method
 -   Detect **natural groups** in population data
 -   Useful for creating **representative samples**
--   k-means: widely used for stratification
-
-------------------------------------------------------------------------
-
-## K-Means clustering
-
+-   k-means: widely used for **stratification**
 -   Partition population into **K clusters**
 -   Minimize **within-cluster variance**
 -   **Example**: stratification for sampling based on spending and annual income
@@ -85,7 +80,7 @@ toc-title: "Content"
 
 ------------------------------------------------------------------------
 
-## K-Means clustering
+## K-means clustering
 
 -   A **partitioning clustering algorithm**\
 -   Divides data into **K clusters**\
@@ -101,42 +96,44 @@ toc-title: "Content"
 ### Main steps
 
 1.  Choose **K** (number of clusters)\
-2.  Randomly initialize cluster centroids\
-3.  Assign each observation to nearest centroid\
-4.  Update centroids (mean of assigned points)\
-5.  Repeat until convergence
+2.  Randomly initialize **cluster centroids**\
+3.  **Assign each observation** to nearest centroid\
+4.  **Update centroids** (mean of assigned points)\
+5.  Repeat until **convergence**
 
 ![K-means clusters' centroid (with k=3), source: [Neptune.ai](https://www.neptune.ai).](img/k_means_3_converged.png){fig-align="left"}
 
 ------------------------------------------------------------------------
 
-## K-Means in R
+## K-means in R
 
 ### The Iris dataset
 
 -   British statistician and biologist **Ronald Fisher** in his 1936 paper.\
 -   The data set consists of **50 samples** from each of **three species** of Iris.\
--   Four features were measured from each sample: the **length and the width of the sepals and petals**, in centimeters.
+-   Four features were measured: the **length and the width of the sepals and petals**, in centimeters.
 
 ::::: columns
 ::: {.column width="33%"}
-![Iris setosa (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kosaciec_szczecinkowaty_Iris_setosa.jpg/500px-Kosaciec_szczecinkowaty_Iris_setosa.jpg){width="225"}
+![Iris setosa (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kosaciec_szczecinkowaty_Iris_setosa.jpg/500px-Kosaciec_szczecinkowaty_Iris_setosa.jpg){fig-align="center" width="225"}
 :::
 
 ::: {.column width="33%"}
-![Iris versicolor (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Iris_versicolor_3.jpg/500px-Iris_versicolor_3.jpg)
+![Iris versicolor (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Iris_versicolor_3.jpg/500px-Iris_versicolor_3.jpg){fig-align="center"}
 :::
 :::::
 
 ::: {.column width="33%"}
-![Iris Virginica (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/500px-Iris_virginica.jpg)
+![Iris Virginica (source: Wikipedia)](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/500px-Iris_virginica.jpg){fig-align="center"}
 :::
 
 :::::
 
 ------------------------------------------------------------------------
 
-## K-Means in R
+## K-means in R
+
+A first glimpse of the data set
 
 ```{r}
 #| echo: true
@@ -159,23 +156,24 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Species))) +
 
 ------------------------------------------------------------------------
 
-## K-Means in R
+## K-means in R
+
+K-means clustering with `k=3`
 
 ```{r}
 #| echo: true
 #| eval: false
 
-library(tidymodels)
-library(tidyverse)
-library(cluster)
+library(tidymodels); library(tidyverse); library(cluster)
 
 ## Remove species
 data <- 
   iris |> 
   select(-Species)
   
-## K-Means clustering
-kmeans_fit <- kmeans(scale(data), centers = 3)
+## K-means clustering
+kmeans_fit <- 
+  kmeans(scale(data), centers = 3) # it is important to scale and center the data
 
 data <- 
  data |> 
@@ -187,24 +185,85 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Cluster))) +
   theme_minimal() +
   labs(color="Cluster")
 ```
+
 ℹ️ Try to run the code in your Script Editor. Try to use 4 or 5 clusters.
 
 ------------------------------------------------------------------------
 
-## K-Means for Sampling Design
+## K-means in R
 
--   Select representative units from each cluster
--   Ensures diversity within the sample
--   Acts as a data-driven stratification method
+The output of `kmeans_fit` is a list of vectors:
+
+-   `cluster` (150 values) contains information about each point\
+-   `centers`, `withinss`, and `size` (3 values) contain information about each cluster\
+-   `totss`, `tot.withinss`, `betweenss`, and `iter` (1 value) contain information about the full clustering
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(purrr); library(tidymodels); library(tidyverse); library(cluster)
+
+k_means_multiple_fit <- 
+  c(1:9) |> 
+  map (function(k) {
+      kmeans(scale(data |> select(-c(Cluster, Species))), centers = k) |>
+      _$cluster |> 
+      data.frame()
+}) |> 
+  list_cbind() |> 
+  cbind(iris) |>
+  pivot_longer(cols=starts_with("kmeans"), names_to="k", values_to="Cluster") |> 
+  mutate(k=k |>  str_sub(-1, -1))
+
+ggplot(k_means_multiple_fit, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Cluster))) +
+  geom_point(size=2) +
+  theme_minimal() +
+  facet_wrap(vars(k))+
+  labs(color="Cluster")
+```
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## Supervised Learning: Random Forest
+## K-means in R
 
--   Ensemble of decision trees
--   Predict outcomes or probabilities
--   Assess feature importance
--   Useful for weighted sampling or prioritization
+Additionally the total within sum of squares, saved in the `tot.withinss` column,  represents the variance within the clusters. It generally decreases as `k` increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value. 
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(purrr); library(tidymodels); library(tidyverse); library(cluster)
+
+k_means_multiple_withinss <- 
+  c(1:9) |> 
+  map (function(k) {
+      kmeans(scale(data), centers = k) |>
+      _$tot.withinss |> 
+      data.frame()
+}) |> 
+ list_cbind() |> 
+  pivot_longer(cols=everything(), names_to="k", values_to="tot.withinss") |> 
+  mutate(k=k |>  str_sub(-1, -1) |> as.numeric())
+
+ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
+  geom_line()+
+  geom_point(size=3) +
+  theme_minimal()
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Random forest
+
+-   **Supervised learning** based on ensemble of **decision trees**
+-   Predict **outcomes** or **probabilities**
+-   Assess **feature importance**
+-   Useful for **weighted sampling** or prioritization
 
 ------------------------------------------------------------------------
 
@@ -254,9 +313,9 @@ rf_model <- rand_forest(mode = "classification") |>
 
 ------------------------------------------------------------------------
 
-## Combining K-Means and Random Forest
+## Combining K-means and Random Forest
 
--   K-Means: identify clusters for stratified sampling
+-   K-means: identify clusters for stratified sampling
 -   Random Forest: weight or prioritize units within clusters
 
 ------------------------------------------------------------------------
@@ -266,7 +325,7 @@ rf_model <- rand_forest(mode = "classification") |>
 ```{r}
 #| echo: true
 #| eval: false
-## Step 1: K-Means
+## Step 1: K-means
 data$cluster <- kmeans(scale(data), centers = 3)$cluster
 
 ## Step 2: Random Forest within clusters
@@ -317,7 +376,7 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster), size=rf_m
 ## Take home
 
 -   AI/ML complements traditional sampling
--   K-Means identifies clusters for stratification
+-   K-means identifies clusters for stratification
 -   Random Forest helps prioritize or weight units
 -   R/tidymodels provides reproducible workflow
 -   Visualization is key for interpretation

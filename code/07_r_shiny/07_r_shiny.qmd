@@ -1,0 +1,289 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "Introduction to R Shiny"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-25-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+------------------------------------------------------------------------
+
+## Workshop's agenda
+
+-   **Day 1**: Introduction to QGIS
+-   **Day 2**: Automatic update of census EA and national sampling frame
+-   **Day 3**: Introduction to R programming
+-   **Day 4**: Introduction to Sampling Design
+-   **Day 5**: Advanced R programming
+-   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 7**: AI and machine learning for sample selection
+-   **Day 8**: Simulation and optimization of sampling strategies
+-   **Day 9**: R Shiny for sampling design evaluation
+-   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Today's agenda
+
+-   Introduction to AI and ML in sampling
+-   K-means clustering for stratification
+-   Random forest for sample weighting and prediction
+-   Implementation in R with tidymodels
+-   Practical exercises
+
+------------------------------------------------------------------------
+
+## Shiny
+
+-   Shiny is an R package for building **interactive web applications** directly from R.\
+-   Originally developed for R by RStudio (now Posit), it is now available in Python.\
+-   Allows embedding of code, reactive UI elements (sliders, inputs, etc.), and outputs (plots, tables, etc.) that update when inputs change.
+
+::: embed
+<iframe src="https://phillyo.shinyapps.io/intelligentsia/" width="100%" height="350">
+
+</iframe>
+:::
+
+------------------------------------------------------------------------
+
+## Shiny app structure
+
+::::: columns
+::: {.column width="50%"}
+You can create a Shiny web app directly in R
+
+![](img/shiny_new.png)
+:::
+
+::: {.column width="50%"}
+Every Shiny app has two main parts:
+
+1\. **UI (User Interface)**: defines layout and inputs/outputs visible to the user.
+
+2\. **Server**: defines how inputs are processed, computations, reactive expressions, outputs created.
+
+![](img/shiny_structure.png)
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Shiny app example
+
+This is a structure of your shiny app.
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Hello Shiny"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
+    ),
+    mainPanel(
+      plotOutput("hist")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  output$hist <- renderPlot({
+    x <- faithful$waiting
+    hist(x, breaks = input$bins,
+         col = "skyblue", border = "white",
+         main = "Histogram of Old Faithful waiting times",
+         xlab = "Waiting time")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+ℹ️ Try to run the app using the **Run app** button.
+
+------------------------------------------------------------------------
+
+## Basic Reactive Concepts
+
+-   **Input** functions/widgets: `sliderInput()`, `selectInput()`, `textInput()`, etc. provide
+-   **Reactive** expressions/functions: computed when their inputs change, and those dependencies tracked automatically, for instannce when the slider input value changes.
+-   **Render** functions: `renderPlot()`, `renderText()`, `renderTable()`, etc.
+-   **Output** functions/widgets: `plotOutput()`, `tableOutput()`, etc.
+
+![Reactive flow, simplified (source: Posit)](https://shiny.posit.co/r/getstarted/build-an-app/images/reactive-flow-simple.png)
+
+------------------------------------------------------------------------
+
+## Common UI Inputs in Shiny
+
+Shiny provides a wide range of input widgets to capture user input:
+
+![Shiny control widgets (source: Posit)](https://shiny.posit.co/r/getstarted/shiny-basics/lesson3/images/basic-widgets.png)
+
+------------------------------------------------------------------------
+
+## Examples of UI Inputs in Action
+
+![](https://raw.githubusercontent.com/rstudio/shiny-examples/master/051-ui-widgets/screenshot.png)
+
+*(Screenshot showing various input controls such as sliders, text fields, and checkboxes.)*
+
+## Layouts & UI Helpers
+
+-   `fluidPage()`, `sidebarLayout()`, `tabsetPanel()`, `navbarPage()`, etc. for structuring layout.
+-   Can include HTML/CSS for styling.
+-   There are helper packages/themes to make UI nicer: e.g. `shinydashboard`, `shiny.semantic`, etc.
+
+------------------------------------------------------------------------
+
+## Screenshot + Examples
+
+Here are some screenshots of real Shiny apps & dashboards to see what’s possible:
+
+![](https://raw.githubusercontent.com/rstudio/shiny-examples/master/001-hello/screenshot.png)
+
+![](https://raw.githubusercontent.com/rstudio/shiny-examples/master/050-kmeans-example/screenshot.png)
+
+------------------------------------------------------------------------
+
+## Deployment & Sharing
+
+-   Once you build a Shiny app, you can run it locally with `runApp()`, or launch via RStudio.
+-   For sharing:
+    -   **shinyapps.io** (hosted service)\
+    -   Your own **Shiny Server**\
+    -   Posit Connect / other hosting platforms.
+
+------------------------------------------------------------------------
+
+## Tips & Best Practices
+
+-   Keep reactive logic simple; avoid repeated heavy computations.
+-   Use modularization for larger apps.
+-   Monitor performance, especially for large data / many users.
+-   Think about user interface design (visibility, ease of use).
+-   Use logging / error handling.
+
+------------------------------------------------------------------------
+
+## Resources for Learning More
+
+-   Shiny official tutorials & gallery: “Get Started with Shiny” on Posit website.
+-   *Mastering Shiny* by Hadley Wickham — great in depth.
+-   Community & examples: Shiny Gallery, GitHub repos.
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## Interactive Outputs: Maps, Plots, and Tables
+
+### Leaflet Maps
+
+Use the **leaflet** package to add interactive maps:
+
+``` r
+library(shiny)
+library(leaflet)
+
+ui <- fluidPage(
+  leafletOutput("mymap")
+)
+
+server <- function(input, output, session) {
+  output$mymap <- renderLeaflet({
+    leaflet() %>%
+      addTiles() %>%
+      addMarkers(lng = -122.4194, lat = 37.7749, popup = "San Francisco")
+  })
+}
+
+shinyApp(ui, server)
+```
+
+![](https://raw.githubusercontent.com/rstudio/leaflet/master/man/figures/logo.png)
+
+------------------------------------------------------------------------
+
+### Interactive ggplot with plotly
+
+Combine **ggplot2** and **plotly** to create interactive plots:
+
+``` r
+library(shiny)
+library(ggplot2)
+library(plotly)
+
+ui <- fluidPage(
+  plotlyOutput("plot")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlotly({
+    p <- ggplot(mpg, aes(displ, hwy, color = class)) + geom_point()
+    ggplotly(p)
+  })
+}
+
+shinyApp(ui, server)
+```
+
+![](https://raw.githubusercontent.com/plotly/plotly.R/master/man/figures/logo.png)
+
+------------------------------------------------------------------------
+
+### Interactive Tables with DT
+
+Use **DT** (DataTables) for interactive tables:
+
+``` r
+library(shiny)
+library(DT)
+
+ui <- fluidPage(
+  DTOutput("table")
+)
+
+server <- function(input, output, session) {
+  output$table <- renderDT({
+    datatable(iris, options = list(pageLength = 5))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+![](https://raw.githubusercontent.com/rstudio/DT/master/man/figures/logo.png)
+
+## Summary
+
+-   Shiny lets you build reactive, interactive web apps using R.
+-   You design UI, write server logic, and connect them.
+-   You can create very simple or quite complex dashboards.
+-   With deployment options, you can share your apps.
+
+------------------------------------------------------------------------
+
+## Resources
+
+-   James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). *An Introduction to Statistical Learning with Applications in R*. Springer. <https://www.statlearning.com>
+-   Kuhn, M., & Wickham, H. (2023). *tidymodels: Unified Interface for Modeling in R*. <https://www.tidymodels.org>
+-   Pebesma, E. (2018). *Simple Features for R*. R Journal. <https://journal.r-project.org>
+-   R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. <https://www.R-project.org>
+-   Grolemund, G., Wickham, H. (2017). *R for Data Science*. <https://r4ds.had.co.nz>
