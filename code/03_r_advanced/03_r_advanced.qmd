@@ -22,13 +22,22 @@ toc-title: "Content"
 -   **Day 1**: Introduction to QGIS
 -   **Day 2**: Automatic update of census EA and national sampling frame
 -   **Day 3**: Introduction to R programming
--   **Day 4**: Introduction to Sampling Design
--   **Day 5**: Advanced R programming
+-   **Day 4**: Introduction to sampling design
+-   **Day 5: Advanced R programming**
 -   **Day 6**: Earth observation (EO) for sampling design
 -   **Day 7**: AI and machine learning for sample selection
 -   **Day 8**: Simulation and optimization of sampling strategies
 -   **Day 9**: R Shiny for sampling design evaluation
 -   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Course materials
+
+1.  Today's course materials are on **Github**: https://github.com/gianlucaboo/sampling_design_workshop
+2.  Click on **Day 5: Advanced R programming**
+3.  **Copy the url** and **paste it** on https://download-directory.github.io
+4.  Save the zipped directory on the workshop and unzip it
 
 ------------------------------------------------------------------------
 
@@ -514,6 +523,8 @@ fill(year, .direction = "down")
 -   This is only a **snapshot of the all the possibilities** offered by the `tidyverse` package collection
 -   There are excellent **on-line resources** to support you with learning how to use different packages
 -   **Cheat sheets** are an excellent way to have a snapshot of the main functionalities of a package
+
+![](img/dplyr_cheatsheet.png)
 
 ------------------------------------------------------------------------
 

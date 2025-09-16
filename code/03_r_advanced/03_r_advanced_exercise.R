@@ -1,8 +1,8 @@
 ##########################################
 # Workshop: Advanced Sampling Methodologies
 # Instructor: Dr. Gianluca Boo, WorldPop
-# Date: 09-17-2025
-# Topic: Cdvanced R programming with the tidyverse
+# Date: 09-19-2025
+# Topic: Advanced R programming
 ##########################################
 
 # ================================
