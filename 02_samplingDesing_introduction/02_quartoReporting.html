@@ -9,7 +9,7 @@
 <link href="02_quartoReporting_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.32">
 
-  <meta name="author" content="Reporting with Quarto">
+  <meta name="author" content="Introduction to Quarto for reporting">
   <meta name="dcterms.date" content="2025-09-18">
   <title>Workshop on Advanced Sampling Methodologies</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -199,7 +199,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Reporting with Quarto 
+Introduction to Quarto for reporting 
 </div>
         <p class="quarto-title-affiliation">
             Dr.&nbsp;Gianluca Boo, WorldPop, University of Southampton
@@ -210,7 +210,7 @@ Reporting with Quarto
   <p class="date">2025-09-18</p>
 </section>
 <section id="install-quarto" class="slide level2">
-<h2>1. Install Quarto</h2>
+<h2>Install Quarto</h2>
 <ul>
 <li>Download and install from <a href="https://quarto.org/docs/get-started/" class="uri">https://quarto.org/docs/get-started/</a>.<br>
 </li>
@@ -223,7 +223,7 @@ Reporting with Quarto
 </div>
 </section>
 <section id="create-or-open-a-new-document" class="slide level2">
-<h2>2. Create or open a new document</h2>
+<h2>Create or open a new document</h2>
 <ul>
 <li>Create a new document, or<br>
 </li>
@@ -235,7 +235,7 @@ Reporting with Quarto
 <p>ℹ️ Try click on the button <strong>Render</strong>.</p>
 </section>
 <section id="two-main-editing-modes" class="slide level2">
-<h2>3. Two main editing modes</h2>
+<h2>Two main editing modes</h2>
 <p>Quarto lets you choose between a <strong>Visual Editor</strong> and a <strong>Source (Code) Editor</strong>.</p>
 <h3 id="visual-editor">Visual Editor</h3>
 <ul>
@@ -252,7 +252,7 @@ Reporting with Quarto
 <p>ℹ️ Try to inspect the document. You can switch between Visual and Source modes at any time; both modes save the same underlying <code>.qmd</code> text.</p>
 </section>
 <section id="document-structure-elements" class="slide level2">
-<h2>4. Document structure elements</h2>
+<h2>Document structure elements</h2>
 <p>Quarto uses <strong>YAML front matter</strong> for metadata and <strong>Markdown</strong> for content.</p>
 <h3 id="yaml-front-matter">YAML Front Matter</h3>
 <p>Example:</p>
@@ -313,7 +313,20 @@ Reporting with Quarto
 <section class="slide level2">
 
 <h3 id="callouts">Callouts</h3>
-<p>Create callouts for tips or warnings: ::: {.callout-note} Note that there are five types of callouts, including: <code>note</code>, <code>warning</code>, <code>important</code>, <code>tip</code>, and <code>caution</code>. :::</p>
+<p>Create callouts for tips or warnings:</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Note that there are five types of callouts, including: <code>note</code>, <code>warning</code>, <code>important</code>, <code>tip</code>, and <code>caution</code>.</p>
+</div>
+</div>
+</div>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -354,7 +367,7 @@ Reporting with Quarto
 <img data-src="https://quarto.org/docs/get-started/hello/images/rstudio-qmd-how-it-works.png" class="r-stretch"><p>ℹ️ Try to add tables and images using the visual mode in the document.</p>
 </section>
 <section id="example-document-layout" class="slide level2">
-<h2>3. Example Document Layout</h2>
+<h2>Example document layout</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href=""></a><span class="co">---</span></span>
 <span id="cb5-2"><a href=""></a><span class="an">title:</span><span class="co"> "Sales Analysis Report"</span></span>
 <span id="cb5-3"><a href=""></a><span class="an">format:</span><span class="co"> html</span></span>
@@ -375,7 +388,7 @@ Reporting with Quarto
 <span id="cb5-18"><a href=""></a><span class="ss">- </span>Key finding 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="customize-appearance" class="slide level2">
-<h2>5. Customize Appearance</h2>
+<h2>Customize appearance</h2>
 <p>Use a built-in theme:</p>
 <pre><code>``` yaml
 format:
@@ -385,12 +398,8 @@ format:
 <p>ℹ️ Try different themes from <a href="https://quarto.org/docs/output-formats/html-themes.html" class="uri">https://quarto.org/docs/output-formats/html-themes.html</a>.</p>
 </section>
 <section id="resources" class="slide level2">
-<h2>6. Resources</h2>
-<ul>
-<li>Documentation: <a href="https://quarto.org/docs/" class="uri">https://quarto.org/docs/</a></li>
-<li>Tutorials and guides: <a href="https://quarto.org/docs/get-started/" class="uri">https://quarto.org/docs/get-started/</a></li>
-<li>Community support via RStudio Community and GitHub discussions.</li>
-</ul>
+<h2>Resources</h2>
+<p>Quarto documentation: <a href="https://quarto.org/docs/" class="uri">https://quarto.org/docs/</a>. Quarto tutorials and guides: <a href="https://quarto.org/docs/get-started/" class="uri">https://quarto.org/docs/get-started/</a></p>
 
 </section>
     </div>

@@ -1,13 +1,24 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "Reporting with Quarto"
+author: "Introduction to Quarto for reporting"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-18-2025"
-format: html
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
 editor: visual
+toc: false
+toc-title: "Content"
 ---
 
-## 1. Install Quarto
+
+## Install Quarto
 
 -   Download and install from <https://quarto.org/docs/get-started/>.\
 -   Ensure R is installed if you plan to execute code chunks.\
@@ -19,18 +30,18 @@ editor: visual
 
 ------------------------------------------------------------------------
 
-## 2. Create or open a new document
+## Create or open a new document
 
 -   Create a new document, or\
 -   [Download](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/02_samplingDesing_introduction/02_quartoReporting_exercise.qmd) and open an existing document.\
 
-![](img/quarto_hello.gif){width="500"}\
+![](img/quarto_hello.png){width="500"}\
 
 ℹ️ Try click on the button **Render**.
 
 ------------------------------------------------------------------------
 
-## 3. Two main editing modes
+## Two main editing modes
 
 Quarto lets you choose between a **Visual Editor** and a **Source (Code) Editor**.
 
@@ -48,7 +59,7 @@ Quarto lets you choose between a **Visual Editor** and a **Source (Code) Editor*
 
 ------------------------------------------------------------------------
 
-## 4. Document structure elements
+## Document structure elements
 
 Quarto uses **YAML front matter** for metadata and **Markdown** for content.
 
@@ -100,7 +111,9 @@ summary(cars)
 
 ### Callouts
 Create callouts for tips or warnings:
+
 ::: {.callout-note}
+
 Note that there are five types of callouts, including:
 `note`, `warning`, `important`, `tip`, and `caution`.
 :::
@@ -136,7 +149,7 @@ Create simple tables using pipe syntax:
 
 ------------------------------------------------------------------------
 
-## 3. Example Document Layout
+## Example document layout
 
 ```markdown
 ---
@@ -160,7 +173,7 @@ library(dplyr)
 
 ------------------------------------------------------------------------
 
-## 5. Customize Appearance
+## Customize appearance
 
 Use a built-in theme:
 
@@ -174,8 +187,7 @@ Use a built-in theme:
 
 ------------------------------------------------------------------------
 
-## 6. Resources
+## Resources
 
--   Documentation: <https://quarto.org/docs/>
--   Tutorials and guides: <https://quarto.org/docs/get-started/>
--   Community support via RStudio Community and GitHub discussions.
+Quarto documentation: <https://quarto.org/docs/>. 
+Quarto tutorials and guides: <https://quarto.org/docs/get-started/>
