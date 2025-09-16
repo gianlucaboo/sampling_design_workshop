@@ -21,8 +21,8 @@ toc-title: "Content"
 
 -   **Day 1**: Introduction to QGIS
 -   **Day 2**: Automatic update of census EA and national sampling frame
--   **Day 3**: Introduction to R programming
--   **Day 4**: Introduction to Sampling Design
+-   **Day 3: Introduction to R programming**
+-   **Day 4**: Introduction to sampling design
 -   **Day 5**: Advanced R programming
 -   **Day 6**: Earth observation (EO) for sampling design
 -   **Day 7**: AI and machine learning for sample selection

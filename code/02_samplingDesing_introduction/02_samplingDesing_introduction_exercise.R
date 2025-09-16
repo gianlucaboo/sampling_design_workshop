@@ -1,7 +1,7 @@
 ##########################################
 # Workshop: Advanced Sampling Methodologies
 # Instructor: Dr. Gianluca Boo, WorldPop
-# Date: 09-17-2025
+# Date: 09-18-2025
 # Topic: Introduction to sampling design
 ##########################################
 

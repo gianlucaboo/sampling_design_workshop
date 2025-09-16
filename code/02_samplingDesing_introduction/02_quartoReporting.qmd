@@ -3,18 +3,8 @@ title: "Workshop on Advanced Sampling Methodologies"
 author: "Reporting with Quarto"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-18-2025"
-title-slide-attributes:
-  data-background-image: "wp.png"
-  data-background-size: "3.2em"
-  data-background-position: "90% 10%"
-format:
-  revealjs: 
-    slide-number: true
-    incremental: false
-    theme: [default, wp_style.scss]
+format: html
 editor: visual
-toc: false
-toc-title: "Content"
 ---
 
 ## 1. Install Quarto
@@ -34,7 +24,7 @@ toc-title: "Content"
 -   Create a new document, or\
 -   [Download](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/02_samplingDesing_introduction/02_quartoReporting_exercise.qmd) and open an existing document.\
 
-![](img/quarto_hello.png){width="500"}\
+![](img/quarto_hello.gif){width="500"}\
 
 ℹ️ Try click on the button **Render**.
 

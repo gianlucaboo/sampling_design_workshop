@@ -9,7 +9,7 @@
 <link href="02_samplingDesing_introduction_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.32">
 
-  <meta name="author" content="Introduction to Sampling Design">
+  <meta name="author" content="Introduction to sampling design">
   <meta name="dcterms.date" content="2025-09-18">
   <title>Workshop on Advanced Sampling Methodologies</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -199,7 +199,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Introduction to Sampling Design 
+Introduction to sampling design 
 </div>
         <p class="quarto-title-affiliation">
             Dr.&nbsp;Gianluca Boo, WorldPop, University of Southampton
@@ -215,7 +215,7 @@ Introduction to Sampling Design
 <li><strong>Day 1</strong>: Introduction to QGIS</li>
 <li><strong>Day 2</strong>: Automatic update of census EA and national sampling frame</li>
 <li><strong>Day 3</strong>: Introduction to R programming</li>
-<li><strong>Day 4</strong>: Introduction to Sampling Design</li>
+<li><strong>Day 4: Introduction to sampling design</strong></li>
 <li><strong>Day 5</strong>: Advanced R programming</li>
 <li><strong>Day 6</strong>: Earth observation (EO) for sampling design</li>
 <li><strong>Day 7</strong>: AI and machine learning for sample selection</li>
@@ -223,6 +223,15 @@ Introduction to Sampling Design
 <li><strong>Day 9</strong>: R Shiny for sampling design evaluation</li>
 <li><strong>Day 10</strong>: Wrap-up and workshop evaluation</li>
 </ul>
+</section>
+<section id="course-materials" class="slide level2">
+<h2>Course materials</h2>
+<ol type="1">
+<li>Today’s course materials are on <strong>Github</strong>: https://github.com/gianlucaboo/sampling_design_workshop</li>
+<li>Click on <strong>Day 4: Introduction to Sampling Design</strong></li>
+<li><strong>Copy the url</strong> and <strong>paste it</strong> on https://download-directory.github.io</li>
+<li>Save the zipped directory on the workshop and unzip it</li>
+</ol>
 </section>
 <section id="todays-agenda" class="slide level2">
 <h2>Today’s agenda</h2>
@@ -487,9 +496,9 @@ Introduction to Sampling Design
 <h2>Cluster sampling</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
-<p><strong>Cluster sample mean</strong> <span class="math display">\[
+<p><strong>Sample mean</strong> <span class="math display">\[
 \bar{x}_{cl} = \frac{1}{n_c} \sum_{c \in S} \bar{x}_c
-\]</span> <strong>Approximate variance of</strong> <span class="math inline">\(\bar{x}_CL\)</span>: <span class="math display">\[
+\]</span> <strong>Approximate variance of the sample mean</strong> <span class="math display">\[
 \operatorname{Var}(\bar{x}_{cl}) = \frac{1}{n_c} \left(1 - \frac{n_c}{C}\right) S_c^2
 \]</span> <strong>Population mean</strong> <span class="math display">\[
 \mu = \frac{1}{N} \sum_{c=1}^{C} \sum_{i=1}^{N_c} x_{ci}
@@ -699,16 +708,15 @@ Introduction to Sampling Design
 <h2>Weighted sampling</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
+<p><strong>Weighted sample mean</strong> <span class="math display">\[
+\bar{x}_w = \frac{\sum_{i \in S} w_i x_i}{\sum_{i \in S} w_i}
+\]</span></p>
 <p><strong>Population total (Horvitz–Thompson estimator)</strong> <span class="math display">\[
 \hat T = \sum_{i\in S} \frac{x_i}{\pi_i}
 \]</span></p>
 <p><strong>Population mean (Horvitz–Thompson estimator)</strong> <span class="math display">\[
-\mu_{HT} = \frac{1}{N} \sum_{i \in S} \frac{x_i}{\pi_i}
-\]</span></p>
-<p>ℹ️ The Horvitz–Thompson estimator works if&nbsp;<span class="math inline">\(N\)</span> is known.</p>
-<p><strong>Weighted sample mean</strong> <span class="math display">\[
-\bar{x}_w = \frac{\sum_{i \in S} w_i x_i}{\sum_{i \in S} w_i}
-\]</span></p>
+\mu_{ht} = \frac{1}{N} \sum_{i \in S} \frac{x_i}{\pi_i}
+\]</span> ℹ️ The Horvitz–Thompson estimator works if <span class="math inline">\(N\)</span> is known.</p>
 </div><div class="column" style="width:40%;">
 <p><span class="math inline">\(N\)</span>: Population size<br>
 <span class="math inline">\(x_i\)</span>: Value of the <span class="math inline">\(i\)</span>-th element in the population<br>
@@ -755,8 +763,8 @@ Introduction to Sampling Design
 <li>Sampling is conducted in <strong>two or more stages</strong>, selecting units at each stage.</li>
 <li>Common design:
 <ul>
-<li>Stage 1: Randomly sample <strong>clusters</strong> (e.g., schools).</li>
-<li>Stage 2: Randomly sample <strong>elements within clusters</strong> (e.g., students).</li>
+<li>Stage 1: Randomly sampled <strong>clusters</strong> (e.g., schools).</li>
+<li>Stage 2: Randomly sampled <strong>elements within clusters</strong> (e.g., students).</li>
 </ul></li>
 <li>Useful when a complete list of all population units is unavailable.</li>
 </ul>
@@ -1016,9 +1024,9 @@ Introduction to Sampling Design
 <p><strong>Population variance</strong><span class="math display">\[
 \sigma^2 = \frac{1}{N} \sum_{c=1}^{C} \sum_{i=1}^{N_c} (x_{ci} - \mu)^2
 \]</span></p>
-<p><strong>2-stage sample mean:</strong> <span class="math display">\[
+<p><strong>2-stage sample mean</strong> <span class="math display">\[
 \bar{x}_{ms} = \frac{1}{n_c} \sum_{c \in S} \bar{x}_c,\ \ \ where\ \ \bar{x}_c = \frac{1}{n_{ci}} \sum_{i \in S_c} x_{ci}
-\]</span> <strong>Approximate variance of</strong> <span class="math inline">\(\bar{x}_{ms}\)</span>: <span class="math display">\[
+\]</span> <strong>Approximate variance of</strong> <span class="math inline">\(\bar{x}_{ms}\)</span> <span class="math display">\[
 \operatorname{Var}(\bar{x}_{ms}) \approx \frac{1}{n_c} \left(1 - \frac{n_c}{C}\right) S_c^2 + \frac{1}{n_c^2} \sum_{c \in S} \frac{S_{ci}^2}{n_{ci}}
 \]</span></p>
 </div><div class="column" style="width:40%;">
@@ -1146,16 +1154,18 @@ Introduction to Sampling Design
 <h2>Sampling design</h2>
 <p><strong>Key considerations</strong></p>
 <ol type="1">
-<li>Define population and objectives</li>
-<li>Establish reliable sampling frame</li>
-<li>Choose method aligned with objectives and resources</li>
-<li>Calculate appropriate sample size</li>
-<li>Minimize bias and sampling error</li>
-<li>Document design and limitations thoroughly</li>
+<li>Define <strong>population</strong> and <strong>objectives</strong></li>
+<li>Establish reliable <strong>sampling frame</strong></li>
+<li>Choose <strong>method aligned</strong> with objectives and resources</li>
+<li>Calculate appropriate <strong>sample size</strong></li>
+<li>Minimize <strong>bias and sampling error</strong></li>
+<li>Document <strong>design and limitations</strong> thoroughly</li>
 </ol>
 </section>
 <section id="take-home" class="slide level2">
 <h2>Take home</h2>
+<div class="columns">
+<div class="column" style="width:75%;">
 <ul>
 <li>Sampling allows inference from a subset when a full census is impractical.<br>
 </li>
@@ -1165,16 +1175,20 @@ Introduction to Sampling Design
 </li>
 <li>Cluster and multistage sampling enhance feasibility for large or dispersed populations.<br>
 </li>
-<li>Careful design, sample size calculation, and bias minimization are essential for reliable results.</li>
+<li>Careful design, sample size calculation, and bias minimization are essential for reliable results.<br>
+</li>
 </ul>
+</div><div class="column" style="width:25%;">
+
+</div></div>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>
-<p>Särndal, C.-E., Swensson, B., &amp; Wretman, J. (1992). <em>Model Assisted Survey Sampling</em>. Springer. https://link.springer.com/book/10.1007/978-1-4612-0919-5</p>
-<p>Lohr, S. L. (2019). <em>Sampling: Design and Analysis</em> (2nd edition). Chapman &amp; Hall/CRC. https://www.crcpress.com/Sampling-Design-and-Analysis-Second-Edition/Lohr/p/book/9780367332323</p>
-<p>Lumley, T. (2010). <em>Complex Surveys: A Guide to Analysis Using R</em>. Wiley. https://www.wiley.com/en-us/Complex+Surveys%3A+A+Guide+to+Analysis+Using+R-p-9780470589928</p>
-<p>R Core Team. (2025). <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org</p>
-<p>Lumley, T., &amp; Scott, A. (2023). <em>survey: Analysis of Complex Survey Samples</em>. R package version 4.2-3. https://cran.r-project.org/package=survey</p>
+<p>Särndal, C.-E., Swensson, B., &amp; Wretman, J. (1992). <em>Model Assisted Survey Sampling</em>. Springer. https://d-nb.info/969712979/04</p>
+<p>Lohr, S. L. (2019). <em>Sampling: Design and Analysis</em> (2nd edition). Chapman &amp; Hall/CRC. https://www.taylorfrancis.com/books/mono/10.1201/9780429296284/sampling-sharon-lohr</p>
+<p>Lumley, T. (2010). <em>Complex Surveys: A Guide to Analysis Using R</em>. Wiley. https://onlinelibrary.wiley.com/doi/book/10.1002/9780470580066</p>
+<p>Zimmer, S. A., Powell, R. J., &amp; Velásquez I. C. (2025). <em>Exploring complex survey data analysis using R</em>. https://tidy-survey-r.github.io/tidy-survey-book/index.html</p>
+<p>Lumley, T., &amp; Scott, A. (2023). <em>survey: Analysis of Complex Survey Samples</em>. R package version 4.2-3. https://cran.r-project.org/web/packages/survey/index.html</p>
 </section>
 <section id="exercise" class="slide level2">
 <h2>Exercise</h2>

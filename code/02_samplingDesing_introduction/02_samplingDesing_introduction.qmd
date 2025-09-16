@@ -1,6 +1,6 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "Introduction to Sampling Design"
+author: "Introduction to sampling design"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
 date: "09-18-2025"
 title-slide-attributes:
@@ -22,13 +22,22 @@ toc-title: "Content"
 -   **Day 1**: Introduction to QGIS
 -   **Day 2**: Automatic update of census EA and national sampling frame
 -   **Day 3**: Introduction to R programming
--   **Day 4**: Introduction to Sampling Design
+-   **Day 4: Introduction to sampling design**
 -   **Day 5**: Advanced R programming
 -   **Day 6**: Earth observation (EO) for sampling design
 -   **Day 7**: AI and machine learning for sample selection
 -   **Day 8**: Simulation and optimization of sampling strategies
 -   **Day 9**: R Shiny for sampling design evaluation
 -   **Day 10**: Wrap-up and workshop evaluation
+
+------------------------------------------------------------------------
+
+## Course materials
+
+1.  Today's course materials are on **Github**: https://github.com/gianlucaboo/sampling_design_workshop
+2.  Click on **Day 4: Introduction to Sampling Design**
+3.  **Copy the url** and **paste it** on https://download-directory.github.io
+4.  Save the zipped directory on the workshop and unzip it
 
 ------------------------------------------------------------------------
 
@@ -319,9 +328,9 @@ Ybar_hat                                   # Print estimated population mean
 
 ::::: columns
 ::: {.column width="70%"}
-**Cluster sample mean** $$
+**Sample mean** $$
 \bar{x}_{cl} = \frac{1}{n_c} \sum_{c \in S} \bar{x}_c
-$$ **Approximate variance of** $\bar{x}_CL$: $$
+$$ **Approximate variance of the sample mean** $$
 \operatorname{Var}(\bar{x}_{cl}) = \frac{1}{n_c} \left(1 - \frac{n_c}{C}\right) S_c^2
 $$ **Population mean** $$
 \mu = \frac{1}{N} \sum_{c=1}^{C} \sum_{i=1}^{N_c} x_{ci}
@@ -549,19 +558,17 @@ Ybar_hat                                     # Print estimate
 
 ::::: columns
 ::: {.column width="60%"}
+**Weighted sample mean** $$
+\bar{x}_w = \frac{\sum_{i \in S} w_i x_i}{\sum_{i \in S} w_i}
+$$
+
 **Population total (Horvitz–Thompson estimator)** $$
 \hat T = \sum_{i\in S} \frac{x_i}{\pi_i}
 $$
 
 **Population mean (Horvitz–Thompson estimator)** $$
-\mu_{HT} = \frac{1}{N} \sum_{i \in S} \frac{x_i}{\pi_i}
-$$
-
-ℹ️ The Horvitz–Thompson estimator works if $N$ is known.
-
-**Weighted sample mean** $$
-\bar{x}_w = \frac{\sum_{i \in S} w_i x_i}{\sum_{i \in S} w_i}
-$$
+\mu_{ht} = \frac{1}{N} \sum_{i \in S} \frac{x_i}{\pi_i}
+$$ ℹ️ The Horvitz–Thompson estimator works if $N$ is known.
 :::
 
 ::: {.column width="40%"}
@@ -616,8 +623,8 @@ mean(pop$y)                                # True population mean
 
 -   Sampling is conducted in **two or more stages**, selecting units at each stage.
 -   Common design:
-    -   Stage 1: Randomly sample **clusters** (e.g., schools).
-    -   Stage 2: Randomly sample **elements within clusters** (e.g., students).
+    -   Stage 1: Randomly sampled **clusters** (e.g., schools).
+    -   Stage 2: Randomly sampled **elements within clusters** (e.g., students).
 -   Useful when a complete list of all population units is unavailable.
 
 ::::: columns
@@ -885,9 +892,9 @@ $$
 \sigma^2 = \frac{1}{N} \sum_{c=1}^{C} \sum_{i=1}^{N_c} (x_{ci} - \mu)^2
 $$
 
-**2-stage sample mean:** $$
+**2-stage sample mean** $$
 \bar{x}_{ms} = \frac{1}{n_c} \sum_{c \in S} \bar{x}_c,\ \ \ where\ \ \bar{x}_c = \frac{1}{n_{ci}} \sum_{i \in S_c} x_{ci}
-$$ **Approximate variance of** $\bar{x}_{ms}$: $$
+$$ **Approximate variance of** $\bar{x}_{ms}$ $$
 \operatorname{Var}(\bar{x}_{ms}) \approx \frac{1}{n_c} \left(1 - \frac{n_c}{C}\right) S_c^2 + \frac{1}{n_c^2} \sum_{c \in S} \frac{S_{ci}^2}{n_{ci}}
 $$
 :::
@@ -982,36 +989,44 @@ Ybar_hat                                         # Print estimated mean
 
 **Key considerations**
 
-1.  Define population and objectives
-2.  Establish reliable sampling frame
-3.  Choose method aligned with objectives and resources
-4.  Calculate appropriate sample size
-5.  Minimize bias and sampling error
-6.  Document design and limitations thoroughly
+1.  Define **population** and **objectives**
+2.  Establish reliable **sampling frame**
+3.  Choose **method aligned** with objectives and resources
+4.  Calculate appropriate **sample size**
+5.  Minimize **bias and sampling error**
+6.  Document **design and limitations** thoroughly
 
 ------------------------------------------------------------------------
 
 ## Take home
 
+::::: columns
+::: {.column width="75%"}
 -   Sampling allows inference from a subset when a full census is impractical.\
 -   Probability sampling ensures representativeness and enables unbiased estimates.\
 -   Stratification and weighting improve precision and adjust for unequal probabilities.\
 -   Cluster and multistage sampling enhance feasibility for large or dispersed populations.\
--   Careful design, sample size calculation, and bias minimization are essential for reliable results.
+-   Careful design, sample size calculation, and bias minimization are essential for reliable results.\
+:::
+
+::: {.column width="25%"}
+
+:::
+:::::
 
 ------------------------------------------------------------------------
 
 ## References
 
-Särndal, C.-E., Swensson, B., & Wretman, J. (1992). *Model Assisted Survey Sampling*. Springer. https://link.springer.com/book/10.1007/978-1-4612-0919-5
+Särndal, C.-E., Swensson, B., & Wretman, J. (1992). *Model Assisted Survey Sampling*. Springer. https://d-nb.info/969712979/04
 
-Lohr, S. L. (2019). *Sampling: Design and Analysis* (2nd edition). Chapman & Hall/CRC. https://www.crcpress.com/Sampling-Design-and-Analysis-Second-Edition/Lohr/p/book/9780367332323
+Lohr, S. L. (2019). *Sampling: Design and Analysis* (2nd edition). Chapman & Hall/CRC. https://www.taylorfrancis.com/books/mono/10.1201/9780429296284/sampling-sharon-lohr
 
-Lumley, T. (2010). *Complex Surveys: A Guide to Analysis Using R*. Wiley. https://www.wiley.com/en-us/Complex+Surveys%3A+A+Guide+to+Analysis+Using+R-p-9780470589928
+Lumley, T. (2010). *Complex Surveys: A Guide to Analysis Using R*. Wiley. https://onlinelibrary.wiley.com/doi/book/10.1002/9780470580066
 
-R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
+Zimmer, S. A., Powell, R. J., & Velásquez I. C. (2025). *Exploring complex survey data analysis using R*. https://tidy-survey-r.github.io/tidy-survey-book/index.html
 
-Lumley, T., & Scott, A. (2023). *survey: Analysis of Complex Survey Samples*. R package version 4.2-3. https://cran.r-project.org/package=survey
+Lumley, T., & Scott, A. (2023). *survey: Analysis of Complex Survey Samples*. R package version 4.2-3. https://cran.r-project.org/web/packages/survey/index.html
 
 ------------------------------------------------------------------------
 
