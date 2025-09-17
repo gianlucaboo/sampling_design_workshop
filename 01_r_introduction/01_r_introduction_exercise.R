@@ -31,7 +31,7 @@ sqrt_val
 getwd()
 
 # Set a working directory (replace path with your project folder)
-# setwd("C:/Users/YourName/Documents/R_Workshop")
+# setwd("C:/sampling_design/01_r_introduction")
 
 # Exercise 2 (Beginner):
 # Create a folder for your project and set it as working directory
