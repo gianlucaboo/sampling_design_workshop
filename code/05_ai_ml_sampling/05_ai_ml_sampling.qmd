@@ -254,33 +254,39 @@ ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
 
 ℹ️ Try to run the code in your Script Editor.
 
-----------------------------------------------------------------------## Random forest for regression
-- **Ensemble method** combining many decision trees  
-- Each tree is trained on a **bootstrap sample** of the data  
-- Predictions are the **average** of the individual trees  
-- Helps reduce **variance** compared to a single tree  
-
-![Random forest diagram (source: scikit-learn.org).](img/random_forest.png){fig-align="left"}  
-
 ------------------------------------------------------------------------
 
 ## Random forest
-- **Non-linear relationships**: handles complex interactions  
-- **Robust to noise** and overfitting  
-- Works well with **mixed feature types** (categorical + numeric)  
-- Provides **variable importance** measures  
 
-------------------------------------------------------------------------
+::::: columns
+::: {.column width="50%"}
+**Decision trees**  
+-   A decision tree splits data into branches based on feature values (e.g., “Is age \> 30?”).\
+-   Trees are easy to interpret but can overfit (memorize the training data).\
 
-## Random forest workflow
-- Step 1: Split data into **training and testing sets**  
-- Step 2: Fit a **random forest model**  
-- Step 3: Evaluate performance with **RMSE / R²**  
-- Step 4: Inspect **feature importance**  
+**Bootstrap sampling (“bagging”)**  
+-   The algorithm randomly selects samples (with replacement) from the training data to build each tree.\
+-   This creates slightly different datasets for each tree.\
+:::
+
+::: {.column width="50%"}
+**Random feature selection**  
+-   At each split in a tree, it considers only a random subset of features (not all of them).\
+-   This makes the trees more diverse and reduces correlation among them.\
+
+**Voting or averaging**  
+-   For **classification**, each tree votes for a class; the majority wins.\
+-   For **regression**, the forest prediction is the average of all tree outputs.\
+
+:::
+:::::
+
+![Random forest diagram (source: spotfire.com).](img/rf.svg){fig-align="left"}
 
 ------------------------------------------------------------------------
 
 ## Random forest in R
+
 ```{r}
 #| echo: true
 #| eval: false
@@ -289,85 +295,96 @@ library(tidymodels)
 
 # Split data
 set.seed(123)
-data_split <- initial_split(mtcars, prop = 0.8)
+data_split <- initial_split(iris |> select(-Species), prop = 0.8)
 train <- training(data_split)
 test <- testing(data_split)
 
 # Define recipe and model
-rf_recipe <- recipe(mpg ~ ., data = train)
+rf_recipe <- recipe(Petal.Length ~ ., data = train)
 
-rf_model <- rand_forest(trees = 500) %>%
-  set_engine("ranger") %>%
+rf_model <- rand_forest(trees = 500) |> 
+  set_engine("ranger", importance = "permutation") |> 
   set_mode("regression")
 ```
-ℹ️ Try to run the code in your Script Editor.  
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
 ## Training the random forest
+
 ```{r}
 #| echo: true
 #| eval: false
 
 # Workflow
-rf_wf <- workflow() %>%
-  add_recipe(rf_recipe) %>%
+rf_wf <- 
+  workflow() |> 
+  add_recipe(rf_recipe) |> 
   add_model(rf_model)
 
 # Fit model
-rf_fit <- rf_wf %>% fit(data = train)
+rf_fit <- 
+  rf_wf |>
+  fit(data = train)
 
 # Predict
-rf_preds <- predict(rf_fit, test) %>%
+rf_preds <- 
+  predict(rf_fit, test) |> 
   bind_cols(test)
 ```
-ℹ️ Try to run the code in your Script Editor.  
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
 ## Evaluating performance
+
 ```{r}
 #| echo: true
 #| eval: false
 
-rf_preds %>%
-  metrics(truth = mpg, estimate = .pred)
+rf_preds |> 
+  metrics(truth = Petal.Length, estimate = .pred)
 ```
 
-Typical outputs:  
-- **RMSE**: root mean squared error (lower is better)  
-- **R²**: proportion of variance explained (higher is better)  
+Typical outputs:\
+- **RMSE**: root mean squared error (lower is better)\
+- **R²**: proportion of variance explained (higher is better)
 
 ------------------------------------------------------------------------
 
 ## Visualizing predictions
+
 ```{r}
 #| echo: true
 #| eval: false
 
-rf_preds %>%
-  ggplot(aes(x = mpg, y = .pred)) +
-  geom_point(size=3, color="steelblue") +
+  ggplot(data=rf_preds, aes(x = Petal.Length, y = .pred)) +
+  geom_point(size=3, color="black") +
   geom_abline(slope=1, intercept=0, linetype="dashed") +
   theme_minimal() +
-  labs(x="Observed mpg", y="Predicted mpg")
+  labs(x="Observed Petal.Length", y="Predicted Petal.Length")
 ```
-ℹ️ Try to run the code in your Script Editor.  
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
 ## Variable importance
+
 ```{r}
 #| echo: true
 #| eval: false
 
 library(vip)
 
-rf_fit %>%
-  extract_fit_parsnip() %>%
-  vip(num_features = 6)
+rf_fit |> 
+  extract_fit_parsnip() %>% 
+  vip::vip(num_features = 3)
 ```
-ℹ️ Try to run the code in your Script Editor.  
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
@@ -385,20 +402,6 @@ rf_fit %>%
 -   Random Forest: weight or prioritize units within clusters
 
 ------------------------------------------------------------------------
-
-## Example Workflow in R
-
-```{r}
-#| echo: true
-#| eval: false
-## Step 1: K-means
-data$cluster <- kmeans(scale(data), centers = 3)$cluster
-
-## Step 2: Random Forest within clusters
-rf_model <- rand_forest(mode="classification") |>
-  set_engine("ranger") |>
-  fit(Species ~ Sepal.Length + Sepal.Width, data=iris)
-```
 
 ------------------------------------------------------------------------
 
