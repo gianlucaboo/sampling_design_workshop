@@ -1,0 +1,130 @@
+---
+title: "Simulation and Optimisation in Sampling"
+author: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "2025-09-18"
+format: revealjs
+---
+
+## Design-based vs. Model-based inference
+
+- **Design-based inference**  
+  - Validity relies on the randomization distribution given by the sampling design.  
+  - No assumptions about the population model.  
+  - Unbiasedness ensured if sampling probabilities are known.  
+
+- **Model-based inference**  
+  - Assumes a **statistical model** for the population values (e.g., regression, spatial).  
+  - Efficiency comes from correctly specified models.  
+  - Risks if the model is misspecified.  
+
+ℹ️ Modern surveys often combine **design-based foundations** with **model-based enhancements**.
+
+---
+
+## Simulation-based evaluation
+
+- Monte Carlo simulation allows evaluation of estimators under repeated sampling.  
+- Used to assess **bias, variance, MSE** of different designs.  
+- Steps:
+  1. Define a population.  
+  2. Repeat sampling many times.  
+  3. Compute estimates each time.  
+  4. Summarize performance.  
+
+```{r}
+#| echo: true
+#| eval: false
+
+set.seed(123)
+library(tidyverse)
+
+# Define artificial population
+N <- 10000
+pop <- tibble(id = 1:N, y = rlnorm(N, meanlog = 2, sdlog = 0.5))
+mu_true <- mean(pop$y)
+
+# Monte Carlo simulation for sample mean
+n <- 200
+R <- 1000
+estimates <- replicate(R, {
+  samp <- sample(pop$y, n)
+  mean(samp)
+})
+
+mean(estimates)      # Average estimate (bias check)
+var(estimates)       # Variance of estimator
+mean((estimates - mu_true)^2) # MSE
+```
+
+---
+
+## Calibration and variance estimation
+
+- **Calibration**: Adjusts weights so sample totals align with known population totals.  
+- Improves representativeness when auxiliary information is available.  
+
+- **Variance estimation techniques**:  
+  - **Jackknife**: systematically leave out one (or groups) of units.  
+  - **Bootstrap**: resample with replacement to approximate sampling distribution.  
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(survey)
+
+# Example with jackknife and bootstrap variance
+data(api)
+dclus1 <- svydesign(id = ~dnum, weights = ~pw, data = apiclus1, fpc = ~fpc)
+
+# Mean with jackknife
+svymean(~api00, dclus1, na.rm=TRUE, vartype="se")
+
+# Variance with bootstrap
+boot_design <- as.svrepdesign(dclus1, type="bootstrap", replicates=50)
+svymean(~api00, boot_design, na.rm=TRUE, vartype="se")
+```
+
+---
+
+## Cost-effectiveness in sampling
+
+- **Trade-off**: Precision ↑ vs. Cost ↑.  
+- Survey design should balance both.  
+
+- Sample size formula under budget:  
+  \[
+  n = \frac{B}{c}
+  \]
+  where  
+  \(B\) = total budget,  
+  \(c\) = unit cost per sampled element.  
+
+- Optimal allocation often considers:  
+  - Stratum costs  
+  - Variance reduction per unit  
+  - Fieldwork constraints  
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Example: precision vs. cost
+budget <- 10000   # total budget
+cost_per_unit <- 50
+n <- budget / cost_per_unit   # max sample size
+
+sigma2 <- 25       # assumed population variance
+se <- sqrt(sigma2 / n)
+
+list(n = n, se = se)
+```
+
+---
+
+## Key takeaways
+
+- **Design vs. model inference** → different philosophies, often complementary.  
+- **Simulation (Monte Carlo)** is essential to assess estimator performance.  
+- **Calibration + resampling methods** improve accuracy and variance estimation.  
+- **Cost-effectiveness analysis** ensures survey precision is achievable under real budgets.  

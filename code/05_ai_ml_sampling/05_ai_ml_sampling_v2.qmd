@@ -1,0 +1,232 @@
+---
+title: "Workshop on Advanced Sampling Methodologies"
+author: "AI and ML for sample selection"
+institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
+date: "09-23-2025"
+title-slide-attributes:
+  data-background-image: "wp.png"
+  data-background-size: "3.2em"
+  data-background-position: "90% 10%"
+format:
+  revealjs: 
+    slide-number: true
+    incremental: false
+    theme: [default, wp_style.scss]
+editor: visual
+toc: false
+toc-title: "Content"
+---
+
+# Workshop's agenda
+
+Day 1: Introduction to QGIS  
+Day 2: Automatic update of census EA and national sampling frame  
+Day 3: Introduction to R programming  
+Day 4: Introduction to sampling design  
+Day 5: Advanced R programming  
+Day 6: Earth observation (EO) for sampling design  
+Day 7: AI and machine learning for sample selection  
+Day 8: Simulation and optimization of sampling strategies  
+Day 9: R Shiny for sampling design evaluation  
+Day 10: Wrap-up and workshop evaluation  
+
+---
+
+# Course materials
+
+Today's course materials are on Github: <https://github.com/gianlucaboo/sampling_design_workshop>
+
+1. Click on **Day 7: AI and machine learning for sample selection**  
+2. Copy the URL and paste it on <https://download-directory.github.io>  
+3. Save the zipped directory on your computer and unzip it  
+
+---
+
+# Today's agenda
+
+- Introduction to AI and ML in sampling  
+- K-means clustering for stratification  
+- Random forest for sample weighting and prediction  
+- Implementation in R with **tidymodels**  
+- Practical exercises  
+
+---
+
+# K-means in R (first look)
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(tidyverse) # Load core tidyverse packages
+
+# Preview the iris dataset
+iris |> head(n = 2)
+
+# Plot sepal length vs sepal width, colored by species
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = factor(Species))) +
+  geom_point(size = 3) + # add points
+  theme_minimal() +      # use minimal theme
+  labs(color = "Cluster") # customize legend title
+```
+
+---
+
+# K-means in R (clustering)
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(tidymodels); library(tidyverse)
+
+# Remove species column (we want unsupervised clustering)
+data <- iris |> select(-Species)
+  
+# Apply K-means clustering with k = 3 (scale first)
+kmeans_fit <- kmeans(scale(data), centers = 3)
+
+# Add cluster assignments and true species back to data
+data <- data |> 
+  mutate(Cluster = kmeans_fit$cluster,
+         Species = iris$Species)
+
+# Visualize clustering result
+ggplot(data, aes(x = Sepal.Length, y = Sepal.Width, color = factor(Cluster))) +
+  geom_point(size = 3) +
+  theme_minimal() +
+  labs(color = "Cluster")
+```
+
+---
+
+# Random forest in R
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(tidymodels)
+
+# Split iris data into training (80%) and testing (20%) sets
+set.seed(123)
+data_split <- initial_split(iris |> select(-Species), prop = 0.8)
+train <- training(data_split)
+test <- testing(data_split)
+
+# Define recipe (Petal.Length is the outcome, others are predictors)
+rf_recipe <- recipe(Petal.Length ~ ., data = train)
+
+# Specify random forest model (500 trees, permutation importance)
+rf_model <- rand_forest(trees = 500) |> 
+  set_engine("ranger", importance = "permutation") |> 
+  set_mode("regression")
+```
+
+---
+
+# Training the random forest
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Create workflow combining recipe and model
+rf_wf <- workflow() |> 
+  add_recipe(rf_recipe) |> 
+  add_model(rf_model)
+
+# Fit model on training data
+rf_fit <- rf_wf |> fit(data = train)
+
+# Predict on test set
+rf_preds <- predict(rf_fit, test) |> bind_cols(test)
+```
+
+---
+
+# Evaluating performance
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Compute regression metrics: RMSE, R², MAE
+rf_preds |> metrics(truth = Petal.Length, estimate = .pred)
+```
+
+---
+
+# Variable importance
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(vip)
+
+# Extract fitted model and visualize top predictors
+rf_fit |> extract_fit_parsnip() |> vip(num_features = 3)
+```
+
+---
+
+# tidymodels workflow
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(tidymodels)
+
+# Example: linear regression model for Petal.Length
+# Define recipe (preprocessing)
+lm_recipe <- recipe(Petal.Length ~ Sepal.Length + Sepal.Width, data = iris)
+
+# Define model
+lm_model <- linear_reg() |> set_engine("lm")
+
+# Combine recipe + model into a workflow
+lm_wf <- workflow() |> 
+  add_recipe(lm_recipe) |> 
+  add_model(lm_model)
+```
+
+---
+
+# Resampling with rsample
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Create 5-fold cross-validation splits
+set.seed(123)
+cv_folds <- vfold_cv(iris, v = 5)
+
+cv_folds
+```
+
+---
+
+# Hyperparameter tuning with tune
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Define random forest model with hyperparameters to tune
+rf_tune <- rand_forest(mtry = tune(), trees = 500, min_n = tune()) |> 
+  set_engine("ranger") |> 
+  set_mode("regression")
+
+# Define grid of candidate values
+rf_grid <- grid_regular(mtry(range = c(1,4)), min_n(), levels = 3)
+
+# Run grid search with cross-validation
+rf_tuned <- tune_grid(
+  workflow() |> add_recipe(rf_recipe) |> add_model(rf_tune),
+  resamples = cv_folds,
+  grid = rf_grid
+)
+```

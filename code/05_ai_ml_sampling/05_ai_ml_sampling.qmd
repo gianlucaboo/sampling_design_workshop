@@ -260,24 +260,23 @@ ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
 
 ::::: columns
 ::: {.column width="50%"}
-**Decision trees**  
--   A decision tree splits data into branches based on feature values (e.g., “Is age \> 30?”).\
--   Trees are easy to interpret but can overfit (memorize the training data).\
+**Decision trees**\
+- A decision tree splits data into branches based on feature values (e.g., “Is age \> 30?”).\
+- Trees are easy to interpret but can overfit (memorize the training data).\
 
-**Bootstrap sampling (“bagging”)**  
--   The algorithm randomly selects samples (with replacement) from the training data to build each tree.\
--   This creates slightly different datasets for each tree.\
+**Bootstrap sampling (“bagging”)**\
+- The algorithm randomly selects samples (with replacement) from the training data to build each tree.\
+- This creates slightly different datasets for each tree.\
 :::
 
 ::: {.column width="50%"}
-**Random feature selection**  
--   At each split in a tree, it considers only a random subset of features (not all of them).\
--   This makes the trees more diverse and reduces correlation among them.\
+**Random feature selection**\
+- At each split in a tree, it considers only a random subset of features (not all of them).\
+- This makes the trees more diverse and reduces correlation among them.\
 
-**Voting or averaging**  
--   For **classification**, each tree votes for a class; the majority wins.\
--   For **regression**, the forest prediction is the average of all tree outputs.\
-
+**Voting or averaging**\
+- For **classification**, each tree votes for a class; the majority wins.\
+- For **regression**, the forest prediction is the average of all tree outputs.\
 :::
 :::::
 

@@ -10,7 +10,7 @@
 # ================================
 
 # Simple arithmetic
-1 + 2 * 8
+(1 + 2) * 8
 
 # Assign values to variables
 a <- log(10)
@@ -21,6 +21,8 @@ b + b
 # Calculate the square root of 144 and store it in a variable named sqrt_val
 # Hint: use sqrt()
 sqrt_val <- sqrt(144)
+mean_val <- mean(c(12, 6))
+mean_val
 sqrt_val
 
 # ================================
@@ -42,7 +44,7 @@ getwd()
 # ================================
 
 # Install and load a package (if not installed)
-# install.packages("dplyr")
+install.packages("dplyr")
 library(dplyr)
 
 # Exercise 3 (Beginner):
@@ -83,6 +85,8 @@ numbers * 2  # vectorized operation
 # Exercise 5 (Beginner):
 # Create a numeric vector of 10 random integers between 1 and 100
 set.seed(123)
+sample(c(1:10), 1)
+
 rand_nums <- sample(1:100, 10)
 rand_nums
 
@@ -118,7 +122,8 @@ my_list <- list(
   name = "Alice",
   age = 25,
   scores = c(90, 85, 92),
-  passed = TRUE
+  passed = TRUE,
+  cats=cats
 )
 
 # Access elements
@@ -149,14 +154,14 @@ csv_data <- read.csv("data/world_data.csv")
 # 3. Load into R using read_csv() from readr
 
 library(readr)
-gdp_data <- read_csv("data/gdp_per_capita.csv")
-head(gdp_data)
+gdp_data <- read_csv("/Users/worldpop/Documents/GitHub/sampling_design_workshop/01_r_introduction/data/gdp-per-capita-worldbank.csv")
+head(gdp_data, n=2)
 colnames(gdp_data)
 summary(gdp_data)
 
 # Exercise 10 (Advanced):
 # Find GDP per capita for the United States in 2020
-gdp_data[gdp_data$Entity == "United States" & gdp_data$Year == 2020, ]
+gdp_data[gdp_data$Entity == "Pakistan" & gdp_data$Year == 2020, ]
 
 # Exercise 11 (Advanced):
 # List all countries in the dataset
@@ -165,10 +170,11 @@ unique(gdp_data$Entity)
 # Exercise 12 (Advanced):
 # Plot GDP per capita over time for the United States
 library(ggplot2)
-ggplot(subset(gdp_data, Entity == "United States"), aes(x = Year, y = `GDP per capita`)) +
+ggplot(subset(gdp_data, Entity == "Pakistan"), aes(x = Year, y = `GDP per capita, PPP (constant 2021 international $)`)) +
   geom_line(color = "blue") +
-  labs(title = "US GDP per Capita Over Time", y = "GDP per Capita (USD)")
+  labs(title = "Pakistan GDP per Capita Over Time", y = "GDP per Capita (USD)")
 
+colnames(gdp_data)
 # ================================
 # 7. Saving Your Script
 # ================================
