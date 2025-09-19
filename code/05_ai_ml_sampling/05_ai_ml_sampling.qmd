@@ -395,28 +395,11 @@ rf_fit |>
 
 ------------------------------------------------------------------------
 
-## Combining K-means and Random Forest
+## K-means and Random Forest
 
--   K-means: identify clusters for stratified sampling
--   Random Forest: weight or prioritize units within clusters
+**Use** - K-means: identify clusters for stratified sampling - Random Forest: weight or prioritize units within clusters
 
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-## Visualizing Sample Selection
-
-```{r}
-#| echo: true
-#| eval: false
-ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster), size=rf_model$fit$predicted)) +
-  geom_point() +
-  theme_minimal()
-```
-
-------------------------------------------------------------------------
-
-## Practical Considerations
+\*\*Practical Considerations
 
 -   Choosing **K** in k-means (elbow method)
 -   Number of trees in random forest
@@ -425,19 +408,154 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(cluster), size=rf_m
 
 ------------------------------------------------------------------------
 
-## Advantages of ML-Based Sampling
+## Introduction to tidymodels
 
--   Data-driven stratification
--   Capture complex patterns in population
--   Reduce variance and sampling bias
+-   **tidymodels** is a collection of R packages for modeling and machine learning.\
+-   Built on the **tidyverse** philosophy: consistent, tidy syntax.\
+-   Provides tools for the entire modeling workflow:
+    -   **rsample** → data splitting, resampling\
+    -   **recipes** → preprocessing and feature engineering\
+    -   **parsnip** → model specification\
+    -   **tune** → hyperparameter tuning\
+    -   **yardstick** → model evaluation
+
+```{r}
+#| echo: true
+#| eval: false
+# Install tidymodels (if not already)
+# install.packages("tidymodels")
+
+library(tidymodels)
+```
 
 ------------------------------------------------------------------------
 
-## Limitations
+## Models supported in tidymodels (via parsnip)
 
--   Requires sufficient population data
--   Black-box predictions may reduce interpretability
--   Computationally intensive for large datasets
+::::: columns
+::: {.column width="50%"}
+-   **Linear models**
+    -   `linear_reg()` → linear regression
+    -   `logistic_reg()` → logistic regression
+-   **Tree-based models**
+    -   `decision_tree()` → classification/regression trees
+    -   `rand_forest()` → random forests
+    -   `boost_tree()` → gradient boosting
+-   **Support vector machines**
+    -   `svm_linear()`, `svm_poly()`, `svm_rbf()` → SVM variants
+-   **Nearest neighbors**
+    -   `nearest_neighbor()` → k-nearest neighbors (KNN)
+-   **Generalized additive models**
+    -   `gen_additive_mod()` → flexible smooth models
+-   **Neural networks**
+    -   `mlp()` → multi-layer perceptron models
+:::
+
+::: {.column width="50%"}
+
+```{r} 
+#| echo: false 
+#| eval: true 
+#| fig-width: 8 
+#| fig-height: 6
+
+library(DiagrammeR)
+
+grViz(" digraph tidymodels { graph [rankdir = LR, fontsize = 10]
+
+node [shape = box, style = filled, color = grey90, fontname = Helvetica]
+
+subgraph cluster_reg { label = 'Regression / GLM' color = grey70 linear [label = 'Linear Regressionn(linear_reg)'] logistic [label = 'Logistic Regressionn(logistic_reg)'] }
+
+subgraph cluster_tree { label = 'Tree-based' color = grey70 dt [label = 'Decision Treen(decision_tree)'] rf [label = 'Random Forestn(rand_forest)'] gb [label = 'Boosted Treesn(boost_tree)'] }
+
+subgraph cluster_svm { label = 'Support Vector Machines' color = grey70 svm_lin [label = 'Linear SVMn(svm_linear)'] svm_poly [label = 'Polynomial SVMn(svm_poly)'] svm_rbf [label = 'RBF SVMn(svm_rbf)'] }
+
+subgraph cluster_nn { label = 'Other' color = grey70 knn [label = 'K-Nearest Neighborsn(nearest_neighbor)'] gam [label = 'GAMn(gen_additive_mod)'] nn [label = 'Neural Networkn(mlp)'] } } ")
+```
+:::
+:::::
+
+👉 Many more available through **extensions** (e.g., `xgboost`, `keras`, `glmnet`).
+
+------------------------------------------------------------------------
+
+## tidymodels workflow
+
+```{r}
+#| echo: false
+#| eval: false
+
+library(tidymodels)
+
+set.seed(123)
+data_split <- initial_split(iris, prop = 0.8)
+train <- training(data_split)
+test  <- testing(data_split)
+
+# Recipe: preprocessing
+rec <- recipe(Sepal.Length ~ ., data = train)
+
+# Model specification: linear regression
+lm_spec <- linear_reg() |> set_engine("lm")
+
+# Workflow
+wf <- workflow() |> add_recipe(rec) |> add_model(lm_spec)
+
+# Fit model
+fit <- fit(wf, data = train)
+
+fit
+```
+
+##Resampling with rsample
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Create 5-fold cross-validation splits
+set.seed(123)
+cv_folds <- vfold_cv(iris, v = 5)
+
+cv_folds
+```
+
+##Hyperparameter tuning with tune
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Define random forest model with hyperparameters to tune
+rf_tune <- rand_forest(mtry = tune(), trees = 500, min_n = tune()) |> 
+  set_engine("ranger") |> 
+  set_mode("regression")
+
+# Define grid of candidate values
+rf_grid <- grid_regular(mtry(range = c(1,4)), min_n(), levels = 3)
+
+# Run grid search with cross-validation
+rf_tuned <- tune_grid(
+  workflow() |> add_recipe(rf_recipe) |> add_model(rf_tune),
+  resamples = cv_folds,
+  grid = rf_grid
+)
+```
+
+## ML-Based Sampling
+
+**Advantages**
+
+-   Data-driven stratification\
+-   Capture complex patterns in population\
+-   Reduce variance and sampling bias\
+
+**Limitations**
+
+-   Requires sufficient population data\
+-   Black-box predictions may reduce interpretability\
+-   Computationally intensive for large datasets\
 
 ------------------------------------------------------------------------
 

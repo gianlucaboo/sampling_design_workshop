@@ -188,6 +188,11 @@
       margin-right: 0; 
     }
   </style>
+  <link href="05_ai_ml_sampling_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+  <script src="05_ai_ml_sampling_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <script src="05_ai_ml_sampling_files/libs/viz-1.8.2/viz.js"></script>
+  <link href="05_ai_ml_sampling_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+  <script src="05_ai_ml_sampling_files/libs/grViz-binding-1.0.11/grViz.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -532,26 +537,10 @@ AI and ML for sample selection
 <li>Adjust sample to improve representativeness</li>
 </ul>
 </section>
-<section id="combining-k-means-and-random-forest" class="slide level2">
-<h2>Combining K-means and Random Forest</h2>
-<ul>
-<li>K-means: identify clusters for stratified sampling</li>
-<li>Random Forest: weight or prioritize units within clusters</li>
-</ul>
-</section>
-<section class="slide level2">
-
-</section>
-<section id="visualizing-sample-selection" class="slide level2">
-<h2>Visualizing Sample Selection</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">color=</span><span class="fu">factor</span>(cluster), <span class="at">size=</span>rf_model<span class="sc">$</span>fit<span class="sc">$</span>predicted)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb10-3"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="practical-considerations" class="slide level2">
-<h2>Practical Considerations</h2>
+<section id="k-means-and-random-forest" class="slide level2">
+<h2>K-means and Random Forest</h2>
+<p><strong>Use</strong> - K-means: identify clusters for stratified sampling - Random Forest: weight or prioritize units within clusters</p>
+<p>**Practical Considerations</p>
 <ul>
 <li>Choosing <strong>K</strong> in k-means (elbow method)</li>
 <li>Number of trees in random forest</li>
@@ -559,20 +548,123 @@ AI and ML for sample selection
 <li>Scale/normalize features before clustering</li>
 </ul>
 </section>
-<section id="advantages-of-ml-based-sampling" class="slide level2">
-<h2>Advantages of ML-Based Sampling</h2>
+<section id="introduction-to-tidymodels" class="slide level2">
+<h2>Introduction to tidymodels</h2>
 <ul>
-<li>Data-driven stratification</li>
-<li>Capture complex patterns in population</li>
-<li>Reduce variance and sampling bias</li>
+<li><strong>tidymodels</strong> is a collection of R packages for modeling and machine learning.<br>
+</li>
+<li>Built on the <strong>tidyverse</strong> philosophy: consistent, tidy syntax.<br>
+</li>
+<li>Provides tools for the entire modeling workflow:
+<ul>
+<li><strong>rsample</strong> → data splitting, resampling<br>
+</li>
+<li><strong>recipes</strong> → preprocessing and feature engineering<br>
+</li>
+<li><strong>parsnip</strong> → model specification<br>
+</li>
+<li><strong>tune</strong> → hyperparameter tuning<br>
+</li>
+<li><strong>yardstick</strong> → model evaluation</li>
+</ul></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co"># Install tidymodels (if not already)</span></span>
+<span id="cb10-2"><a href=""></a><span class="co"># install.packages("tidymodels")</span></span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="limitations" class="slide level2">
-<h2>Limitations</h2>
+<section id="models-supported-in-tidymodels-via-parsnip" class="slide level2">
+<h2>Models supported in tidymodels (via parsnip)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li>Requires sufficient population data</li>
-<li>Black-box predictions may reduce interpretability</li>
-<li>Computationally intensive for large datasets</li>
+<li><strong>Linear models</strong>
+<ul>
+<li><code>linear_reg()</code> → linear regression</li>
+<li><code>logistic_reg()</code> → logistic regression</li>
+</ul></li>
+<li><strong>Tree-based models</strong>
+<ul>
+<li><code>decision_tree()</code> → classification/regression trees</li>
+<li><code>rand_forest()</code> → random forests</li>
+<li><code>boost_tree()</code> → gradient boosting</li>
+</ul></li>
+<li><strong>Support vector machines</strong>
+<ul>
+<li><code>svm_linear()</code>, <code>svm_poly()</code>, <code>svm_rbf()</code> → SVM variants</li>
+</ul></li>
+<li><strong>Nearest neighbors</strong>
+<ul>
+<li><code>nearest_neighbor()</code> → k-nearest neighbors (KNN)</li>
+</ul></li>
+<li><strong>Generalized additive models</strong>
+<ul>
+<li><code>gen_additive_mod()</code> → flexible smooth models</li>
+</ul></li>
+<li><strong>Neural networks</strong>
+<ul>
+<li><code>mlp()</code> → multi-layer perceptron models</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-7bfd28a39efbeec851af" style="width:768px;height:576px;"></div>
+<script type="application/json" data-for="htmlwidget-7bfd28a39efbeec851af">{"x":{"diagram":" digraph tidymodels { graph [rankdir = LR, fontsize = 10]\n\nnode [shape = box, style = filled, color = grey90, fontname = Helvetica]\n\nsubgraph cluster_reg { label = \"Regression / GLM\" color = grey70 linear [label = \"Linear Regressionn(linear_reg)\"] logistic [label = \"Logistic Regressionn(logistic_reg)\"] }\n\nsubgraph cluster_tree { label = \"Tree-based\" color = grey70 dt [label = \"Decision Treen(decision_tree)\"] rf [label = \"Random Forestn(rand_forest)\"] gb [label = \"Boosted Treesn(boost_tree)\"] }\n\nsubgraph cluster_svm { label = \"Support Vector Machines\" color = grey70 svm_lin [label = \"Linear SVMn(svm_linear)\"] svm_poly [label = \"Polynomial SVMn(svm_poly)\"] svm_rbf [label = \"RBF SVMn(svm_rbf)\"] }\n\nsubgraph cluster_nn { label = \"Other\" color = grey70 knn [label = \"K-Nearest Neighborsn(nearest_neighbor)\"] gam [label = \"GAMn(gen_additive_mod)\"] nn [label = \"Neural Networkn(mlp)\"] } } ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div></div>
+<p>👉 Many more available through <strong>extensions</strong> (e.g., <code>xgboost</code>, <code>keras</code>, <code>glmnet</code>).</p>
+</section>
+<section id="tidymodels-workflow" class="slide level2">
+<h2>tidymodels workflow</h2>
+<p>##Resampling with rsample</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="co"># Create 5-fold cross-validation splits</span></span>
+<span id="cb11-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb11-3"><a href=""></a>cv_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(iris, <span class="at">v =</span> <span class="dv">5</span>)</span>
+<span id="cb11-4"><a href=""></a></span>
+<span id="cb11-5"><a href=""></a>cv_folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>##Hyperparameter tuning with tune</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co"># Define random forest model with hyperparameters to tune</span></span>
+<span id="cb12-2"><a href=""></a>rf_tune <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mtry =</span> <span class="fu">tune</span>(), <span class="at">trees =</span> <span class="dv">500</span>, <span class="at">min_n =</span> <span class="fu">tune</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-4"><a href=""></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb12-5"><a href=""></a></span>
+<span id="cb12-6"><a href=""></a><span class="co"># Define grid of candidate values</span></span>
+<span id="cb12-7"><a href=""></a>rf_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">mtry</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)), <span class="fu">min_n</span>(), <span class="at">levels =</span> <span class="dv">3</span>)</span>
+<span id="cb12-8"><a href=""></a></span>
+<span id="cb12-9"><a href=""></a><span class="co"># Run grid search with cross-validation</span></span>
+<span id="cb12-10"><a href=""></a>rf_tuned <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(</span>
+<span id="cb12-11"><a href=""></a>  <span class="fu">workflow</span>() <span class="sc">|&gt;</span> <span class="fu">add_recipe</span>(rf_recipe) <span class="sc">|&gt;</span> <span class="fu">add_model</span>(rf_tune),</span>
+<span id="cb12-12"><a href=""></a>  <span class="at">resamples =</span> cv_folds,</span>
+<span id="cb12-13"><a href=""></a>  <span class="at">grid =</span> rf_grid</span>
+<span id="cb12-14"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ml-based-sampling" class="slide level2">
+<h2>ML-Based Sampling</h2>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>Data-driven stratification<br>
+</li>
+<li>Capture complex patterns in population<br>
+</li>
+<li>Reduce variance and sampling bias<br>
+</li>
+</ul>
+<p><strong>Limitations</strong></p>
+<ul>
+<li>Requires sufficient population data<br>
+</li>
+<li>Black-box predictions may reduce interpretability<br>
+</li>
+<li>Computationally intensive for large datasets<br>
+</li>
 </ul>
 </section>
 <section id="take-home" class="slide level2">

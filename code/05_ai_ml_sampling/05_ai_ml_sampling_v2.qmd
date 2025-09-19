@@ -19,38 +19,38 @@ toc-title: "Content"
 
 # Workshop's agenda
 
-Day 1: Introduction to QGIS  
-Day 2: Automatic update of census EA and national sampling frame  
-Day 3: Introduction to R programming  
-Day 4: Introduction to sampling design  
-Day 5: Advanced R programming  
-Day 6: Earth observation (EO) for sampling design  
-Day 7: AI and machine learning for sample selection  
-Day 8: Simulation and optimization of sampling strategies  
-Day 9: R Shiny for sampling design evaluation  
-Day 10: Wrap-up and workshop evaluation  
+Day 1: Introduction to QGIS\
+Day 2: Automatic update of census EA and national sampling frame\
+Day 3: Introduction to R programming\
+Day 4: Introduction to sampling design\
+Day 5: Advanced R programming\
+Day 6: Earth observation (EO) for sampling design\
+Day 7: AI and machine learning for sample selection\
+Day 8: Simulation and optimization of sampling strategies\
+Day 9: R Shiny for sampling design evaluation\
+Day 10: Wrap-up and workshop evaluation
 
----
+------------------------------------------------------------------------
 
 # Course materials
 
 Today's course materials are on Github: <https://github.com/gianlucaboo/sampling_design_workshop>
 
-1. Click on **Day 7: AI and machine learning for sample selection**  
-2. Copy the URL and paste it on <https://download-directory.github.io>  
-3. Save the zipped directory on your computer and unzip it  
+1.  Click on **Day 7: AI and machine learning for sample selection**\
+2.  Copy the URL and paste it on <https://download-directory.github.io>\
+3.  Save the zipped directory on your computer and unzip it
 
----
+------------------------------------------------------------------------
 
 # Today's agenda
 
-- Introduction to AI and ML in sampling  
-- K-means clustering for stratification  
-- Random forest for sample weighting and prediction  
-- Implementation in R with **tidymodels**  
-- Practical exercises  
+-   Introduction to AI and ML in sampling\
+-   K-means clustering for stratification\
+-   Random forest for sample weighting and prediction\
+-   Implementation in R with **tidymodels**\
+-   Practical exercises
 
----
+------------------------------------------------------------------------
 
 # K-means in R (first look)
 
@@ -70,7 +70,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = factor(Species))) +
   labs(color = "Cluster") # customize legend title
 ```
 
----
+------------------------------------------------------------------------
 
 # K-means in R (clustering)
 
@@ -98,7 +98,7 @@ ggplot(data, aes(x = Sepal.Length, y = Sepal.Width, color = factor(Cluster))) +
   labs(color = "Cluster")
 ```
 
----
+------------------------------------------------------------------------
 
 # Random forest in R
 
@@ -123,7 +123,7 @@ rf_model <- rand_forest(trees = 500) |>
   set_mode("regression")
 ```
 
----
+------------------------------------------------------------------------
 
 # Training the random forest
 
@@ -143,7 +143,7 @@ rf_fit <- rf_wf |> fit(data = train)
 rf_preds <- predict(rf_fit, test) |> bind_cols(test)
 ```
 
----
+------------------------------------------------------------------------
 
 # Evaluating performance
 
@@ -155,7 +155,7 @@ rf_preds <- predict(rf_fit, test) |> bind_cols(test)
 rf_preds |> metrics(truth = Petal.Length, estimate = .pred)
 ```
 
----
+------------------------------------------------------------------------
 
 # Variable importance
 
@@ -169,7 +169,7 @@ library(vip)
 rf_fit |> extract_fit_parsnip() |> vip(num_features = 3)
 ```
 
----
+------------------------------------------------------------------------
 
 # tidymodels workflow
 
@@ -192,7 +192,7 @@ lm_wf <- workflow() |>
   add_model(lm_model)
 ```
 
----
+------------------------------------------------------------------------
 
 # Resampling with rsample
 
@@ -207,7 +207,7 @@ cv_folds <- vfold_cv(iris, v = 5)
 cv_folds
 ```
 
----
+------------------------------------------------------------------------
 
 # Hyperparameter tuning with tune
 
