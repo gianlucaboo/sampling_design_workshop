@@ -188,11 +188,6 @@
       margin-right: 0; 
     }
   </style>
-  <link href="05_ai_ml_sampling_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
-  <script src="05_ai_ml_sampling_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-  <script src="05_ai_ml_sampling_files/libs/viz-1.8.2/viz.js"></script>
-  <link href="05_ai_ml_sampling_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
-  <script src="05_ai_ml_sampling_files/libs/grViz-binding-1.0.11/grViz.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -438,13 +433,7 @@ AI and ML for sample selection
 <div class="column" style="width:50%;">
 <p><strong>Decision trees</strong><br>
 - A decision tree splits data into branches based on feature values (e.g., “Is age &gt; 30?”).<br>
-- Trees are easy to interpret but can overfit (memorize the training data).<br>
-</p>
-<p><strong>Bootstrap sampling (“bagging”)</strong><br>
-- The algorithm randomly selects samples (with replacement) from the training data to build each tree.<br>
-- This creates slightly different datasets for each tree.<br>
-</p>
-</div><div class="column" style="width:50%;">
+- The algorithm randomly selects samples (with replacement) from the training data to build each tree.</p>
 <p><strong>Random feature selection</strong><br>
 - At each split in a tree, it considers only a random subset of features (not all of them).<br>
 - This makes the trees more diverse and reduces correlation among them.<br>
@@ -453,9 +442,15 @@ AI and ML for sample selection
 - For <strong>classification</strong>, each tree votes for a class; the majority wins.<br>
 - For <strong>regression</strong>, the forest prediction is the average of all tree outputs.<br>
 </p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="img/rf.svg"></p>
+<figcaption>Random forest diagram (source: spotfire.com).</figcaption>
+</figure>
+</div>
 </div></div>
-
-<img data-src="img/rf.svg" class="r-stretch quarto-figure-left"><p class="caption">Random forest diagram (source: spotfire.com).</p></section>
+</section>
 <section id="random-forest-in-r" class="slide level2">
 <h2>Random forest in R</h2>
 <div class="cell">
@@ -476,8 +471,8 @@ AI and ML for sample selection
 </div>
 <p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="training-the-random-forest" class="slide level2">
-<h2>Training the random forest</h2>
+<section id="training" class="slide level2">
+<h2>Training</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co"># Workflow</span></span>
 <span id="cb6-2"><a href=""></a>rf_wf <span class="ot">&lt;-</span> </span>
@@ -497,11 +492,19 @@ AI and ML for sample selection
 </div>
 <p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="evaluating-performance" class="slide level2">
-<h2>Evaluating performance</h2>
+<section id="evaluation" class="slide level2">
+<h2>Evaluation</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>rf_preds <span class="sc">|&gt;</span> </span>
 <span id="cb7-2"><a href=""></a>  <span class="fu">metrics</span>(<span class="at">truth =</span> Petal.Length, <span class="at">estimate =</span> .pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.238
+2 rsq     standard       0.981
+3 mae     standard       0.181</code></pre>
+</div>
 </div>
 <p>Typical outputs:<br>
 - <strong>RMSE</strong>: root mean squared error (lower is better)<br>
@@ -510,113 +513,92 @@ AI and ML for sample selection
 <section id="visualizing-predictions" class="slide level2">
 <h2>Visualizing predictions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">data=</span>rf_preds, <span class="fu">aes</span>(<span class="at">x =</span> Petal.Length, <span class="at">y =</span> .pred)) <span class="sc">+</span></span>
-<span id="cb8-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb8-3"><a href=""></a>  <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="dv">1</span>, <span class="at">intercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb8-4"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb8-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Observed Petal.Length"</span>, <span class="at">y=</span><span class="st">"Predicted Petal.Length"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">data=</span>rf_preds, <span class="fu">aes</span>(<span class="at">x =</span> Petal.Length, <span class="at">y =</span> .pred)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href=""></a>  <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="dv">1</span>, <span class="at">intercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Observed Petal.Length"</span>, <span class="at">y=</span><span class="st">"Predicted Petal.Length"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
 </div>
-<p>ℹ️ Try to run the code in your Script Editor.</p>
+<img data-src="05_ai_ml_sampling_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
 <section id="variable-importance" class="slide level2">
 <h2>Variable importance</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">library</span>(vip)</span>
-<span id="cb9-2"><a href=""></a></span>
-<span id="cb9-3"><a href=""></a>rf_fit <span class="sc">|&gt;</span> </span>
-<span id="cb9-4"><a href=""></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb9-5"><a href=""></a>  vip<span class="sc">::</span><span class="fu">vip</span>(<span class="at">num_features =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">library</span>(vip)</span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a>rf_fit <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href=""></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-5"><a href=""></a>  vip<span class="sc">::</span><span class="fu">vip</span>(<span class="at">num_features =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
 </div>
-<p>ℹ️ Try to run the code in your Script Editor.</p>
+<img data-src="05_ai_ml_sampling_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"><p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
-<section id="using-rf-predictions-for-sampling" class="slide level2">
-<h2>Using RF predictions for Sampling</h2>
+<section id="using-ml-for-sampling" class="slide level2">
+<h2>Using ML for sampling</h2>
+<p><strong>K-means clustering</strong><br>
+- Creates <strong>data-driven strata</strong> by grouping similar units<br>
+- Improves <strong>representativeness</strong> when no prior strata exist<br>
+- Reduces <strong>intra-stratum variance</strong>, leading to smaller required sample sizes<br>
+</p>
+<p><strong>Random forest</strong><br>
+- Predicts <strong>key population characteristics</strong> (e.g., poverty, health indicators)<br>
+- Generates <strong>sample weights</strong> or <strong>inclusion probabilities</strong> from covariates<br>
+- Captures <strong>non-linear relationships</strong> and interactions often missed by classical models<br>
+</p>
+<p><strong>Combined approach</strong><br>
+- Use <strong>random-forest predictions</strong> as inputs to <strong>k-means</strong> to create strata based on both observed and modelled variables<br>
+- Enables <strong>adaptive, evidence-based sampling frames</strong> for large-scale surveys<br>
+</p>
+</section>
+<section id="practical-considerations" class="slide level2">
+<h2>Practical Considerations</h2>
+<p>ML is powerful but should be <strong>handled carefully</strong>. Below a few key paramteres to consider:</p>
 <ul>
-<li>Predict probability of selection or outcome</li>
-<li>Compute weights: <span class="math inline">\(w_i = 1 / p_i\)</span></li>
-<li>Adjust sample to improve representativeness</li>
+<li>Choosing <strong>K</strong> in k-means (elbow method)<br>
+</li>
+<li><strong>Number of trees</strong> in random forest<br>
+</li>
+<li>Handle <strong>missing data</strong> appropriately&nbsp;</li>
+<li><strong>Scale/normalize</strong> features before clustering<br>
+</li>
 </ul>
+<p>ℹ️ Please do consult additional references.</p>
 </section>
-<section id="k-means-and-random-forest" class="slide level2">
-<h2>K-means and Random Forest</h2>
-<p><strong>Use</strong> - K-means: identify clusters for stratified sampling - Random Forest: weight or prioritize units within clusters</p>
-<p>**Practical Considerations</p>
-<ul>
-<li>Choosing <strong>K</strong> in k-means (elbow method)</li>
-<li>Number of trees in random forest</li>
-<li>Handle missing data appropriately</li>
-<li>Scale/normalize features before clustering</li>
-</ul>
-</section>
-<section id="introduction-to-tidymodels" class="slide level2">
-<h2>Introduction to tidymodels</h2>
-<ul>
-<li><strong>tidymodels</strong> is a collection of R packages for modeling and machine learning.<br>
-</li>
-<li>Built on the <strong>tidyverse</strong> philosophy: consistent, tidy syntax.<br>
-</li>
-<li>Provides tools for the entire modeling workflow:
-<ul>
-<li><strong>rsample</strong> → data splitting, resampling<br>
-</li>
-<li><strong>recipes</strong> → preprocessing and feature engineering<br>
-</li>
-<li><strong>parsnip</strong> → model specification<br>
-</li>
-<li><strong>tune</strong> → hyperparameter tuning<br>
-</li>
-<li><strong>yardstick</strong> → model evaluation</li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co"># Install tidymodels (if not already)</span></span>
-<span id="cb10-2"><a href=""></a><span class="co"># install.packages("tidymodels")</span></span>
-<span id="cb10-3"><a href=""></a></span>
-<span id="cb10-4"><a href=""></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="models-supported-in-tidymodels-via-parsnip" class="slide level2">
-<h2>Models supported in tidymodels (via parsnip)</h2>
+<section id="more-models-in-tidymodels" class="slide level2">
+<h2>More models in <code>tidymodels</code></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<ul>
-<li><strong>Linear models</strong>
-<ul>
-<li><code>linear_reg()</code> → linear regression</li>
-<li><code>logistic_reg()</code> → logistic regression</li>
-</ul></li>
-<li><strong>Tree-based models</strong>
-<ul>
-<li><code>decision_tree()</code> → classification/regression trees</li>
-<li><code>rand_forest()</code> → random forests</li>
-<li><code>boost_tree()</code> → gradient boosting</li>
-</ul></li>
-<li><strong>Support vector machines</strong>
-<ul>
-<li><code>svm_linear()</code>, <code>svm_poly()</code>, <code>svm_rbf()</code> → SVM variants</li>
-</ul></li>
-<li><strong>Nearest neighbors</strong>
-<ul>
-<li><code>nearest_neighbor()</code> → k-nearest neighbors (KNN)</li>
-</ul></li>
-<li><strong>Generalized additive models</strong>
-<ul>
-<li><code>gen_additive_mod()</code> → flexible smooth models</li>
-</ul></li>
-<li><strong>Neural networks</strong>
-<ul>
-<li><code>mlp()</code> → multi-layer perceptron models</li>
-</ul></li>
-</ul>
+<p><strong><code>tidymodels</code></strong> is a collection of R packages for modeling and machine learning.</p>
+<p>Built on the <strong><code>tidyverse</code></strong> philosophy: consistent, tidy syntax.</p>
+<p>Provides tools for the entire modeling workflow:<br>
+- <strong><code>rsample</code></strong> for data splitting, resampling<br>
+- <strong><code>recipes</code></strong> for preprocessing and feature engineering<br>
+- <strong><code>parsnip</code></strong> for model specification<br>
+- <strong><code>tune</code></strong> for hyperparameter tuning<br>
+- <strong><code>yardstick</code></strong> for model evaluation</p>
 </div><div class="column" style="width:50%;">
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item" id="htmlwidget-7bfd28a39efbeec851af" style="width:768px;height:576px;"></div>
-<script type="application/json" data-for="htmlwidget-7bfd28a39efbeec851af">{"x":{"diagram":" digraph tidymodels { graph [rankdir = LR, fontsize = 10]\n\nnode [shape = box, style = filled, color = grey90, fontname = Helvetica]\n\nsubgraph cluster_reg { label = \"Regression / GLM\" color = grey70 linear [label = \"Linear Regressionn(linear_reg)\"] logistic [label = \"Logistic Regressionn(logistic_reg)\"] }\n\nsubgraph cluster_tree { label = \"Tree-based\" color = grey70 dt [label = \"Decision Treen(decision_tree)\"] rf [label = \"Random Forestn(rand_forest)\"] gb [label = \"Boosted Treesn(boost_tree)\"] }\n\nsubgraph cluster_svm { label = \"Support Vector Machines\" color = grey70 svm_lin [label = \"Linear SVMn(svm_linear)\"] svm_poly [label = \"Polynomial SVMn(svm_poly)\"] svm_rbf [label = \"RBF SVMn(svm_rbf)\"] }\n\nsubgraph cluster_nn { label = \"Other\" color = grey70 knn [label = \"K-Nearest Neighborsn(nearest_neighbor)\"] gam [label = \"GAMn(gen_additive_mod)\"] nn [label = \"Neural Networkn(mlp)\"] } } ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
+<p><strong>Linear models</strong><br>
+- <code>linear_reg()</code> → linear regression<br>
+- <code>logistic_reg()</code> → logistic regression<br>
+<strong>Tree-based models</strong><br>
+- <code>decision_tree()</code> → classification/regression trees<br>
+- <code>rand_forest()</code> → random forests<br>
+- <code>boost_tree()</code> → gradient boosting<br>
+<strong>Support vector machines</strong><br>
+- <code>svm_linear()</code>, <code>svm_poly()</code>, <code>svm_rbf()</code> → SVM variants<br>
+<strong>Nearest neighbors</strong><br>
+- <code>nearest_neighbor()</code> → k-nearest neighbors (KNN)<br>
+<strong>Generalized additive models</strong><br>
+- <code>gen_additive_mod()</code> → flexible smooth models<br>
+<strong>Neural networks</strong><br>
+- <code>mlp()</code> → multi-layer perceptron models<br>
+</p>
 </div></div>
-<p>👉 Many more available through <strong>extensions</strong> (e.g., <code>xgboost</code>, <code>keras</code>, <code>glmnet</code>).</p>
+<p>ℹ️ Many more available through <strong>extensions</strong> (e.g., <code>xgboost</code>, <code>keras</code>, <code>glmnet</code>).</p>
+</section>
+<section class="slide level2">
+
 </section>
 <section id="tidymodels-workflow" class="slide level2">
 <h2>tidymodels workflow</h2>

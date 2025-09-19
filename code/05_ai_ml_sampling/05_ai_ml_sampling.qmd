@@ -262,14 +262,8 @@ ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
 ::: {.column width="50%"}
 **Decision trees**\
 - A decision tree splits data into branches based on feature values (e.g., “Is age \> 30?”).\
-- Trees are easy to interpret but can overfit (memorize the training data).\
+- The algorithm randomly selects samples (with replacement) from the training data to build each tree.
 
-**Bootstrap sampling (“bagging”)**\
-- The algorithm randomly selects samples (with replacement) from the training data to build each tree.\
-- This creates slightly different datasets for each tree.\
-:::
-
-::: {.column width="50%"}
 **Random feature selection**\
 - At each split in a tree, it considers only a random subset of features (not all of them).\
 - This makes the trees more diverse and reduces correlation among them.\
@@ -278,9 +272,11 @@ ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
 - For **classification**, each tree votes for a class; the majority wins.\
 - For **regression**, the forest prediction is the average of all tree outputs.\
 :::
-:::::
 
+::: {.column width="50%"}
 ![Random forest diagram (source: spotfire.com).](img/rf.svg){fig-align="left"}
+:::
+:::::
 
 ------------------------------------------------------------------------
 
@@ -288,7 +284,7 @@ ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
 
 ```{r}
 #| echo: true
-#| eval: false
+#| eval: true
 
 library(tidymodels)
 
@@ -310,11 +306,11 @@ rf_model <- rand_forest(trees = 500) |>
 
 ------------------------------------------------------------------------
 
-## Training the random forest
+## Training
 
 ```{r}
 #| echo: true
-#| eval: false
+#| eval: true
 
 # Workflow
 rf_wf <- 
@@ -337,11 +333,11 @@ rf_preds <-
 
 ------------------------------------------------------------------------
 
-## Evaluating performance
+## Evaluation
 
 ```{r}
 #| echo: true
-#| eval: false
+#| eval: true
 
 rf_preds |> 
   metrics(truth = Petal.Length, estimate = .pred)
@@ -357,7 +353,7 @@ Typical outputs:\
 
 ```{r}
 #| echo: true
-#| eval: false
+#| eval: true
 
   ggplot(data=rf_preds, aes(x = Petal.Length, y = .pred)) +
   geom_point(size=3, color="black") +
@@ -374,7 +370,7 @@ Typical outputs:\
 
 ```{r}
 #| echo: true
-#| eval: false
+#| eval: true
 
 library(vip)
 
@@ -387,96 +383,75 @@ rf_fit |>
 
 ------------------------------------------------------------------------
 
-## Using RF predictions for Sampling
+## Using ML for sampling
 
--   Predict probability of selection or outcome
--   Compute weights: $w_i = 1 / p_i$
--   Adjust sample to improve representativeness
+**K-means clustering**  
+    -   Creates **data-driven strata** by grouping similar units\
+    -   Improves **representativeness** when no prior strata exist\
+    -   Reduces **intra-stratum variance**, leading to smaller required sample sizes\
 
-------------------------------------------------------------------------
-
-## K-means and Random Forest
-
-**Use** - K-means: identify clusters for stratified sampling - Random Forest: weight or prioritize units within clusters
-
-\*\*Practical Considerations
-
--   Choosing **K** in k-means (elbow method)
--   Number of trees in random forest
--   Handle missing data appropriately
--   Scale/normalize features before clustering
+**Random forest**  
+    -   Predicts **key population characteristics** (e.g., poverty, health indicators)\
+    -   Generates **sample weights** or **inclusion probabilities** from covariates\
+    -   Captures **non-linear relationships** and interactions often missed by classical models\
+  
+**Combined approach**  
+    -   Use **random-forest predictions** as inputs to **k-means** to create strata based on both observed and modelled variables\
+    -   Enables **adaptive, evidence-based sampling frames** for large-scale surveys\
 
 ------------------------------------------------------------------------
 
-## Introduction to tidymodels
+## Practical Considerations
 
--   **tidymodels** is a collection of R packages for modeling and machine learning.\
--   Built on the **tidyverse** philosophy: consistent, tidy syntax.\
--   Provides tools for the entire modeling workflow:
-    -   **rsample** → data splitting, resampling\
-    -   **recipes** → preprocessing and feature engineering\
-    -   **parsnip** → model specification\
-    -   **tune** → hyperparameter tuning\
-    -   **yardstick** → model evaluation
+ML is powerful but should be **handled carefully**. Below a few key paramteres to consider: 
 
-```{r}
-#| echo: true
-#| eval: false
-# Install tidymodels (if not already)
-# install.packages("tidymodels")
+-   Choosing **K** in k-means (elbow method) \
+-   **Number of trees** in random forest\
+-   Handle **missing data** appropriately\ 
+-   **Scale/normalize** features before clustering\
 
-library(tidymodels)
-```
+ℹ️ Please do consult additional references.
 
 ------------------------------------------------------------------------
 
-## Models supported in tidymodels (via parsnip)
+## More models in `tidymodels`
 
 ::::: columns
 ::: {.column width="50%"}
--   **Linear models**
-    -   `linear_reg()` → linear regression
-    -   `logistic_reg()` → logistic regression
--   **Tree-based models**
-    -   `decision_tree()` → classification/regression trees
-    -   `rand_forest()` → random forests
-    -   `boost_tree()` → gradient boosting
--   **Support vector machines**
-    -   `svm_linear()`, `svm_poly()`, `svm_rbf()` → SVM variants
--   **Nearest neighbors**
-    -   `nearest_neighbor()` → k-nearest neighbors (KNN)
--   **Generalized additive models**
-    -   `gen_additive_mod()` → flexible smooth models
--   **Neural networks**
-    -   `mlp()` → multi-layer perceptron models
+**`tidymodels`** is a collection of R packages for modeling and machine learning.  
+
+Built on the **`tidyverse`** philosophy: consistent, tidy syntax.  
+
+Provides tools for the entire modeling workflow:  
+    -   **`rsample`** for data splitting, resampling\
+    -   **`recipes`** for preprocessing and feature engineering\
+    -   **`parsnip`** for model specification\
+    -   **`tune`** for hyperparameter tuning\
+    -   **`yardstick`** for model evaluation
+
 :::
 
 ::: {.column width="50%"}
 
-```{r} 
-#| echo: false 
-#| eval: true 
-#| fig-width: 8 
-#| fig-height: 6
+**Linear models**  
+    -   `linear_reg()` → linear regression\
+    -   `logistic_reg()` → logistic regression\
+**Tree-based models**  
+    -   `decision_tree()` → classification/regression trees\
+    -   `rand_forest()` → random forests\
+    -   `boost_tree()` → gradient boosting\
+**Support vector machines**  
+    -   `svm_linear()`, `svm_poly()`, `svm_rbf()` → SVM variants\
+**Nearest neighbors**  
+    -   `nearest_neighbor()` → k-nearest neighbors (KNN)\
+**Generalized additive models**  
+    -   `gen_additive_mod()` → flexible smooth models\
+**Neural networks**  
+    -   `mlp()` → multi-layer perceptron models\
 
-library(DiagrammeR)
-
-grViz(" digraph tidymodels { graph [rankdir = LR, fontsize = 10]
-
-node [shape = box, style = filled, color = grey90, fontname = Helvetica]
-
-subgraph cluster_reg { label = 'Regression / GLM' color = grey70 linear [label = 'Linear Regressionn(linear_reg)'] logistic [label = 'Logistic Regressionn(logistic_reg)'] }
-
-subgraph cluster_tree { label = 'Tree-based' color = grey70 dt [label = 'Decision Treen(decision_tree)'] rf [label = 'Random Forestn(rand_forest)'] gb [label = 'Boosted Treesn(boost_tree)'] }
-
-subgraph cluster_svm { label = 'Support Vector Machines' color = grey70 svm_lin [label = 'Linear SVMn(svm_linear)'] svm_poly [label = 'Polynomial SVMn(svm_poly)'] svm_rbf [label = 'RBF SVMn(svm_rbf)'] }
-
-subgraph cluster_nn { label = 'Other' color = grey70 knn [label = 'K-Nearest Neighborsn(nearest_neighbor)'] gam [label = 'GAMn(gen_additive_mod)'] nn [label = 'Neural Networkn(mlp)'] } } ")
-```
 :::
 :::::
-
-👉 Many more available through **extensions** (e.g., `xgboost`, `keras`, `glmnet`).
+ℹ️ Many more available through **extensions** (e.g., `xgboost`, `keras`, `glmnet`).
 
 ------------------------------------------------------------------------
 
@@ -508,7 +483,7 @@ fit <- fit(wf, data = train)
 fit
 ```
 
-##Resampling with rsample
+## Resampling with rsample
 
 ```{r}
 #| echo: true
