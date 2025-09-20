@@ -64,20 +64,20 @@ toc-title: "Content"
 
 ------------------------------------------------------------------------
 
-## Overview of ML
+## Overview of AI/ML
 
-There are many ML algorithms, where the most common are:
+There are many AI/ML algorithms, where the most common are:
 
 -   **Supervised learning:** prediction based on known outcomes
 -   **Unsupervised learning:** finding patterns/clusters without labeled outcomes
 
-![Some ML alghoritmns (source: [Vas3K.blog](https://vas3k.blog/blog/machine_learning/)).](img/ml.png){fig-align="left"}
+![Some ML alghoritms (source: [Vas3K.blog](https://vas3k.blog/blog/machine_learning/)).](img/ml.png){fig-align="left"}
 
 ------------------------------------------------------------------------
 
 ## ML workflow
 
-ML has a training, validation, and prediction workflow:
+ML has a **training**, **validation**, and **prediction** workflow.
 
 ![A ML workflow (source: Edureka!).](img/ml_workflow.gif){fig-align="left"}
 
@@ -89,11 +89,11 @@ ML has a training, validation, and prediction workflow:
 ::: {.column width="50%"}
 -   This is an **unsupervised learning** method
 -   Detect **natural groups** in population data
--   Useful for creating **representative samples**
+-   Useful for creating strata for **representative samples**
 :::
 
 ::: {.column width="50%"}
--   k-means: widely used for **stratification**
+-   **k-means**: widely used for **stratification**
 -   Partition population into **K clusters**
 -   Minimize **within-cluster variance**
 :::
@@ -105,11 +105,11 @@ ML has a training, validation, and prediction workflow:
 
 ## K-means in R
 
-**The Iris dataset**
+A few key facts about the **Iris data set**:
 
--   British statistician and biologist **Ronald Fisher** in his 1936 paper.\
+-   Presented by to British statistician and biologist **Ronald Fisher** in his 1936 paper.\
 -   The data set consists of **50 samples** from each of **three species** of Iris.\
--   Four features were measured: the **length and the width of the sepals and petals**, in centimeters.
+-   Four features were measured: the **length and the width of the sepals and petals**.
 
 ::::: columns
 ::: {.column width="33%"}
@@ -131,7 +131,7 @@ ML has a training, validation, and prediction workflow:
 
 ## K-means in R
 
-**A first glimpse at the data set**
+A first glimpse at **the data set structure**:
 
 ```{r}
 #| echo: true
@@ -156,7 +156,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Species))) +
 
 ## K-means in R
 
-**K-means clustering with `k=3`**
+Running a K-means clustering with **`k=3`**:
 
 ```{r}
 #| echo: true
@@ -173,11 +173,13 @@ data <-
 kmeans_fit <- 
   kmeans(scale(data), centers = 3) # it is important to scale and center the data
 
+## Attach clusters to dataset
 data <- 
  data |> 
   mutate(Cluster=kmeans_fit$cluster,
          Species=iris |> pull(Species))
 
+## Plot the results
 ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Cluster))) +
   geom_point(size=3) +
   theme_minimal() +
@@ -190,11 +192,18 @@ ggplot(data, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Cluster))) +
 
 ## K-means in R
 
-The output of `kmeans_fit` is a list of vectors:
+The output of `kmeans_fit` is a **list of vectors**:
 
--   `cluster` contains information about each point\
--   `centers`, `withinss`, and `size` (3 values) contain information about each cluster\
+::::: columns
+::: {.column width="50%"}
+-   `cluster` contains information about each point
+-   `centers`, `withinss`, and `size` (3 values) contain information about each cluster
+:::
+
+::: {.column width="50%"}
 -   `totss`, `tot.withinss`, `betweenss`, and `iter` (1 value) contain information about the full clustering
+:::
+:::::
 
 ```{r}
 #| echo: true
@@ -227,7 +236,9 @@ ggplot(k_means_multiple_fit, aes(x=Sepal.Length, y=Sepal.Width, color=factor(Clu
 
 ## K-means in R
 
-Additionally the total within sum of squares in the `tot.withinss` column represents the variance within the clusters. It generally decreases as `k` increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.
+The `tot.withinss` column (total within sum of squares) represents the variance within the clusters.
+
+It generally decreases as `k` increases, and a bend (or “elbow”) indicates that additional clusters beyond the third have little value.
 
 ```{r}
 #| echo: true
@@ -235,6 +246,7 @@ Additionally the total within sum of squares in the `tot.withinss` column repres
 
 library(purrr); library(tidymodels); library(tidyverse); library(cluster)
 
+## Run the clustering alghnoritm for different k
 k_means_multiple_withinss <- 
   c(1:9) |> 
   map (function(k) {
@@ -246,6 +258,7 @@ k_means_multiple_withinss <-
   pivot_longer(cols=everything(), names_to="k", values_to="tot.withinss") |> 
   mutate(k=k |>  str_sub(-1, -1) |> as.numeric())
 
+## Plot the results
 ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
   geom_line()+
   geom_point(size=3) +
@@ -282,31 +295,39 @@ ggplot(k_means_multiple_withinss, aes(x=k, y=tot.withinss)) +
 
 ## Random forest in R
 
+Creating a **random forest model to predict `Petal.Length`**
+
 ```{r}
 #| echo: true
 #| eval: true
-
-library(tidymodels)
+library(tidymodels)  # Load the tidymodels package for machine learning workflows
 
 # Split data
-set.seed(123)
-data_split <- initial_split(iris |> select(-Species), prop = 0.8)
-train <- training(data_split)
-test <- testing(data_split)
+set.seed(123)  # Set a random seed for reproducibility
+data_split <- initial_split(iris |> select(-Species), prop = 0.8)  
+# Randomly split the iris dataset (without Species column) into training (80%) and testing (20%)
+
+train <- training(data_split)  # Extract the training portion of the split
+test <- testing(data_split)    # Extract the testing portion of the split
 
 # Define recipe and model
-rf_recipe <- recipe(Petal.Length ~ ., data = train)
+rf_recipe <- recipe(Petal.Length ~ ., data = train)  
+# Define a preprocessing recipe where Petal.Length is the outcome 
+# and all other variables are predictors
 
-rf_model <- rand_forest(trees = 500) |> 
-  set_engine("ranger", importance = "permutation") |> 
-  set_mode("regression")
+rf_model <- rand_forest(trees = 500) |>     # Specify a random forest model with 500 trees
+  set_engine("ranger", importance = "permutation") |>  
+  # Use the 'ranger' engine and compute variable importance with permutation method
+  set_mode("regression")  # Set the model mode to regression (continuous outcome)
 ```
 
 ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## Training
+## Random forest in R
+
+The model is **trained on a subset of the data**
 
 ```{r}
 #| echo: true
@@ -314,26 +335,32 @@ rf_model <- rand_forest(trees = 500) |>
 
 # Workflow
 rf_wf <- 
-  workflow() |> 
-  add_recipe(rf_recipe) |> 
-  add_model(rf_model)
+  workflow() |>                 # Initialize an empty workflow
+  add_recipe(rf_recipe) |>      # Add the preprocessing recipe (defines predictors/outcome)
+  add_model(rf_model)           # Add the random forest model specification
 
 # Fit model
 rf_fit <- 
-  rf_wf |>
-  fit(data = train)
+  rf_wf |>                      # Take the workflow (recipe + model)
+  fit(data = train)             # Train (fit) it on the training dataset
 
 # Predict
 rf_preds <- 
-  predict(rf_fit, test) |> 
-  bind_cols(test)
+  predict(rf_fit, test) |>      # Generate predictions on the test dataset
+  bind_cols(test)               # Combine predictions with the original test data for comparison
 ```
 
 ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## Evaluation
+## Random forest in R
+
+A regression model can be **evaluated by comparing its predicted values to the true observed values**. Common metrics include:
+
+-   **MAE**: mean absolute error (lower is better)\
+-   **RMSE**: root mean squared error (lower is better)\
+-   **R²**: proportion of variance explained (higher is better)
 
 ```{r}
 #| echo: true
@@ -343,30 +370,34 @@ rf_preds |>
   metrics(truth = Petal.Length, estimate = .pred)
 ```
 
-Typical outputs:\
-- **RMSE**: root mean squared error (lower is better)\
-- **R²**: proportion of variance explained (higher is better)
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## Visualizing predictions
+## Random forest in R
+
+Arguably, the best way to **explore model performance** is to plot observed versus predicted values.
 
 ```{r}
 #| echo: true
 #| eval: true
 
   ggplot(data=rf_preds, aes(x = Petal.Length, y = .pred)) +
-  geom_point(size=3, color="black") +
-  geom_abline(slope=1, intercept=0, linetype="dashed") +
-  theme_minimal() +
-  labs(x="Observed Petal.Length", y="Predicted Petal.Length")
+    geom_point(size=3, color="black") +
+    geom_abline(slope=1, intercept=0, linetype="dashed") +
+    theme_minimal() +
+    labs(x="Observed Petal.Length", y="Predicted Petal.Length")
 ```
 
 ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## Variable importance
+## Random forest in R
+
+**Variable importance (VIP)** helps us understand which predictors the model relied on most when making predictions.
+
+By plotting the top features, we can see **which variables contribute most** to predicting the outcome—in this case, `Petal.Length`.
 
 ```{r}
 #| echo: true
@@ -383,34 +414,46 @@ rf_fit |>
 
 ------------------------------------------------------------------------
 
+## Random forest applications and tutorials
+
+WorldPop develops random forest models to diasaggregate census data at high spatial resolution globally. Tutorials are available at **https://www.worldpop.org/tutorials/**.
+
+::: embed
+<iframe src="https://www.worldpop.org/tutorials/" width="100%" height="750">
+
+</iframe>
+:::
+
+------------------------------------------------------------------------
+
 ## Using ML for sampling
 
-**K-means clustering**  
-    -   Creates **data-driven strata** by grouping similar units\
-    -   Improves **representativeness** when no prior strata exist\
-    -   Reduces **intra-stratum variance**, leading to smaller required sample sizes\
+**K-means clustering**\
+- Creates **data-driven strata** by grouping similar units\
+- Improves **representativeness** when no prior strata exist\
+- Reduces **intra-stratum variance**, leading to smaller required sample sizes\
 
-**Random forest**  
-    -   Predicts **key population characteristics** (e.g., poverty, health indicators)\
-    -   Generates **sample weights** or **inclusion probabilities** from covariates\
-    -   Captures **non-linear relationships** and interactions often missed by classical models\
-  
-**Combined approach**  
-    -   Use **random-forest predictions** as inputs to **k-means** to create strata based on both observed and modelled variables\
-    -   Enables **adaptive, evidence-based sampling frames** for large-scale surveys\
+**Random forest**\
+- Predicts **key population characteristics** (e.g., poverty, health indicators)\
+- Generates **sample weights** or **inclusion probabilities** from covariates\
+- Captures **non-linear relationships** and interactions often missed by classical models\
+
+**Combined approach**\
+- Use **random-forest predictions** as inputs to **k-means** to create strata based on both observed and modeled variables\
+- Enables **adaptive, evidence-based sampling frames** for large-scale surveys\
 
 ------------------------------------------------------------------------
 
 ## Practical Considerations
 
-ML is powerful but should be **handled carefully**. Below a few key paramteres to consider: 
+ML is powerful but should be **handled carefully**. Below a few key parameters to consider:
 
--   Choosing **K** in k-means (elbow method) \
+-   Choosing **K** in k-means (elbow method)\
 -   **Number of trees** in random forest\
--   Handle **missing data** appropriately\ 
+-   Handle **missing data** appropriately\
 -   **Scale/normalize** features before clustering\
 
-ℹ️ Please do consult additional references.
+ℹ️ Please do consult additional references (at the end of teis presentation).
 
 ------------------------------------------------------------------------
 
@@ -418,48 +461,48 @@ ML is powerful but should be **handled carefully**. Below a few key paramteres t
 
 ::::: columns
 ::: {.column width="50%"}
-**`tidymodels`** is a collection of R packages for modeling and machine learning.  
+**`tidymodels`** is a collection of R packages for modeling and machine learning.
 
-Built on the **`tidyverse`** philosophy: consistent, tidy syntax.  
+Built on the **`tidyverse`** philosophy: consistent, tidy syntax.
 
-Provides tools for the entire modeling workflow:  
-    -   **`rsample`** for data splitting, resampling\
-    -   **`recipes`** for preprocessing and feature engineering\
-    -   **`parsnip`** for model specification\
-    -   **`tune`** for hyperparameter tuning\
-    -   **`yardstick`** for model evaluation
-
+Provides tools for the entire modeling workflow:\
+- **`rsample`** for data splitting, resampling\
+- **`recipes`** for preprocessing and feature engineering\
+- **`parsnip`** for model specification\
+- **`tune`** for hyperparameter tuning\
+- **`yardstick`** for model evaluation
 :::
 
 ::: {.column width="50%"}
-
-**Linear models**  
-    -   `linear_reg()` → linear regression\
-    -   `logistic_reg()` → logistic regression\
-**Tree-based models**  
-    -   `decision_tree()` → classification/regression trees\
-    -   `rand_forest()` → random forests\
-    -   `boost_tree()` → gradient boosting\
-**Support vector machines**  
-    -   `svm_linear()`, `svm_poly()`, `svm_rbf()` → SVM variants\
-**Nearest neighbors**  
-    -   `nearest_neighbor()` → k-nearest neighbors (KNN)\
-**Generalized additive models**  
-    -   `gen_additive_mod()` → flexible smooth models\
-**Neural networks**  
-    -   `mlp()` → multi-layer perceptron models\
-
+**Linear models**\
+- `linear_reg()`: linear regression\
+- `logistic_reg()`: logistic regression\
+**Tree-based models**\
+- `decision_tree()`: classification/regression trees\
+- `rand_forest()`: random forests\
+- `boost_tree()`: gradient boosting\
+**Support vector machines**\
+- `svm_linear()`, `svm_poly()`, `svm_rbf()`: SVM variants\
+**Nearest neighbors**\
+- `nearest_neighbor()`: k-nearest neighbors (KNN)\
+**Generalized additive models**\
+- `gen_additive_mod()`: flexible smooth models\
+**Neural networks**\
+- `mlp()`: multi-layer perceptron models\
 :::
 :::::
+
 ℹ️ Many more available through **extensions** (e.g., `xgboost`, `keras`, `glmnet`).
 
 ------------------------------------------------------------------------
 
-## tidymodels workflow
+## `tidymodels` workflow
+
+Below the key components of a `tidymodels` workflow.
 
 ```{r}
-#| echo: false
-#| eval: false
+#| echo: true
+#| eval: true
 
 library(tidymodels)
 
@@ -479,11 +522,39 @@ wf <- workflow() |> add_recipe(rec) |> add_model(lm_spec)
 
 # Fit model
 fit <- fit(wf, data = train)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## The `fit` object
+
+The `fit` object conteins the results of the fitted linear regression model:
+
+-   **Model call**: a record of the function call used to construct the model.
+-   **Coefficients**: estimated regression parameters for each predictor variable.
+-   **Intercept**: the baseline value of the outcome when all predictors are equal to zero.
+-   **Model summary**: if the underlying model is extracted with `extract_fit_engine()`, additional diagnostics are available.\
+
+```{r}
+#| echo: true
+#| eval: false
 
 fit
 ```
 
-## Resampling with rsample
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Resampling with `rsample`
+
+Resampling or cross-validation enables to **assess predictive performance**.
+
+-   It creates **5 different training/validation sets** without discarding any data.
+-   This allows you to evaluate model's performance across multiple splits instead of relying on just one train/test split.
+-   It’s especially useful for **robust performance estimation** and reducing bias in model evaluation
 
 ```{r}
 #| echo: true
@@ -496,7 +567,17 @@ cv_folds <- vfold_cv(iris, v = 5)
 cv_folds
 ```
 
-##Hyperparameter tuning with tune
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Hyperparameters with `tune`
+
+Hyperparameters can be tuned for a random forest using `grids`:
+
+-   **`rf_tune`** defines a random forest model where `mtry` (predictors per split) and `min_n` (minimum node size) will be tuned.\
+-   **`rf_grid`** creates a grid of candidate values for those parameters.\
+-   **`tune_grid()`** tests each combination using 5-fold cross-validation and records performance metrics.
 
 ```{r}
 #| echo: true
@@ -518,29 +599,17 @@ rf_tuned <- tune_grid(
 )
 ```
 
-## ML-Based Sampling
-
-**Advantages**
-
--   Data-driven stratification\
--   Capture complex patterns in population\
--   Reduce variance and sampling bias\
-
-**Limitations**
-
--   Requires sufficient population data\
--   Black-box predictions may reduce interpretability\
--   Computationally intensive for large datasets\
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
 ## Take home
 
--   AI/ML complements traditional sampling
--   K-means identifies clusters for stratification
--   Random Forest helps prioritize or weight units
--   R/tidymodels provides reproducible workflow
--   Visualization is key for interpretation
+-   AI/ML can **complement** traditional sampling\
+-   K-means identifies **clusters for stratification**\
+-   Random forest helps **prioritize or weight units**\
+-   R/tidymodels provides **reproducible workflow**\
+-   **Visualization is key** for interpretation
 
 ------------------------------------------------------------------------
 
@@ -548,6 +617,5 @@ rf_tuned <- tune_grid(
 
 -   James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). *An Introduction to Statistical Learning with Applications in R*. Springer. <https://www.statlearning.com>
 -   Kuhn, M., & Wickham, H. (2023). *tidymodels: Unified Interface for Modeling in R*. <https://www.tidymodels.org>
--   Pebesma, E. (2018). *Simple Features for R*. R Journal. <https://journal.r-project.org>
 -   R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. <https://www.R-project.org>
 -   Grolemund, G., Wickham, H. (2017). *R for Data Science*. <https://r4ds.had.co.nz>
