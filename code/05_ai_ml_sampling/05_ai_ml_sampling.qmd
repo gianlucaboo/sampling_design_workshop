@@ -619,3 +619,9 @@ rf_tuned <- tune_grid(
 -   Kuhn, M., & Wickham, H. (2023). *tidymodels: Unified Interface for Modeling in R*. <https://www.tidymodels.org>
 -   R Core Team. (2025). *R: A Language and Environment for Statistical Computing*. <https://www.R-project.org>
 -   Grolemund, G., Wickham, H. (2017). *R for Data Science*. <https://r4ds.had.co.nz>
+
+------------------------------------------------------------------------
+
+## Exercise
+
+Please download the R script with exercises from [GitHub](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/code/05_ai_ml_sampling/05_ai_ml_sampling_exercise.R) and try to complete it.

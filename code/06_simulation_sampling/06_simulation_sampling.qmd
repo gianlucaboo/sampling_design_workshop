@@ -1,8 +1,8 @@
 ---
 title: "Workshop on Advanced Sampling Methodologies"
-author: "Simulation and optimization of sampling"
+author: "Simulation and optimization of sampling strategies"
 institute: "Dr. Gianluca Boo, WorldPop, University of Southampton"
-date: "09-17-2025"
+date: "09-24-2025"
 title-slide-attributes:
   data-background-image: "wp.png"
   data-background-size: "3.2em"
@@ -14,255 +14,607 @@ format:
     theme: [default, wp_style.scss]
 editor: visual
 toc: false
-toc-title: "Content"
 ---
 
 ------------------------------------------------------------------------
 
-## Agenda 
+## Workshop's agenda
 
--   Sampling theory: design vs. model-based\
--   Simulation framework\
--   Optimization criteria\
--   Hands-on R exercises\
--   Results visualization\
--   Discussion & wrap-up
-
-------------------------------------------------------------------------
-
-## 3. Why Sampling Matters
-
--   Limited resources → cannot measure entire population\
--   Need efficient, unbiased, precise estimates\
--   Choice of design strongly affects inference
+-   **Day 1**: Introduction to QGIS
+-   **Day 2**: Automatic update of census EA and national sampling frame
+-   **Day 3**: Introduction to R programming
+-   **Day 4**: Introduction to Sampling Design
+-   **Day 5**: Advanced R programming
+-   **Day 6**: Earth observation (EO) for sampling design
+-   **Day 7**: AI and machine learning for sample selection
+-   **Day 8: Simulation and optimization of sampling strategies**
+-   **Day 9**: R Shiny for sampling design evaluation
+-   **Day 10**: Wrap-up and workshop evaluation
 
 ------------------------------------------------------------------------
 
-## 4. Common Sampling Strategies
+## Course materials
 
--   Simple Random Sampling (SRS)\
--   Stratified Sampling\
--   Cluster Sampling\
--   Model/ML-informed Sampling
-
-------------------------------------------------------------------------
-
-## 5. Theory: Two Paradigms
-
--   **Design-based inference**\
--   **Model-based inference**
+1.  Today's course materials are on **Github**: https://github.com/gianlucaboo/sampling_design_workshop
+2.  Click on **Day 8: Simulation and optimization of sampling strategies**
+3.  **Copy the url** and **paste it** on https://download-directory.github.io
+4.  Save the zipped directory on the workshop and unzip it
 
 ------------------------------------------------------------------------
 
-## 6. Design-based Inference
+## Today's agenda
 
--   Probability sampling\
--   Randomization ensures unbiasedness\
--   Variance estimated from design
-
-------------------------------------------------------------------------
-
-## 7. Model-based Inference
-
--   Assumes a stochastic model for population\
--   Efficiency from model assumptions\
--   Sensitive to misspecification
+-   Law of Large Numbers and Central Limit theorem
+-   Cochran's formula versus Monte Carlo simulation
+-   Sampling distributions, mean, standard error
+-   Design comparisons (SRS, stratified, cluster)
+-   Practical exercises
 
 ------------------------------------------------------------------------
 
-## 8. Monte Carlo Simulation
+## Sampling design optimization
 
--   Framework for repeated sampling\
--   Generate many replications\
--   Assess bias, variance, MSE
+Field surveys are expensive and require designs that are **accurate** and **efficient**. - A crucial parameter is **sample size**, which is generally computed using **Cochran’s formula**.\
+- Monte Carlo simulations let us evaluate expected performance offers a flexible alternative.
 
-------------------------------------------------------------------------
+The main **charachteristics of these two approaches** are summarised below:
 
-## 9. Simulation-based Evaluation
-
--   Flexible and transparent\
--   Compare competing designs\
--   Helps optimize under constraints
-
-------------------------------------------------------------------------
-
-## 10. Optimization Goals
-
--   **Minimize bias**\
--   **Minimize variance**\
--   **Control cost / feasibility**\
--   **Maximize precision**
+::: {#table-small style="font-size: 70%;"}
+|   | **Cochran’s Formula** | **Monte Carlo Simulation** |
+|-------------------|-------------------------|----------------------------|
+| **Purpose** | Quick sample size determination under SRS. | Evaluate performance under any sampling design. |
+| **Method** | Closed statistical formula. | Computational, repeat simulations. |
+| **Assumptions** | Simple random sampling. | Works with stratified, cluster, PPS, multi-stage designs. |
+| **Outputs** | Required sample size $n$. | Bias, variance, RMSE, CI, precision. |
+| **Complexity** | Simple to apply (pen-and-paper). | Requires coding and computational power. |
+| **Accuracy** | May fail for complex designs or small populations. | High fidelity as it mimics actual sampling process. |
+:::
 
 ------------------------------------------------------------------------
 
-## 11. Bias vs. Variance Tradeoff
+## Law of Large Numbers
 
--   Small sample → high variance\
--   Complex model → possible bias\
--   Simulation helps balance
+The **sample mean** ($\bar{X}_n$) of independent, identically distributed (i.i.d.) random variables ($X$) converges to the **population mean** ($\mu$) as the sample size ($n$) grows.
 
-------------------------------------------------------------------------
-
-## 12. Workflow
-
-1.  Generate synthetic population\
-2.  Define sampling schemes\
-3.  Draw repeated samples\
-4.  Estimate parameter\
-5.  Compute metrics
-
-------------------------------------------------------------------------
-
-## 13. Metrics
-
--   **Bias**\
--   **Variance**\
--   **Mean Squared Error (MSE)**\
--   **Design Effect (DEFF)**
-
-------------------------------------------------------------------------
-
-## 14. Practical Session
-
-We will use **R** to:\
-- Simulate a population\
-- Apply multiple sampling schemes\
-- Evaluate metrics
-
-------------------------------------------------------------------------
-
-## 15. R Setup
+$$
+\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i \;\;\; \longrightarrow \;\;\; \mu \quad \text{as } n \to \infty
+$$
 
 ```{r}
-set.seed(123)
-N <- 10000
-population <- data.frame(
-  id = 1:N,
-  x = rnorm(N, mean=50, sd=10),
-  strata = sample(1:4, N, replace=TRUE),
-  cluster = sample(1:200, N, replace=TRUE)
+#| echo: false
+#| eval: true
+
+library(tidyverse)
+set.seed(123)                    # reproducibility
+n <- 10000                       # total number of draws
+x <- runif(n, min = 0, max = 1)  # random draws from Uniform(0,1)
+
+true_mean <- 0.5                 # theoretical mean of U(0,1)
+
+# compute cumulative means
+cum_means <- cumsum(x) / (1:n)
+
+df <- data.frame(
+  n = 1:n,
+  cum_mean = cum_means
 )
-true_mean <- mean(population$x)
-true_mean
+
+# Plot convergence
+ggplot(df, aes(x = n, y = cum_mean)) +
+  geom_line(color = "blue") +
+  geom_hline(yintercept = true_mean, color = "red", linetype = "dashed", linewidth = 1) +
+  labs(
+    title = "Law of Large Numbers",
+    x = "Sample size (n)",
+    y = "Sample mean"
+  ) +
+  theme_minimal(base_size = 14)
 ```
 
 ------------------------------------------------------------------------
 
-## 16. Sampling Scheme: SRS
+## Law of Large Numbers in R
+
+The **Law of Large Numbers can be demonstrated in R**.
 
 ```{r}
-sample_srs <- function(pop, n=200) {
-  idx <- sample(pop$id, n)
-  pop[idx,]
-}
-```
+#| echo: true
+#| eval: false
 
-------------------------------------------------------------------------
+library(tidyverse)
+set.seed(123)                    # reproducibility
+n <- 10000                       # total number of draws
+x <- runif(n, min = 0, max = 1)  # random draws from Uniform(0,1)
 
-## 17. Sampling Scheme: Stratified
+true_mean <- 0.5                 # theoretical mean of U(0,1)
 
-```{r}
-sample_stratified <- function(pop, n=200) {
-  split <- split(pop, pop$strata)
-  sizes <- rep(n/length(split), length(split))
-  do.call(rbind, Map(function(df, size) df[sample(nrow(df), size),], split, sizes))
-}
-```
+# compute cumulative means
+cum_means <- cumsum(x) / (1:n)
 
-------------------------------------------------------------------------
-
-## 18. Sampling Scheme: Cluster
-
-```{r}
-sample_cluster <- function(pop, n_clusters=10) {
-  clusters <- sample(unique(pop$cluster), n_clusters)
-  subset(pop, cluster %in% clusters)
-}
-```
-
-------------------------------------------------------------------------
-
-## 19. Sampling Scheme: ML-informed
-
-```{r}
-## Assume probability proportional to x
-sample_ml <- function(pop, n=200) {
-  probs <- pop$x / sum(pop$x)
-  idx <- sample(pop$id, n, prob=probs)
-  pop[idx,]
-}
-```
-
-------------------------------------------------------------------------
-
-## 20. Simulation Function
-
-```{r}
-simulate_design <- function(sampler, B=500, pop=population) {
-  estimates <- replicate(B, {
-    samp <- sampler(pop)
-    mean(samp$x)
-  })
-  data.frame(
-    mean_est = mean(estimates),
-    bias = mean(estimates) - true_mean,
-    var = var(estimates),
-    mse = mean((estimates - true_mean)^2)
-  )
-}
-```
-
-------------------------------------------------------------------------
-
-## 21. Run Simulations
-
-```{r}
-results <- rbind(
-  cbind(design="SRS", simulate_design(sample_srs)),
-  cbind(design="Stratified", simulate_design(sample_stratified)),
-  cbind(design="Cluster", simulate_design(sample_cluster)),
-  cbind(design="ML-informed", simulate_design(sample_ml))
+df <- data.frame(
+  n = 1:n,
+  cum_mean = cum_means
 )
-results
+
+# Plot convergence
+ggplot(df, aes(x = n, y = cum_mean)) +
+  geom_line(color = "blue") +
+  geom_hline(yintercept = true_mean, color = "red", linetype = "dashed", linewidth = 1) +
+  labs(
+    title = "Law of Large Numbers",
+    x = "Sample size (n)",
+    y = "Sample mean"
+  ) +
+  theme_minimal(base_size = 14)
 ```
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## 22. Design Effect
+## Central Limit theorem
 
-```{r}
-results$deff <- results$var / results$var[results$design=="SRS"]
-results
-```
+The distribution of the **sample mean** approaches a **normal distribution** as the sample size ($n$) increases, regardless of the population distribution.
 
-------------------------------------------------------------------------
-
-## 23. Visualization
+$$
+\sqrt{n}\left(\bar{X}_n - \mu\right) \;\;\; \overset{d}{\longrightarrow} \;\;\; \mathcal{N}(0, \sigma^2)
+$$
 
 ```{r}
 library(ggplot2)
-ggplot(results, aes(x=design, y=mse, fill=design)) +
-  geom_col() +
-  theme_minimal() +
-  labs(title="MSE by Sampling Design")
+
+set.seed(123)
+
+# Parameters
+n <- 30              # sample size per experiment
+n_sim <- 5000        # number of simulations
+
+# Repeat experiments: sample from Uniform(0,1), compute sample mean
+means <- replicate(n_sim, mean(runif(n, 0, 1)))
+
+df_means <- data.frame(sample_mean = means)
+
+true_mean <- 0.5
+true_sd <- 1 / sqrt(12)           # SD of U(0,1)
+se <- true_sd / sqrt(n)           # standard error of sample mean
+
+# Plot distribution of sample means
+ggplot(df_means, aes(x = sample_mean)) +
+  geom_histogram(aes(y = ..density..), bins = 40,
+                 fill = "skyblue", color = "white", alpha = 0.7) +
+  stat_function(fun = dnorm,
+                args = list(mean = true_mean, sd = se),
+                color = "red", size = 1.2) +
+  labs(
+    title = "Central Limit Theorem",
+    x = "Sample mean (n = 30)",
+    y = "Density"
+  ) +
+  theme_minimal(base_size = 14)
 ```
 
 ------------------------------------------------------------------------
 
-## 24. Discussion
+## Central Limit theorem in R
 
--   Trade-offs between designs\
--   Stratification often reduces variance\
--   Clustering may inflate variance\
--   ML-informed designs depend on model accuracy
+Again, the **Central Limit theorem can be demonstrated in R**.
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(ggplot2)
+
+set.seed(123)
+
+# Parameters
+n <- 30              # sample size per experiment
+n_sim <- 5000        # number of simulations
+
+# Repeat experiments: sample from Uniform(0,1), compute sample mean
+means <- replicate(n_sim, mean(runif(n, 0, 1)))
+
+df_means <- data.frame(sample_mean = means)
+
+true_mean <- 0.5
+true_sd <- 1 / sqrt(12)           # SD of U(0,1)
+se <- true_sd / sqrt(n)           # standard error of sample mean
+
+# Plot distribution of sample means
+ggplot(df_means, aes(x = sample_mean)) +
+  geom_histogram(aes(y = ..density..), bins = 40,
+                 fill = "skyblue", color = "white", alpha = 0.7) +
+  stat_function(fun = dnorm,
+                args = list(mean = true_mean, sd = se),
+                color = "red", size = 1.2) +
+  labs(
+    title = "Central Limit Theorem",
+    x = "Sample mean (n = 30)",
+    y = "Density"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+ℹ️ Try to run the code in your Script Editor.
 
 ------------------------------------------------------------------------
 
-## 25. Wrap-up
+## Monte Carlo simulation
 
--   Simulation is powerful for evaluation\
--   Optimization balances bias, variance, cost\
--   R provides flexible tools\
--   Next: Apply to real-world datasets
+A Monte Carlo simulation involves **repeated random sampling** from a known population model to approximate the **sampling distribution of estimators**.
+
+![Monte Carlo simulation workflow (source: Lumina)](img/montecarlo_diagram.jpg){fig-align="left"}
 
 ------------------------------------------------------------------------
+
+## Monte Carlo simulation
+
+Monte Carlo simulations can be **evaulated using different metrics** depending on the purpose of the analysis. The most common metrics are:
+
+-   **Bias** = average(estimate) - true value\
+-   **Variance** = Var(estimate)\
+-   **RMSE** = sqrt(Bias\^2 + Variance)\
+-   **Empirical SE** = sd(estimate)\
+-   **Coverage** of nominal 95% CI = proportion of reps where CI contains true value\
+
+ℹ️ These parametric metrics can be complemented by non-parametric statistics, such as the **Empirical Cumlative Distribution function** (ECDF) and the **Kologomorov-Smirnov** statistics (see Boo et al. 2021).
+
+------------------------------------------------------------------------
+
+## Monte Carlo simulation in R
+
+A Monte Carlo simulation demonstration in R for **simple random sampling** with sample size `n=30`.
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(ggplot2)
+
+set.seed(123)
+
+# Population model: X ~ Normal(μ=5, σ=2)
+mu <- 5
+sigma <- 2
+
+n <- 30        # sample size
+R <- 2000      # number of Monte Carlo replicates
+
+# Monte Carlo loop: compute sample mean each time
+means <- replicate(R, mean(rnorm(n, mean = mu, sd = sigma)))
+
+df <- data.frame(estimates = means)
+
+# Plot the distribution of sample mean estimates
+ggplot(df, aes(x = estimates)) +
+  geom_histogram(aes(y = ..density..), bins = 30,
+                 fill = "skyblue", color = "white", alpha = 0.7) +
+  geom_vline(xintercept = mu, color = "red", linetype = "dashed", size = 1) +
+  labs(
+    title = "Monte Carlo Simulation: Sample Mean Estimator",
+    x = "Estimated mean",
+    y = "Density"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Monte Carlo simulation in R
+
+A Monte Carlo simulation for different sample size assessing the **empirical Standard Error of the estimator** for each replicate, assuming that $SE(\bar{\mu}) \;\approx\; \sqrt{\text{Var}(\bar{\mu})} \;=\; \frac{\sigma}{\sqrt{n}}$.
+
+```{r}
+#| echo: true
+#| eval: false
+library(ggplot2); library(dplyr)
+
+set.seed(123)
+
+mu <- 5
+sigma <- 2
+R <- 2000                        # number of Monte Carlo replicates
+sample_sizes <- c(1:100)   # try different n
+
+# Run Monte Carlo for each sample size
+results <- lapply(sample_sizes, function(n) {
+  means <- replicate(R, mean(rnorm(n, mean = mu, sd = sigma)))
+  data.frame(
+    n = n,
+    mean_est = mean(means),
+    se_empirical = sd(means)   # empirical standard error
+  )
+}) |> bind_rows()
+
+# Plot standard error against sample size
+ggplot(results, aes(x = n, y = se_empirical)) +
+  geom_line(color = "steelblue", size = 1.2) +
+  geom_point(color = "darkblue", size = 1) +
+  geom_line(aes(y = sigma/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(
+    title = "Monte Carlo Simulation: Precision vs Sample Size",
+    x = "Sample Size (n)",
+    y = "Empirical Standard Error of Sample Mean"
+  ) +
+  theme_minimal(base_size = 14)
+
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+## Monte Carlo simulation in R
+
+A Monte Carlo simulation for different sample size assessing the **95% CI coverage using** $\text{CI}_{0.95} \;=\; \bar{X} \;\pm\; z_{0.975} \cdot \frac{s}{\sqrt{n}}$ for each replicate, with $\text{CI}_{0.95} \;\approx\; 1.96$ for a 95% CI.
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(dplyr); library(ggplot2)
+
+set.seed(123)
+
+mu <- 5
+sigma <- 2
+R <- 2000
+sample_sizes <- 1:100
+
+results <- lapply(sample_sizes, function(n) {
+  coverages <- replicate(R, {
+    samp <- rnorm(n, mean = mu, sd = sigma)
+    xbar <- mean(samp)
+    s <- sd(samp)
+    se <- s / sqrt(n)
+    
+    # 95% CI using normal approximation
+    lower <- xbar - 1.96 * se
+    upper <- xbar + 1.96 * se
+    
+    (lower <= mu & mu <= upper)  # TRUE if CI covers true mean
+  })
+  
+  data.frame(
+    n = n,
+    coverage = mean(coverages),
+    se_empirical = sigma / sqrt(n)   # theoretical SE for reference
+  )
+}) |> bind_rows()
+
+# Plot coverage
+ggplot(results, aes(x = n, y = coverage)) +
+  geom_line(color = "darkgreen", size = 1.2) +
+  geom_hline(yintercept = 0.95, color = "red", linetype = "dashed") +
+  labs(
+    title = "Monte Carlo Simulation: CI Coverage vs Sample Size",
+    x = "Sample Size (n)",
+    y = "Coverage Probability"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Monte Carlo simulation in R
+
+For **stratified sampling**, the population is divided in **three strata**. Two allocation rules are tested: **proportional** and **Neyman** (stratum size × stratum standard deviation).
+
+```{r}
+#| echo: true
+#| eval: true
+
+library(dplyr); library(purrr); library(tibble)
+set.seed(1)                  # Fix random seed for reproducibility
+R <- 1000                    # Number of Monte Carlo replicates
+N_h <- c(4000,3000,3000)     # Stratum population sizes (3 strata)
+H <- length(N_h)             # Number of strata
+N <- sum(N_h)                # Total population size
+
+# Create artificial stratified population. Each unit belongs to a stratum h = 1, 2, or 3. Each stratum has its own mean and standard deviation
+pop <- tibble(h = rep(1:H, times = N_h)) %>%
+  mutate(y = case_when(
+    h==1 ~ rnorm(n(), 50, 10),   # Stratum 1: mean = 50, sd = 10
+    h==2 ~ rnorm(n(), 60, 20),   # Stratum 2: mean = 60, sd = 20
+    h==3 ~ rnorm(n(), 55, 12)    # Stratum 3: mean = 55, sd = 12
+  ))
+
+true_mean <- mean(pop$y)     # True population mean across all strata
+
+#Define simulation function 
+simulate_alloc <- function(allocation = "prop", n = 600){
+  W_h <- N_h / N             # Stratum weights (population proportions)
+  
+  # ---- Sample size allocation ----
+  if(allocation=="prop") 
+    n_h <- round(n * W_h)    # Proportional allocation: n_h ∝ N_h
+  
+  if(allocation=="neyman"){
+    # Neyman allocation: n_h ∝ N_h * sigma_h
+    s_h <- pop %>% group_by(h) %>% summarise(s = sd(y)) %>% pull(s)
+    n_h <- round(n * (N_h * s_h)/sum(N_h * s_h))
+  }
+  
+  # ---- Step 3: Monte Carlo loop ----
+  res <- map_dfr(1:R, function(i) {
+    #  Stratified sample: correct stratum-specific sample sizes
+    samp <- pop %>%
+      split(pop$h) %>%
+      map2(n_h, ~ slice_sample(.x, n = .y)) %>%
+      bind_rows()
+    
+    # Stratified mean estimator
+    ybar_st <- samp %>% 
+      group_by(h) %>%
+      summarise(m = mean(y)) %>%
+      ungroup() %>%
+      mutate(W = N_h / N,
+             ybar_st = m* W) %>%
+      pull(ybar_st)
+    
+    tibble(ybar = ybar_st)   # Return one estimate per replicate
+  })
+  
+  res  # Return all Monte Carlo estimates
+}
+
+# Run simulations for both allocation rules
+res_prop   <- simulate_alloc("prop")     # Proportional allocation
+res_neyman <- simulate_alloc("neyman")   # Neyman allocation
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Monte Carlo simulation in R
+
+It is useful to create **functions replicating different sampling designs**, with **arguments representing the sampling parameters**. These can then be tested through extensive simulations.
+
+```{r}
+#| echo: true
+#| eval: false
+library(purrr)
+
+res_prop <-  
+c(1000:1005) %>% # sample size from 200 to 250
+map(function(i) {
+sim <- simulate_alloc("prop", n=i) 
+
+data.frame(
+  type = "alloc",
+  n=i,
+  mean=mean(sim$ybar),
+  se=sd(sim$ybar)
+)}
+) %>%
+list_rbind()
+
+# Standard error vs sample size
+ggplot(res_prop, aes(x = n, y = se)) +
+  geom_line(color = "steelblue", linewidth = 1.2) +
+  geom_point(color = "steelblue") +
+  labs(
+    title = "Monte Carlo: Precision of Stratified Estimator",
+    x = "Sample size (n)",
+    y = "Standard Error of ȳ"
+  ) +
+  theme_minimal(base_size = 14)
+
+# Estimated vs true value
+ggplot(res_prop, aes(x = n, y = mean_est)) +
+  geom_line(color = "darkgreen", linewidth = 1.2) +
+  geom_hline(yintercept = true_mean, color = "red", linetype = "dashed") +
+  labs(
+    title = "Monte Carlo: Mean Estimate vs True Mean",
+    x = "Sample size (n)",
+    y = "Estimated mean"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Parallel computation in R
+
+Monte Carlo simulations require **many independent replicates**,each typically running independently. Parallel computation **reduce computation time** significantly using multi-core CPUs or HPC.
+
+```{r}
+#| echo: true
+#| eval: false
+library(furrr)
+
+set.seed(123)   # master seed
+
+plan(multisession, workers = 4)  # use 4 cores increase speed ~x4
+
+res_prop <-  
+c(1000:1005) %>% # sample size from 200 to 250
+future_map(function(i) {
+sim <- simulate_alloc("prop", n=i) 
+
+data.frame(
+  type = "alloc",
+  n=i,
+  mean=mean(sim$ybar),
+  se=sd(sim$ybar)
+)},
+.options = furrr_options(seed = TRUE) 
+) %>%
+list_rbind()
+
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Parallel computation in R
+
+Parallel computation should be **used carefully** because a wrong set up can severely impact performance. Key elements to consider are:
+
+**Choice of packages**
+
+-   `parallel` (base R, `mclapply`, `parLapply`)
+-   `foreach` + `%dopar%` (flexible backends, e.g. `doParallel`)
+-   `future` + `furrr` (tidyverse-friendly, reproducible)
+
+**Number of cores**
+
+-   Detect with `parallel::detectCores()` or `future::availableCores()`
+-   Often safer to use *N–1* cores to leave resources for system tasks
+
+**Simulation size**
+
+-   Larger `R` (replicates) benefits more from parallelisation
+-   Small tasks may not offset communication overhead
+
+------------------------------------------------------------------------
+
+## Parallel computation in R
+
+**Computation time**
+
+-   Use timing tools to compare sequential vs parallel using the library `tictoc`
+
+**Reproducibility**
+
+-   Always control random number generation
+-   `set.seed(123)` for sequential
+-   `.options = furrr_options(seed = TRUE)` for `furrr`
+
+**Scalability**
+
+-   Performance depends on hardware and task complexity.\
+-   Benchmark before running very large simulations
+
+------------------------------------------------------------------------
+
+## Take home
+
+-   **Cochran’s formula is quick but limited** as efficient for simple random sampling but less accurate for complex designs.
+-   **Monte Carlo simulations are flexible** and allow evaluation of any sampling design (stratified, cluster, PPS, multi-stage).
+-   **Law of Large Numbers and CLT** ensure sample means converge to population means and approximate normality for inference.
+-   **Optimization is crucial** to balance precision and cost through allocation strategies (e.g., proportional vs. Neyman).
+-   **Parallel computing accelerates research** but reproducibility, number of cores, and simulation size must be carefully managed.
+
+------------------------------------------------------------------------
+
+## Resources
+
+-   Cochran, W. G. (1977). *Sampling Techniques* (3rd ed.). Wiley.\
+-   Lohr, S. (2019). *Sampling: Design and Analysis* (2nd ed.). CRC Press.\
+-   Boo, G., et al. (2021). A grid-based sample design framework for household surveys. *Gates Open Research*. https://doi.org/10.12688/gatesopenres.13107.1\
+-   Metropolis, N., & Ulam, S. (1949). The Monte Carlo method. *Journal of the American Statistical Association*, 44(247), 335–341. https://doi.org/10.1080/01621459.1949.10483310\
+-   McCallum, A. (2012). *Parallel R: Data Analysis in the Distributed World*. O’Reilly Media.\
+-   Vaughan, D., & Dancho, M. (2024). *furrr: Apply Mapping Functions in Parallel using Futures*. https://furrr.futureverse.org
+
+------------------------------------------------------------------------
+
+## Exercise
+
+Please download the R script with exercises from [GitHub](https://github.com/gianlucaboo/sampling_design_workshop/blob/main/code/06_simulation_sampling/06_simulation_sampling_exercise.R) and try to complete it.
