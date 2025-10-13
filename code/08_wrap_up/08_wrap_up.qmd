@@ -18,7 +18,8 @@ toc: false
 
 ## Agenda
 
-::: incremental
+<div>
+
 -   **Day 1**: Introduction to QGIS
 -   **Day 2**: Automatic update of census EA and national sampling frame
 -   **Day 3**: Introduction to R programming
@@ -29,24 +30,28 @@ toc: false
 -   **Day 8**: Simulation and optimization of sampling strategies
 -   **Day 9**: R Shiny for sampling design evaluation
 -   **Day 10: Wrap-up and workshop evaluation**
-:::
+
+</div>
 
 ## Workshop
 
 #### Objectives
 
-::: incremental
+<div>
+
 -   Strengthen **geospatial and sampling** capacity of Pakistan Bureau of Statistics (PBS).
 -   Introduce AI-assisted sampling to **improve efficiency, representativeness, and inclusivity**.
 -   Align **methods with Government priorities** and international standards for comparability.
 -   Enhance **policy relevance of PDHS data** and enable cross-country analysis.
-:::
+
+</div>
 
 ## Workshop
 
 #### Topics
 
-::: incremental
+<div>
+
 -   Foundations of **survey sampling** theory and practice. ✅
 -   **Geospatial data** processing and updating census/sampling frames. ✅
 -   Use of **Earth Observation (EO)** data for spatial stratification. ✅
@@ -55,7 +60,8 @@ toc: false
 -   Development of R Shiny applications to **evaluate and visualize sampling designs**. ✅
 -   Hands-on practice with **survey analysis software** and calibration techniques. ✅
 -   Addressing **cost-effectiveness and nonresponse** adjustments in survey design. 🛑
-:::
+
+</div>
 
 ## Workshop
 
@@ -69,6 +75,5 @@ toc: false
 :::
 
 ## Course materials
-
 
 ## Let's get started!

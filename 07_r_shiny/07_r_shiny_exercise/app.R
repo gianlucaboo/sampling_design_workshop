@@ -1,5 +1,5 @@
 # ===============================================
-# Elevation Clustering Explorer (Shiny App)
+# population Clustering Explorer (Shiny App)
 # With Leaflet Mapping, Clustering, and Styling
 # ===============================================
 
@@ -18,57 +18,58 @@ library(plotly)     # Interactive scatterplots
 # Read administrative boundaries (level 3) from shapefile
 admin3 <- st_read("data/pak_adm_wfp_20220909_shp/pak_admbnda_adm3_wfp_20220909.shp")
 
-# Read elevation raster
-elevation <- rast("data/pak_elevation_merit103_10km_v1.tif")
+# Read population raster
+population <- rast("data/pak_pop_2025_CN_100m_R2025A_v1.tif")
 
-# Compute mean elevation per admin3 polygon
-elevation_mean <- elevation |>
+# Compute mean population per admin3 polygon
+population_mean <- population |>
   terra::extract(admin3, fun = mean, na.rm = TRUE) |>
-  select(elevation_mean = elevation_merit103_100m_v1)
+  select(population_mean = pak_pop_2025_CN_100m_R2025A_v1)
 
-# Compute SD of elevation per admin3 polygon
-elevation_sd <- elevation |>
+# Compute SD of population per admin3 polygon
+population_sd <- population |>
   terra::extract(admin3, fun = sd, na.rm = TRUE) |>
-  select(elevation_sd = elevation_merit103_100m_v1)
+  select(population_sd = pak_pop_2025_CN_100m_R2025A_v1)
 
-# Combine shapefile + elevation statistics into one sf object
-admin3_elevation <- elevation_mean |>
-  cbind(elevation_sd) |>
+# Combine shapefile + population statistics into one sf object
+admin3_population <- population_mean |>
+  cbind(population_sd) |>
   cbind(admin3) |>
   dplyr::select(
-    adm_1 = ADM3_EN,  # Admin 1 name
+    adm_3 = ADM3_EN,  # Admin 1 name
     adm_2 = ADM2_EN,  # Admin 2 name
-    adm_3 = ADM1_EN,  # Admin 3 name
-    elevation_mean,   # Mean elevation
-    elevation_sd,     # Elevation standard deviation
+    adm_1 = ADM1_EN,  # Admin 3 name
+    population_mean,   # Mean population
+    population_sd,     # population standard deviation
     geometry          # Spatial geometry
   ) |>
   dplyr::filter(!if_any(where(is.numeric), is.nan)) |>  # Remove rows with NaN
   st_as_sf()  # Ensure object is an sf object
 
 # Clean up intermediate objects
-rm(elevation_mean, elevation_sd, admin3, elevation)
+rm(population_mean, population_sd, admin3, population)
 
 # ---- Define UI ----
 ui <- page_fluid(  # Use bslib’s page_fluid for slick design
-  theme = bs_theme(bootswatch = "cosmo"),  # Choose a bootswatch theme (Cosmo)
+  theme = bs_theme(bootswatch = "darkly"),  # Choose a bootswatch theme (Cosmo)
   
-  titlePanel("🌍 Elevation Clustering Explorer"),  # Title with emoji for style
+  titlePanel(textOutput("title_text")),  # Title with emoji for style
   
   sidebarLayout(
     # ---- Sidebar Panel ----
     sidebarPanel(
       wellPanel(
-        HTML("This app groups administrative areas into clusters based on their elevation characteristics.
+        HTML("This app groups administrative areas into clusters based on their population characteristics.
              You can adjust the number of clusters, view the results on an interactive map, 
-             explore the relationship between mean elevation and variability, 
+             explore the relationship between mean population and variability, 
              and inspect the data in table form.<br>Please do explore the logic behind this app.")
       ),
       tags$br(),
       # Number of clusters input
-      sliderInput(
+      textInput("title", "", value="🌍 population Clustering Explorer"),
+      radioButtons(
         "clusters", "Number of Clusters:",
-        min = 2, max = 5, value = 3, step = 1
+        choices=c(1:9), selected = 3
       ),
       
       # Action button to run clustering
@@ -92,17 +93,19 @@ server <- function(input, output, session) {
   # Reactive expression for clustering results
   clust_results <- eventReactive(input$runClust, {
     
-    # Drop geometry for clustering (numeric variables only)
-    df <- admin3_elevation |> st_drop_geometry()
+    output$title_text <- renderText({input$title})
     
-    # Perform K-means clustering on elevation mean & SD
-    kmod <- kmeans(df |> select(elevation_mean, elevation_sd), centers = input$clusters)
+    # Drop geometry for clustering (numeric variables only)
+    df <- admin3_population |> st_drop_geometry()
+    
+    # Perform K-means clustering on population mean & SD
+    kmod <- kmeans(df |> select(population_mean, population_sd), centers = input$clusters)
     
     # Add cluster results back to the spatial dataset
-    admin3_elevation$cluster <- as.factor(kmod$cluster)
+    admin3_population$cluster <- as.factor(kmod$cluster)
     
     # Return both raw dataframe & spatial object
-    list(df = df, shp = admin3_elevation)
+    list(df = df, shp = admin3_population)
   })
   
   # ---- Leaflet Map Output ----
@@ -146,17 +149,17 @@ server <- function(input, output, session) {
     req(clust_results())
     shp <- clust_results()$shp |> st_drop_geometry()
     
-    # Interactive scatterplot of elevation mean vs SD
+    # Interactive scatterplot of population mean vs SD
     plot_ly(
-      shp, x = ~elevation_mean, y = ~elevation_sd,
+      shp, x = ~population_mean, y = ~population_sd,
       color = ~cluster, type = "scatter", mode = "markers",
       marker = list(size = 10, opacity = 0.7, line = list(width = 1, color = "black")),
       text = ~paste(adm_1, adm_2, adm_3)
     ) |>
       layout(
-        title = "Elevation Mean vs SD by Cluster",
-        xaxis = list(title = "Mean Elevation"),
-        yaxis = list(title = "Elevation SD")
+        title = "population Mean vs SD by Cluster",
+        xaxis = list(title = "Mean population"),
+        yaxis = list(title = "population SD")
       )
   })
   

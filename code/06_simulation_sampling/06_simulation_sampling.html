@@ -568,10 +568,10 @@ Simulation and optimization of sampling strategies
 <span id="cb6-40"><a href=""></a>    <span class="co"># Stratified mean estimator</span></span>
 <span id="cb6-41"><a href=""></a>    ybar_st <span class="ot">&lt;-</span> samp <span class="sc">%&gt;%</span> </span>
 <span id="cb6-42"><a href=""></a>      <span class="fu">group_by</span>(h) <span class="sc">%&gt;%</span></span>
-<span id="cb6-43"><a href=""></a>      <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(y)) <span class="sc">%&gt;%</span></span>
-<span id="cb6-44"><a href=""></a>      <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb6-45"><a href=""></a>      <span class="fu">mutate</span>(<span class="at">W =</span> N_h <span class="sc">/</span> N,</span>
-<span id="cb6-46"><a href=""></a>             <span class="at">ybar_st =</span> m<span class="sc">*</span> W) <span class="sc">%&gt;%</span></span>
+<span id="cb6-43"><a href=""></a>      <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(y), <span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-44"><a href=""></a>      <span class="fu">mutate</span>(<span class="at">W =</span> N_h <span class="sc">/</span> N,</span>
+<span id="cb6-45"><a href=""></a>             <span class="at">contrib =</span> m <span class="sc">*</span> W) <span class="sc">%&gt;%</span></span>
+<span id="cb6-46"><a href=""></a>      <span class="fu">summarise</span>(<span class="at">ybar_st =</span> <span class="fu">sum</span>(contrib)) <span class="sc">%&gt;%</span></span>
 <span id="cb6-47"><a href=""></a>      <span class="fu">pull</span>(ybar_st)</span>
 <span id="cb6-48"><a href=""></a>    </span>
 <span id="cb6-49"><a href=""></a>    <span class="fu">tibble</span>(<span class="at">ybar =</span> ybar_st)   <span class="co"># Return one estimate per replicate</span></span>
@@ -586,47 +586,115 @@ Simulation and optimization of sampling strategies
 </div>
 <p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
+<section id="stratified-weighted-sampling" class="slide level2">
+<h2>Stratified weighted sampling</h2>
+<p>For <strong>stratified weighted sampling</strong>, the population is divided in <strong>three strata</strong> ( <strong>proportional</strong> and <strong>Neyman</strong> allocation) and sampled proportionnaly to weigth.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">library</span>(dplyr); <span class="fu">library</span>(purrr); <span class="fu">library</span>(tibble)</span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a></span>
+<span id="cb7-4"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb7-5"><a href=""></a>R <span class="ot">&lt;-</span> <span class="dv">1000</span>                    <span class="co"># Number of Monte Carlo replicates</span></span>
+<span id="cb7-6"><a href=""></a>N_h <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4000</span>, <span class="dv">3000</span>, <span class="dv">3000</span>)   <span class="co"># Stratum population sizes</span></span>
+<span id="cb7-7"><a href=""></a>H <span class="ot">&lt;-</span> <span class="fu">length</span>(N_h)</span>
+<span id="cb7-8"><a href=""></a>N <span class="ot">&lt;-</span> <span class="fu">sum</span>(N_h)</span>
+<span id="cb7-9"><a href=""></a></span>
+<span id="cb7-10"><a href=""></a><span class="co"># ---- Artificial stratified population ----</span></span>
+<span id="cb7-11"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">h =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>H, <span class="at">times =</span> N_h)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-13"><a href=""></a>    h <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">50</span>, <span class="dv">10</span>),</span>
+<span id="cb7-14"><a href=""></a>    h <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">60</span>, <span class="dv">20</span>),</span>
+<span id="cb7-15"><a href=""></a>    h <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">55</span>, <span class="dv">12</span>)</span>
+<span id="cb7-16"><a href=""></a>  ),</span>
+<span id="cb7-17"><a href=""></a>  <span class="co"># Example of auxiliary weights: could be size, income, etc.</span></span>
+<span id="cb7-18"><a href=""></a>  <span class="at">w_aux =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-19"><a href=""></a>    h <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="fu">runif</span>(<span class="fu">n</span>(), <span class="dv">1</span>, <span class="dv">3</span>),</span>
+<span id="cb7-20"><a href=""></a>    h <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="fu">runif</span>(<span class="fu">n</span>(), <span class="dv">2</span>, <span class="dv">5</span>),</span>
+<span id="cb7-21"><a href=""></a>    h <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="fu">runif</span>(<span class="fu">n</span>(), <span class="fl">0.5</span>, <span class="dv">2</span>)</span>
+<span id="cb7-22"><a href=""></a>  ))</span>
+<span id="cb7-23"><a href=""></a></span>
+<span id="cb7-24"><a href=""></a>true_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(pop<span class="sc">$</span>y)</span>
+<span id="cb7-25"><a href=""></a></span>
+<span id="cb7-26"><a href=""></a><span class="co"># ---- Simulation function ----</span></span>
+<span id="cb7-27"><a href=""></a>simulate_alloc_weighted <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">allocation =</span> <span class="st">"prop"</span>, <span class="at">n =</span> <span class="dv">600</span>){</span>
+<span id="cb7-28"><a href=""></a>  W_h <span class="ot">&lt;-</span> N_h <span class="sc">/</span> N   <span class="co"># Stratum weights</span></span>
+<span id="cb7-29"><a href=""></a>  </span>
+<span id="cb7-30"><a href=""></a>  <span class="co"># --- Step 1: Sample size allocation ---</span></span>
+<span id="cb7-31"><a href=""></a>  <span class="cf">if</span>(allocation <span class="sc">==</span> <span class="st">"prop"</span>){</span>
+<span id="cb7-32"><a href=""></a>    n_h <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> W_h)</span>
+<span id="cb7-33"><a href=""></a>  }</span>
+<span id="cb7-34"><a href=""></a>  <span class="cf">if</span>(allocation <span class="sc">==</span> <span class="st">"neyman"</span>){</span>
+<span id="cb7-35"><a href=""></a>    s_h <span class="ot">&lt;-</span> pop <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(h) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">s =</span> <span class="fu">sd</span>(y)) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(s)</span>
+<span id="cb7-36"><a href=""></a>    n_h <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (N_h <span class="sc">*</span> s_h) <span class="sc">/</span> <span class="fu">sum</span>(N_h <span class="sc">*</span> s_h))</span>
+<span id="cb7-37"><a href=""></a>  }</span>
+<span id="cb7-38"><a href=""></a>  </span>
+<span id="cb7-39"><a href=""></a>  <span class="co"># --- Step 2: Monte Carlo loop ---</span></span>
+<span id="cb7-40"><a href=""></a>  res <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(<span class="dv">1</span><span class="sc">:</span>R, <span class="cf">function</span>(i){</span>
+<span id="cb7-41"><a href=""></a>    <span class="co"># Weighted stratified sample (PPS by w_aux within stratum)</span></span>
+<span id="cb7-42"><a href=""></a>    samp <span class="ot">&lt;-</span> pop <span class="sc">%&gt;%</span></span>
+<span id="cb7-43"><a href=""></a>      <span class="fu">split</span>(.<span class="sc">$</span>h) <span class="sc">%&gt;%</span></span>
+<span id="cb7-44"><a href=""></a>      <span class="fu">map2</span>(n_h, <span class="sc">~</span> <span class="fu">slice_sample</span>(.x, <span class="at">n =</span> .y, <span class="at">weight_by =</span> .x<span class="sc">$</span>w_aux)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-45"><a href=""></a>      <span class="fu">bind_rows</span>()</span>
+<span id="cb7-46"><a href=""></a>    </span>
+<span id="cb7-47"><a href=""></a>    <span class="co"># Correct PPS inclusion probabilities and design weights</span></span>
+<span id="cb7-48"><a href=""></a>    samp <span class="ot">&lt;-</span> samp <span class="sc">%&gt;%</span></span>
+<span id="cb7-49"><a href=""></a>      <span class="fu">group_by</span>(h) <span class="sc">%&gt;%</span></span>
+<span id="cb7-50"><a href=""></a>      <span class="fu">mutate</span>(<span class="at">pi =</span> n_h[h] <span class="sc">*</span> w_aux <span class="sc">/</span> <span class="fu">sum</span>(w_aux),   <span class="co"># PPS π_i</span></span>
+<span id="cb7-51"><a href=""></a>             <span class="at">d  =</span> <span class="dv">1</span> <span class="sc">/</span> pi) <span class="sc">%&gt;%</span>                   <span class="co"># HT weight</span></span>
+<span id="cb7-52"><a href=""></a>      <span class="fu">ungroup</span>()</span>
+<span id="cb7-53"><a href=""></a>    </span>
+<span id="cb7-54"><a href=""></a>    <span class="co"># Horvitz–Thompson mean</span></span>
+<span id="cb7-55"><a href=""></a>    ybar_ht <span class="ot">&lt;-</span> <span class="fu">sum</span>(samp<span class="sc">$</span>y <span class="sc">*</span> samp<span class="sc">$</span>d) <span class="sc">/</span> <span class="fu">sum</span>(samp<span class="sc">$</span>d)</span>
+<span id="cb7-56"><a href=""></a>    </span>
+<span id="cb7-57"><a href=""></a>    <span class="fu">tibble</span>(<span class="at">ybar =</span> ybar_ht)</span>
+<span id="cb7-58"><a href=""></a>  })</span>
+<span id="cb7-59"><a href=""></a>  </span>
+<span id="cb7-60"><a href=""></a>  res</span>
+<span id="cb7-61"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>ℹ️ Try to run the code in your Script Editor.</p>
+</section>
 <section id="monte-carlo-simulation-in-r-4" class="slide level2">
 <h2>Monte Carlo simulation in R</h2>
 <p>It is useful to create <strong>functions replicating different sampling designs</strong>, with <strong>arguments representing the sampling parameters</strong>. These can then be tested through extensive simulations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">library</span>(purrr)</span>
-<span id="cb7-2"><a href=""></a></span>
-<span id="cb7-3"><a href=""></a>res_prop <span class="ot">&lt;-</span>  </span>
-<span id="cb7-4"><a href=""></a><span class="fu">c</span>(<span class="dv">1000</span><span class="sc">:</span><span class="dv">1005</span>) <span class="sc">%&gt;%</span> <span class="co"># sample size from 200 to 250</span></span>
-<span id="cb7-5"><a href=""></a><span class="fu">map</span>(<span class="cf">function</span>(i) {</span>
-<span id="cb7-6"><a href=""></a>sim <span class="ot">&lt;-</span> <span class="fu">simulate_alloc</span>(<span class="st">"prop"</span>, <span class="at">n=</span>i) </span>
-<span id="cb7-7"><a href=""></a></span>
-<span id="cb7-8"><a href=""></a><span class="fu">data.frame</span>(</span>
-<span id="cb7-9"><a href=""></a>  <span class="at">type =</span> <span class="st">"alloc"</span>,</span>
-<span id="cb7-10"><a href=""></a>  <span class="at">n=</span>i,</span>
-<span id="cb7-11"><a href=""></a>  <span class="at">mean=</span><span class="fu">mean</span>(sim<span class="sc">$</span>ybar),</span>
-<span id="cb7-12"><a href=""></a>  <span class="at">se=</span><span class="fu">sd</span>(sim<span class="sc">$</span>ybar)</span>
-<span id="cb7-13"><a href=""></a>)}</span>
-<span id="cb7-14"><a href=""></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-15"><a href=""></a><span class="fu">list_rbind</span>()</span>
-<span id="cb7-16"><a href=""></a></span>
-<span id="cb7-17"><a href=""></a><span class="co"># Standard error vs sample size</span></span>
-<span id="cb7-18"><a href=""></a><span class="fu">ggplot</span>(res_prop, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> se)) <span class="sc">+</span></span>
-<span id="cb7-19"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb7-20"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb7-21"><a href=""></a>  <span class="fu">labs</span>(</span>
-<span id="cb7-22"><a href=""></a>    <span class="at">title =</span> <span class="st">"Monte Carlo: Precision of Stratified Estimator"</span>,</span>
-<span id="cb7-23"><a href=""></a>    <span class="at">x =</span> <span class="st">"Sample size (n)"</span>,</span>
-<span id="cb7-24"><a href=""></a>    <span class="at">y =</span> <span class="st">"Standard Error of ȳ"</span></span>
-<span id="cb7-25"><a href=""></a>  ) <span class="sc">+</span></span>
-<span id="cb7-26"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
-<span id="cb7-27"><a href=""></a></span>
-<span id="cb7-28"><a href=""></a><span class="co"># Estimated vs true value</span></span>
-<span id="cb7-29"><a href=""></a><span class="fu">ggplot</span>(res_prop, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> mean_est)) <span class="sc">+</span></span>
-<span id="cb7-30"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb7-31"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> true_mean, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb7-32"><a href=""></a>  <span class="fu">labs</span>(</span>
-<span id="cb7-33"><a href=""></a>    <span class="at">title =</span> <span class="st">"Monte Carlo: Mean Estimate vs True Mean"</span>,</span>
-<span id="cb7-34"><a href=""></a>    <span class="at">x =</span> <span class="st">"Sample size (n)"</span>,</span>
-<span id="cb7-35"><a href=""></a>    <span class="at">y =</span> <span class="st">"Estimated mean"</span></span>
-<span id="cb7-36"><a href=""></a>  ) <span class="sc">+</span></span>
-<span id="cb7-37"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">library</span>(purrr)</span>
+<span id="cb8-2"><a href=""></a></span>
+<span id="cb8-3"><a href=""></a>res_prop <span class="ot">&lt;-</span>  </span>
+<span id="cb8-4"><a href=""></a><span class="fu">c</span>(<span class="dv">1000</span><span class="sc">:</span><span class="dv">1005</span>) <span class="sc">%&gt;%</span> <span class="co"># sample size from 200 to 250</span></span>
+<span id="cb8-5"><a href=""></a><span class="fu">map</span>(<span class="cf">function</span>(i) {</span>
+<span id="cb8-6"><a href=""></a>sim <span class="ot">&lt;-</span> <span class="fu">simulate_alloc</span>(<span class="st">"prop"</span>, <span class="at">n=</span>i) </span>
+<span id="cb8-7"><a href=""></a></span>
+<span id="cb8-8"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb8-9"><a href=""></a>  <span class="at">type =</span> <span class="st">"alloc"</span>,</span>
+<span id="cb8-10"><a href=""></a>  <span class="at">n=</span>i,</span>
+<span id="cb8-11"><a href=""></a>  <span class="at">mean=</span><span class="fu">mean</span>(sim<span class="sc">$</span>ybar),</span>
+<span id="cb8-12"><a href=""></a>  <span class="at">se=</span><span class="fu">sd</span>(sim<span class="sc">$</span>ybar)</span>
+<span id="cb8-13"><a href=""></a>)}</span>
+<span id="cb8-14"><a href=""></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-15"><a href=""></a><span class="fu">list_rbind</span>()</span>
+<span id="cb8-16"><a href=""></a></span>
+<span id="cb8-17"><a href=""></a><span class="co"># Standard error vs sample size</span></span>
+<span id="cb8-18"><a href=""></a><span class="fu">ggplot</span>(res_prop, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> se)) <span class="sc">+</span></span>
+<span id="cb8-19"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb8-20"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb8-21"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-22"><a href=""></a>    <span class="at">title =</span> <span class="st">"Monte Carlo: Precision of Stratified Estimator"</span>,</span>
+<span id="cb8-23"><a href=""></a>    <span class="at">x =</span> <span class="st">"Sample size (n)"</span>,</span>
+<span id="cb8-24"><a href=""></a>    <span class="at">y =</span> <span class="st">"Standard Error of ȳ"</span></span>
+<span id="cb8-25"><a href=""></a>  ) <span class="sc">+</span></span>
+<span id="cb8-26"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
+<span id="cb8-27"><a href=""></a></span>
+<span id="cb8-28"><a href=""></a><span class="co"># Estimated vs true value</span></span>
+<span id="cb8-29"><a href=""></a><span class="fu">ggplot</span>(res_prop, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> mean)) <span class="sc">+</span></span>
+<span id="cb8-30"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb8-31"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> true_mean, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb8-32"><a href=""></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-33"><a href=""></a>    <span class="at">title =</span> <span class="st">"Monte Carlo: Mean Estimate vs True Mean"</span>,</span>
+<span id="cb8-34"><a href=""></a>    <span class="at">x =</span> <span class="st">"Sample size (n)"</span>,</span>
+<span id="cb8-35"><a href=""></a>    <span class="at">y =</span> <span class="st">"Estimated mean"</span></span>
+<span id="cb8-36"><a href=""></a>  ) <span class="sc">+</span></span>
+<span id="cb8-37"><a href=""></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>
@@ -634,26 +702,26 @@ Simulation and optimization of sampling strategies
 <h2>Parallel computation in R</h2>
 <p>Monte Carlo simulations require <strong>many independent replicates</strong>,each typically running independently. Parallel computation <strong>reduce computation time</strong> significantly using multi-core CPUs or HPC.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">library</span>(furrr)</span>
-<span id="cb8-2"><a href=""></a></span>
-<span id="cb8-3"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)   <span class="co"># master seed</span></span>
-<span id="cb8-4"><a href=""></a></span>
-<span id="cb8-5"><a href=""></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)  <span class="co"># use 4 cores increase speed ~x4</span></span>
-<span id="cb8-6"><a href=""></a></span>
-<span id="cb8-7"><a href=""></a>res_prop <span class="ot">&lt;-</span>  </span>
-<span id="cb8-8"><a href=""></a><span class="fu">c</span>(<span class="dv">1000</span><span class="sc">:</span><span class="dv">1005</span>) <span class="sc">%&gt;%</span> <span class="co"># sample size from 200 to 250</span></span>
-<span id="cb8-9"><a href=""></a><span class="fu">future_map</span>(<span class="cf">function</span>(i) {</span>
-<span id="cb8-10"><a href=""></a>sim <span class="ot">&lt;-</span> <span class="fu">simulate_alloc</span>(<span class="st">"prop"</span>, <span class="at">n=</span>i) </span>
-<span id="cb8-11"><a href=""></a></span>
-<span id="cb8-12"><a href=""></a><span class="fu">data.frame</span>(</span>
-<span id="cb8-13"><a href=""></a>  <span class="at">type =</span> <span class="st">"alloc"</span>,</span>
-<span id="cb8-14"><a href=""></a>  <span class="at">n=</span>i,</span>
-<span id="cb8-15"><a href=""></a>  <span class="at">mean=</span><span class="fu">mean</span>(sim<span class="sc">$</span>ybar),</span>
-<span id="cb8-16"><a href=""></a>  <span class="at">se=</span><span class="fu">sd</span>(sim<span class="sc">$</span>ybar)</span>
-<span id="cb8-17"><a href=""></a>)},</span>
-<span id="cb8-18"><a href=""></a><span class="at">.options =</span> <span class="fu">furrr_options</span>(<span class="at">seed =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb8-19"><a href=""></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-20"><a href=""></a><span class="fu">list_rbind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">library</span>(furrr)</span>
+<span id="cb9-2"><a href=""></a></span>
+<span id="cb9-3"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)   <span class="co"># master seed</span></span>
+<span id="cb9-4"><a href=""></a></span>
+<span id="cb9-5"><a href=""></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)  <span class="co"># use 4 cores increase speed ~x4</span></span>
+<span id="cb9-6"><a href=""></a></span>
+<span id="cb9-7"><a href=""></a>res_prop <span class="ot">&lt;-</span>  </span>
+<span id="cb9-8"><a href=""></a><span class="fu">c</span>(<span class="dv">1000</span><span class="sc">:</span><span class="dv">1005</span>) <span class="sc">%&gt;%</span> <span class="co"># sample size from 200 to 250</span></span>
+<span id="cb9-9"><a href=""></a><span class="fu">future_map</span>(<span class="cf">function</span>(i) {</span>
+<span id="cb9-10"><a href=""></a>sim <span class="ot">&lt;-</span> <span class="fu">simulate_alloc</span>(<span class="st">"prop"</span>, <span class="at">n=</span>i) </span>
+<span id="cb9-11"><a href=""></a></span>
+<span id="cb9-12"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb9-13"><a href=""></a>  <span class="at">type =</span> <span class="st">"alloc"</span>,</span>
+<span id="cb9-14"><a href=""></a>  <span class="at">n=</span>i,</span>
+<span id="cb9-15"><a href=""></a>  <span class="at">mean=</span><span class="fu">mean</span>(sim<span class="sc">$</span>ybar),</span>
+<span id="cb9-16"><a href=""></a>  <span class="at">se=</span><span class="fu">sd</span>(sim<span class="sc">$</span>ybar)</span>
+<span id="cb9-17"><a href=""></a>)},</span>
+<span id="cb9-18"><a href=""></a><span class="at">.options =</span> <span class="fu">furrr_options</span>(<span class="at">seed =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb9-19"><a href=""></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-20"><a href=""></a><span class="fu">list_rbind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>ℹ️ Try to run the code in your Script Editor.</p>
 </section>

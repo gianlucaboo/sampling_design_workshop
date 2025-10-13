@@ -448,10 +448,10 @@ simulate_alloc <- function(allocation = "prop", n = 600){
     # Stratified mean estimator
     ybar_st <- samp %>% 
       group_by(h) %>%
-      summarise(m = mean(y)) %>%
-      ungroup() %>%
+      summarise(m = mean(y), .groups="drop") %>%
       mutate(W = N_h / N,
-             ybar_st = m* W) %>%
+             contrib = m * W) %>%
+      summarise(ybar_st = sum(contrib)) %>%
       pull(ybar_st)
     
     tibble(ybar = ybar_st)   # Return one estimate per replicate
@@ -463,6 +463,82 @@ simulate_alloc <- function(allocation = "prop", n = 600){
 # Run simulations for both allocation rules
 res_prop   <- simulate_alloc("prop")     # Proportional allocation
 res_neyman <- simulate_alloc("neyman")   # Neyman allocation
+```
+
+ℹ️ Try to run the code in your Script Editor.
+
+------------------------------------------------------------------------
+
+## Stratified weighted sampling 
+
+
+For **stratified weighted sampling**, the population is divided in **three strata** ( **proportional** and **Neyman** allocation) and sampled proportionnaly to weigth.
+
+```{r}
+#| echo: true
+#| eval: true
+library(dplyr); library(purrr); library(tibble)
+
+
+set.seed(1)
+R <- 1000                    # Number of Monte Carlo replicates
+N_h <- c(4000, 3000, 3000)   # Stratum population sizes
+H <- length(N_h)
+N <- sum(N_h)
+
+# ---- Artificial stratified population ----
+pop <- tibble(h = rep(1:H, times = N_h)) %>%
+  mutate(y = case_when(
+    h == 1 ~ rnorm(n(), 50, 10),
+    h == 2 ~ rnorm(n(), 60, 20),
+    h == 3 ~ rnorm(n(), 55, 12)
+  ),
+  # Example of auxiliary weights: could be size, income, etc.
+  w_aux = case_when(
+    h == 1 ~ runif(n(), 1, 3),
+    h == 2 ~ runif(n(), 2, 5),
+    h == 3 ~ runif(n(), 0.5, 2)
+  ))
+
+true_mean <- mean(pop$y)
+
+# ---- Simulation function ----
+simulate_alloc_weighted <- function(allocation = "prop", n = 600){
+  W_h <- N_h / N   # Stratum weights
+  
+  # --- Step 1: Sample size allocation ---
+  if(allocation == "prop"){
+    n_h <- round(n * W_h)
+  }
+  if(allocation == "neyman"){
+    s_h <- pop %>% group_by(h) %>% summarise(s = sd(y)) %>% pull(s)
+    n_h <- round(n * (N_h * s_h) / sum(N_h * s_h))
+  }
+  
+  # --- Step 2: Monte Carlo loop ---
+  res <- map_dfr(1:R, function(i){
+    # Weighted stratified sample (PPS by w_aux within stratum)
+    samp <- pop %>%
+      split(.$h) %>%
+      map2(n_h, ~ slice_sample(.x, n = .y, weight_by = .x$w_aux)) %>%
+      bind_rows()
+    
+    # Correct PPS inclusion probabilities and design weights
+    samp <- samp %>%
+      group_by(h) %>%
+      mutate(pi = n_h[h] * w_aux / sum(w_aux),   # PPS π_i
+             d  = 1 / pi) %>%                   # HT weight
+      ungroup()
+    
+    # Horvitz–Thompson mean
+    ybar_ht <- sum(samp$y * samp$d) / sum(samp$d)
+    
+    tibble(ybar = ybar_ht)
+  })
+  
+  res
+}
+
 ```
 
 ℹ️ Try to run the code in your Script Editor.
@@ -504,7 +580,7 @@ ggplot(res_prop, aes(x = n, y = se)) +
   theme_minimal(base_size = 14)
 
 # Estimated vs true value
-ggplot(res_prop, aes(x = n, y = mean_est)) +
+ggplot(res_prop, aes(x = n, y = mean)) +
   geom_line(color = "darkgreen", linewidth = 1.2) +
   geom_hline(yintercept = true_mean, color = "red", linetype = "dashed") +
   labs(

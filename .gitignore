@@ -1,1 +1,4 @@
 code/07_r_shiny/shiny-example-master.zip
+*.qmd
+04_eo_sampling/data/mean_ndvi_2020.tif
+07_r_shiny/07_r_shiny_exercise/data/pak_pop_2025_CN_100m_R2025A_v1.tif
